@@ -8,7 +8,5 @@ int main(int argc, char **argv)
 		std::cout << "ircserv needs 3 arguments" << std::endl;
 		return 1;
 	}
-	Server server;
-	server.setPort(argv[1]);
-	server.setPassword(argv[2]);
+	Server server(argv[1], argv[2]);
 }

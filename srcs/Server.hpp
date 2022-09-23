@@ -8,31 +8,35 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <vector>
 
 /*Socket requirements*/
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <fcntl.h>
+
+/*Poll*/
+#include <poll.h>
 
 class Server
 {
 	public:
-	Server();
+	Server(char *port, char *password);
 	~Server();
 	//init();
 	//exec();
-
-	public:
-	void setPort(char *str);
-	void setPassword(char *str);
 
 	private:
 	int				_sock;
 	int				_port;
 	std::string		_password;
 	sockaddr_in		_sin;
-	int				_sizeofsin;
+	socklen_t		_sizeofsin;
+
+	//connections		
+
 
 };
 

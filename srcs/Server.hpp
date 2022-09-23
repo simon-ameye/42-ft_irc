@@ -1,17 +1,19 @@
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
+#include "Client.hpp"
+
+/*Basics*/
 #include <iostream>
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
 
-#include <stdlib.h> //for atoi
-
+/*Socket requirements*/
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 class Server
 {
@@ -26,9 +28,11 @@ class Server
 	void setPassword(char *str);
 
 	private:
-	int				sock;
-	int				port;
-	std::string		password;
+	int				_sock;
+	int				_port;
+	std::string		_password;
+	sockaddr_in		_sin;
+	int				_sizeofsin;
 
 };
 

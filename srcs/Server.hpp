@@ -35,9 +35,7 @@ class Server
 	sockaddr_in		_sin;
 	socklen_t		_sizeofsin;
 
-	//connections		
-
-
+	std::vector<pollfd>	_pollfds;
 };
 
 

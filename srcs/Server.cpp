@@ -7,7 +7,7 @@ Server::Server(char *port, char *password)
 	/*Set server parameters*/
 	_port = atoi(port);
 	_password = password;
-	std::cout << "Server started on port " << _port << " with password " << _password << std::endl;
+	std::cout << "Server starting on port " << _port << " with password " << _password << std::endl;
 
 	/*Defining server sockaddr_in structure*/
 	_sin.sin_port = htons(_port); //set port
@@ -42,18 +42,37 @@ Server::Server(char *port, char *password)
 	if (listen(_sock, 5) == -1) //int listen(int socket, int backlog)
 		std::cout << "error: listen()" << std::endl;
 
+	/*Add the first fd to the pollfds*/
+	pollfd fd;
+	fd.fd = _sock;
+	fd.events = POLLIN;
+	_pollfds.push_back(pollfd(fd));
+
+
+
+
+
+
+
+
+
+
+
+
 	while (1)
 	{
 		/*wait for an avent*/
-		//if (poll(&pfds[0], pfds.size(), (ping * 1000) / 10) == -1)
-		//	std::cout << "error: poll()" << std::endl;
+		std::cout << "poll()" << std::endl;
+		if (poll(&_pollfds[0], _pollfds.size(), (300 * 1000) / 10) == -1) // BLOCKS untill a fd is available + set max ping to 300s
+			std::cout << "error: poll()" << std::endl;
+
+		//if (pfds[0].revents == POLLIN)
 
 		/*Accepting*/
 		std::cout << "accept()" << std::endl;
 		client._sock = accept(_sock, (sockaddr*)&_sin, &_sizeofsin); //int accept(int socket, struct sockaddr* addr, socklen_t* addrlen)
 		if (client._sock == -1)
 			std::cout << "error: listen()" << std::endl;
-
 
 		/*Recieving*/
 		char buffer[32] = "";

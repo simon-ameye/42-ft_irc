@@ -1,3 +1,4 @@
+```mermaid
 flowchart TD
     subgraph server::init
         socket[create master socket]
@@ -32,7 +33,7 @@ flowchart TD
         masterSocket
         buffer    
         end
-
+```
 
     
     

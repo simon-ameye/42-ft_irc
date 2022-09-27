@@ -38,7 +38,7 @@ flowchart TD
         subgraph server::processData
             direction TB
             checkinput["check all client inputBuffer ending with \0 meaning it's ready"]
-            process["process: fill outputBuffer"]
+            process["process: Channels::doTheStuff to fill outputBuffer"]
             reset["resset inputBuffers to \0"]
             checkinput-->process-->reset
             end
@@ -55,9 +55,19 @@ flowchart TD
 ## Classes :
 ```mermaid
 classDiagram
+    class Server{
+        +Server(server settings)
+        -socket masterSocket
+        -vector<Client> clients
+		-vector<Channel> channels
+        +init()
+        +connect()
+        +getData()
+    }
+
     class Client{
-        +~client()
-        +client(client settings)
+        +~Client()
+        +Client(client settings)
         +getClientSocket()
         +getInputBuffer()
         +getOutputBuffer()
@@ -66,12 +76,14 @@ classDiagram
         -char outputBuffer[42]
     }
 
-    class Server{
-        +server(server settings)
-        -socket masterSocket
-        -vector<client> clients
-        +init()
-        +connect()
-        +getData()
+    class Channel{
+		+Channel(channel settings)
+		_~Channel
+		-std::string name
+		+getName()
+		-...
     }
+
+Server <-- Client
+Server <-- Channel
 ```

@@ -21,7 +21,7 @@ flowchart TD
             poll-->|"if FD_ISSET(master socket)==1"|newClient
             poll-->|"else"|pass
             end
-        subgraph server::getdata
+        subgraph server::getData
             direction TB
             checkClients["FD_ISSET on each client socket"]
             recv["recv on client buffer"]
@@ -32,14 +32,14 @@ flowchart TD
             recv-->|"recv buffer == 0"|close_socket
             direction TB
             end
-        subgraph server::processdata
+        subgraph server::processData
             direction TB
             checkinput["check all client inputBuffer ending\0"]
             process["process: fill outputBuffer"]
             set["set inputBuffers to \0"]
             checkinput-->process-->set
             end
-        subgraph server::senddata
+        subgraph server::sendData
             direction TB
             checkoutput["check all client outputBuffer"]
             send["send(socket , buffer)"]
@@ -47,8 +47,7 @@ flowchart TD
             end
         end
 
-    server::init-->server::connect-->server::getdata-->server::processdata-->server::senddata
-
+    server::init-->server::connect-->server::getData-->server::processData-->server::sendData
 
 ```
 
@@ -56,13 +55,23 @@ flowchart TD
 ```mermaid
 classDiagram
     class client{
-        +socket clientSocket
-        +char inputBuffer[42]
-        +char outputBuffer[42]
+        +~client()
+        +client(client settings)
+        +getClientSocket()
+        +getInputBuffer()
+        +getOutputBuffer()
+        -socket clientSocket
+        -char inputBuffer[42]
+        -char outputBuffer[42]
     }
 
     class server{
-        +socket masterSocket
-        +vector<client> clients
+        +server(server settings)
+        -socket masterSocket
+        -vector<client> clients
+        +init()
+        +connect()
+        +getData
     }
+
 ```

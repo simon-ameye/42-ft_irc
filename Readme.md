@@ -49,41 +49,20 @@ flowchart TD
 
     server::init-->server::connect-->server::getdata-->server::processdata-->server::senddata
 
-    subgraph client
-        clientSocket["socket clientSocket"]
-        inputBuffer["char buffer[42]"]
-        outputBuffer["char buffer[42]"]
-        end
-
-    subgraph server
-        masterSocket["socket masterSocket"]
-        clients[vector of clients]
-        end
 
 ```
 
 
 ```mermaid
 classDiagram
-    Animal <|-- Duck
-    Animal <|-- Fish
-    Animal <|-- Zebra
-    Animal : +int age
-    Animal : +String gender
-    Animal: +isMammal()
-    Animal: +mate()
-    class Duck{
-      +String beakColor
-      +swim()
-      +quack()
+    class client{
+        +socket clientSocket
+        +char inputBuffer[42]
+        +char outputBuffer[42]
     }
-    class Fish{
-      -int sizeInFeet
-      -canEat()
+
+    class server{
+        +socket masterSocket
+        +vector<client> clients
     }
-    class Zebra{
-      +bool is_wild
-      +run()
-    }
-            
 ```

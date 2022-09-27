@@ -3,3 +3,8 @@
 Client::Client() {}
 
 Client::~Client() {}
+
+Client &Client::newClient()
+{
+	return *(new Client);
+}

@@ -25,6 +25,7 @@ class Server
 	public:
 	Server(char *port, char *password);
 	~Server();
+	void			connect(void);
 	//init();
 	//exec();
 
@@ -35,7 +36,10 @@ class Server
 	sockaddr_in		_sin;
 	socklen_t		_sizeofsin;
 
-	std::vector<pollfd>	_pollfds;
+	int				_masterSocket;
+	std::vector<Client> _clients;
+
+	//std::vector<pollfd>	_pollfds;
 };
 
 

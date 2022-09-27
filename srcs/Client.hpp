@@ -9,6 +9,7 @@ class Client
 	public:
 	Client();
 	~Client();
+	Client &newClient();
 
 	public:
 	int				_sock;

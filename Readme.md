@@ -1,6 +1,7 @@
 # ft-irc
 An IRC server
 ## Graph :
+
 ```mermaid
 flowchart TD
     subgraph server::init
@@ -49,23 +50,25 @@ flowchart TD
             checkoutput-->send
             end
         end
-
     server::init-->server::connect-->server::getData-->server::processData-->server::sendData
 ```
+
 ## Classes :
+
 ```mermaid
 classDiagram
     class Server{
         +Server(server settings)
-		~Server()
+        ~Server()
         -socket masterSocket
         -vector~Client~ clients
-		-vector~Channel~ channels
+        -vector~Channel~ channels
         +init()
         +connect()
         +getData()
+        sockaddr_in _sin;
+        socklen_t _sizeofsin;
     }
-
     class Client{
         ~Client()
         +Client(client settings)
@@ -76,13 +79,12 @@ classDiagram
         -char inputBuffer[42]
         -char outputBuffer[42]
     }
-
     class Channel{
-		+Channel(channel settings)
-		~Channel()
-		-std::string name
-		+getName()
-		-...
+        +Channel(channel settings)
+        ~Channel()
+        -std::string name
+        +getName()
+        -...
     }
 
 Server <-- Client

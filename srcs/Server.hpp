@@ -26,8 +26,7 @@ class Server
 	Server(char *port, char *password);
 	~Server();
 	void			connect(void);
-	//init();
-	//exec();
+	void			getData(void);
 
 	private:
 	int				_sock;
@@ -39,7 +38,7 @@ class Server
 	int				_masterSocket;
 	std::vector<Client> _clients;
 
-	//std::vector<pollfd>	_pollfds;
+	std::vector<pollfd>	_pollfds;
 };
 
 

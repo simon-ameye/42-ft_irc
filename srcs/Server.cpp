@@ -46,28 +46,28 @@ Server::Server(char *port, char *password)
 void Server::connect(void)
 {
 	pollfd tempfd;
-	std::vector<pollfd> pollfds;
+	_pollfds.clear();
 
 	/*Add masterSocket to pollfds*/
 	tempfd.fd = _masterSocket;
 	tempfd.events = POLLIN;
-	pollfds.push_back(tempfd);
+	_pollfds.push_back(tempfd);
 
 	/*Add all the clients sockets to pollfds*/
 	for (std::vector<Client>::iterator itb = _clients.begin(); itb != _clients.end(); itb++)
 	{
 		tempfd.fd = _masterSocket;
 		tempfd.events = POLLIN;
-		pollfds.push_back(tempfd);
+		_pollfds.push_back(tempfd);
 	}
 
 	/*wait for an avent*/
 	std::cout << "poll()" << std::endl;
-	if (poll(&pollfds[0], pollfds.size(), (300 * 1000) / 10) == -1) // BLOCKS untill a fd is available + set max ping to 300s
+	if (poll(&_pollfds[0], _pollfds.size(), (300 * 1000) / 10) == -1) // BLOCKS untill a fd is available + set max ping to 300s
 		std::cout << "error: poll()" << std::endl;
 
 	/*Check masterSocket's fd to check for new connection*/
-	if (pollfds[0].revents == POLLIN)
+	if (_pollfds[0].revents == POLLIN)
 	{
 		/*Accepting and creating new client*/
 		std::cout << "accept()" << std::endl;
@@ -76,9 +76,19 @@ void Server::connect(void)
 		if (_clients.back()._sock == -1)
 			std::cout << "error: listen()" << std::endl;
 	}
-
 }
 
+void Server::getData(void)
+{
+	/*Check clients's fd to check for new connection*/
+	for (int i; i = 1; i < _pollfds.size())
+	{
+		if (_pollfds[i].revents == POLLIN)
+		{
+			BUFFER...
+		}
+	}
+}
 
 
 

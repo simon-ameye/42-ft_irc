@@ -2,7 +2,7 @@
 flowchart TD
     subgraph server::init
         direction TB
-        socket[create master socket]
+        socket["create master socket"]
         setsockopt
         bind
         listen
@@ -12,9 +12,9 @@ flowchart TD
         direction TB
         subgraph server::connect
             direction TB
-            pollfds[put master and clients sockets in pollfds vector]
+            pollfds[create pollfds vector and put master and clients sockets inside]
             poll["poll: monitor pollfds (BLOCKING)"]
-            newClient["add new client in server::clients"]
+            newClient["client::new() : add new client in server::clients"]
             accept["clientSocket = accept(master socket)"]
             newClient-->accept
             pollfds-->poll
@@ -34,10 +34,10 @@ flowchart TD
             end
         subgraph server::processData
             direction TB
-            checkinput["check all client inputBuffer ending\0"]
+            checkinput["check all client inputBuffer ending with \0 meaning it's ready"]
             process["process: fill outputBuffer"]
-            set["set inputBuffers to \0"]
-            checkinput-->process-->set
+            reset["resset inputBuffers to \0"]
+            checkinput-->process-->reset
             end
         subgraph server::sendData
             direction TB
@@ -50,7 +50,6 @@ flowchart TD
     server::init-->server::connect-->server::getData-->server::processData-->server::sendData
 
 ```
-
 
 ```mermaid
 classDiagram
@@ -73,5 +72,4 @@ classDiagram
         +connect()
         +getData
     }
-
 ```

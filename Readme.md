@@ -1,4 +1,4 @@
-# ft-irc 8-)
+# ft-irc
 An IRC server
 ## Graph :
 ```mermaid

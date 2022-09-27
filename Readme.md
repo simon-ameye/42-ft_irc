@@ -57,16 +57,17 @@ flowchart TD
 classDiagram
     class Server{
         +Server(server settings)
+		~Server()
         -socket masterSocket
-        -vector<Client> clients
-		-vector<Channel> channels
+        -vector~Client~ clients
+		-vector~Channel~ channels
         +init()
         +connect()
         +getData()
     }
 
     class Client{
-        +~Client()
+        ~Client()
         +Client(client settings)
         +getClientSocket()
         +getInputBuffer()
@@ -78,7 +79,7 @@ classDiagram
 
     class Channel{
 		+Channel(channel settings)
-		_~Channel
+		~Channel()
 		-std::string name
 		+getName()
 		-...

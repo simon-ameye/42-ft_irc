@@ -55,7 +55,7 @@ flowchart TD
 ## Classes :
 ```mermaid
 classDiagram
-    class client{
+    class Client{
         +~client()
         +client(client settings)
         +getClientSocket()
@@ -66,7 +66,7 @@ classDiagram
         -char outputBuffer[42]
     }
 
-    class server{
+    class Server{
         +server(server settings)
         -socket masterSocket
         -vector<client> clients

@@ -1,3 +1,6 @@
+# ft-irc 8-)
+An IRC server
+## Graph :
 ```mermaid
 flowchart TD
     subgraph server::init
@@ -48,9 +51,8 @@ flowchart TD
         end
 
     server::init-->server::connect-->server::getData-->server::processData-->server::sendData
-
 ```
-
+## Classes :
 ```mermaid
 classDiagram
     class client{
@@ -70,6 +72,6 @@ classDiagram
         -vector<client> clients
         +init()
         +connect()
-        +getData
+        +getData()
     }
 ```

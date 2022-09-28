@@ -3,16 +3,20 @@
 
 /*Basics*/
 #include <iostream>
+#include <poll.h>
 
 class Client
 {
 	public:
 	Client();
+	Client(int fd);
 	~Client();
 	Client &newClient();
 
 	public:
-	int				_sock;
+	//int				_fd;
+	std::string inputBuffer;
+	std::string outputBuffer;
 
 };
 

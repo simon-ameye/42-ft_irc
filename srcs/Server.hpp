@@ -9,6 +9,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <vector>
+#include <map>
 
 /*Socket requirements*/
 #include <sys/types.h>
@@ -29,14 +30,14 @@ class Server
 	void			getData(void);
 
 	private:
-	int				_sock;
+	//int				_sock;
 	int				_port;
 	std::string		_password;
 	sockaddr_in		_sin;
 	socklen_t		_sizeofsin;
 
 	int				_masterSocket;
-	std::vector<Client> _clients;
+	std::map<int, Client> _clients;
 
 	std::vector<pollfd>	_pollfds;
 };

@@ -13,5 +13,8 @@ int main(int argc, char **argv)
 	{
 		server.connect();
 		server.getData();
+		server.processData();
+		server.sendData();
+		sleep(1);
 	}
 }

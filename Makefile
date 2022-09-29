@@ -16,7 +16,8 @@ INCLUDE		=		-I srcs\
 
 SRCS		=		main.cpp \
 					Server.cpp \
-					Client.cpp
+					Client.cpp \
+					Utils.cpp
 
 SOURCES		=		$(addprefix $(SRCS_DIR)/,$(SRCS))
 

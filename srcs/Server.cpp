@@ -84,27 +84,75 @@ void Server::connect(void)
 void Server::getData(void)
 {
 	/*Check clients's fd for new data*/
-	char buffer[42];
-	int valread;
-	for (std::map<int, Client>::iterator itb = _clients.begin(); itb!=_clients.end(); itb++)
+	char buffer[BUFFER_SIZE];
+	int sizeRead;
+	std::cout << "list of fds     : ";
+	for (long unsigned int i = 0; i < _pollfds.size(); i++)
+		std::cout << _pollfds[i].fd << " ";
+	std::cout << std::endl;
+	std::cout << "list of revents : ";
+	for (long unsigned int i = 0; i < _pollfds.size(); i++)
+		std::cout << _pollfds[i].revents << " ";
+	std::cout << std::endl;
+
+	for (std::vector<pollfd>::iterator itb = ++_pollfds.begin(); itb!=_pollfds.end(); itb++) //skipping the master socket
 	{
-		if (_pollfds[itb->first].revents == POLLIN)
+		//std::cout << "itb->first" << itb->first << std::endl;
+		//std::cout << "_pollfds[itb->first].fd" << _pollfds[itb->first].fd << std::endl;
+		//std::cout << "_pollfds[itb->first].revents" << _pollfds[itb->first].revents << std::endl;
+		if (itb->revents == POLLIN)
 		{
 			std::cout << "recv()" << std::endl;
-			valread = recv(itb->first, buffer, 42, 0);
-			if (valread == -1)
+
+			sizeRead = recv(itb->fd, buffer, BUFFER_SIZE, 0);
+			if (sizeRead == -1)
 				std::cout << "error: recv()" << std::endl;
-			if (valread == 0)
+			if (sizeRead == 0)
 			{
-				getpeername(itb->first, (struct sockaddr*)&_sin, (socklen_t*)&_sizeofsin); 
+				getpeername(itb->fd, (struct sockaddr*)&_sin, (socklen_t*)&_sizeofsin); 
 				std::cout << "Host disconnected , ip " << inet_ntoa(_sin.sin_addr) << " , port " << ntohs(_sin.sin_port) << std::endl;
 			}
 			else
 			{
-				itb->second.inputBuffer = buffer;
-				std::cout << "new input buffeer for fd " << itb->first << " : " << itb->second.inputBuffer << std::endl;
-				send(itb->first , buffer , 42 , 0 );
+				_clients[itb->fd].addCmdBuffer(buffer, sizeRead);
+				std::cout << "new input buffer for fd " << itb->fd << " : " << _clients[itb->fd].inputBuffer << std::endl;
+				//send(itb->fd , buffer , sizeof(buffer) , 0 );
 			}
+		}
+	}
+}
+
+void Server::processData(void)
+{
+	for (std::map<int, Client>::iterator itb = _clients.begin(); itb != _clients.end(); itb++)
+	{
+		std::cout << "evaluation client with fd : " << itb->first << std::endl;
+		for (std::vector<std::string>::iterator itb2 = itb->second.inputMessages.begin(); itb2 != itb->second.inputMessages.end(); itb2++)
+		{
+			std::cout << "command found : " << *itb2 << std::endl;
+		}
+		if (itb->second.inputMessages.size() > 0)
+			itb->second.outputBuffer = "You have more than 1 message pending. Your first message was : " + itb->second.inputMessages[0] + "\n";
+	}
+}
+
+void Server::sendData(void) //loops untils all the outputBuffer is sent
+{
+	char buffer[BUFFER_SIZE];
+	for (std::map<int, Client>::iterator itb = _clients.begin(); itb != _clients.end(); itb++)
+	{
+		std::cout << "sending a message to client with fd : " << itb->first << std::endl;
+		while (itb->second.outputBuffer.size() > 0)
+		{
+			for (int i = 0; i < BUFFER_SIZE; i++)
+			{
+				if (itb->second.outputBuffer.size() > 0)
+				{
+					buffer[i] = itb->second.outputBuffer[0];
+					itb->second.outputBuffer.erase(0, 1);
+				}
+			}
+			send(itb->first , buffer , sizeof(buffer) , 0 );
 		}
 	}
 }

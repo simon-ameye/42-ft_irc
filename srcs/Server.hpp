@@ -2,6 +2,7 @@
 #define SERVER_HPP
 
 #include "Client.hpp"
+#include "Utils.hpp"
 
 /*Basics*/
 #include <iostream>
@@ -21,6 +22,8 @@
 /*Poll*/
 #include <poll.h>
 
+#define BUFFER_SIZE 10
+
 class Server
 {
 	public:
@@ -28,6 +31,8 @@ class Server
 	~Server();
 	void			connect(void);
 	void			getData(void);
+	void			processData(void);
+	void			sendData(void);
 
 	private:
 	//int				_sock;

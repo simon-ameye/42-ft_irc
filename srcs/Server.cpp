@@ -88,11 +88,7 @@ void Server::connect(void)
 		/*Accepting and creating new client*/
 		std::cout << "accept()" << std::endl;
 		tempFd = accept(_masterSocket, (sockaddr*)&_sin, &_sizeofsin); //accept connection and get the fd
-		//_clients.
-		std::cout << "INSTANCING" << std::endl;
-		//_clients[tempFd] = (*(new Client()));
 		_clients[tempFd]; //create a client (without calling constructor twice)
-		std::cout << "INSTANCING DONE" << std::endl;
 		if (tempFd == -1)
 			std::cout << "error: accept()" << std::endl;
 	}
@@ -123,6 +119,7 @@ void Server::getData(void)
 		{
 			/*Clients fd is ready, lets read it on one buffer.*/
 			std::cout << "recv()" << std::endl;
+			Utils::clearBuffer(buffer, BUFFER_SIZE);
 			sizeRead = recv(itb->fd, buffer, BUFFER_SIZE, 0);
 			if (sizeRead == -1) //recv error
 				std::cout << "error: recv()" << std::endl;
@@ -160,7 +157,7 @@ void Server::processData(void)
 		{
 			/*Example of function on each command*/
 			std::cout << "Threating command : $" << *itb2 << "$" << std::endl;
-			if (*itb2 == "exitServer")
+			if (*itb2 == "exit server")
 			{
 				_exitSignal = 1;
 				itb->second.outputBuffer += "SERVER : you have asked for server shutdown\n";
@@ -209,7 +206,6 @@ Server::~Server()
 		getpeername(itb->first, (struct sockaddr*)&_sin, (socklen_t*)&_sizeofsin);
 		close(itb->first);
 	}
-
 	_clients.clear();
 	shutdown(_masterSocket, 2); //int shutdown(int socket, int how);
 }

@@ -25,9 +25,7 @@ void Client::addCmdBuffer(char *buffer, size_t size)
 	int pos;
 	std::string bufferString;
 
-	bufferString = buffer;
-	bufferString = bufferString.substr(0, size);
-
+	bufferString.insert(0, buffer, size);
 	inputBuffer += bufferString;
 	while ((pos = inputBuffer.find(DELIMITER)) != -1)
 	{

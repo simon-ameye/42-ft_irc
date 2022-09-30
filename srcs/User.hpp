@@ -9,12 +9,12 @@
 //#define DELIMITER "\r\n"
 #define DELIMITER "\r\n"
 
-class Client
+class User
 {
 	public:
-	Client();
-	~Client();
-	Client &newClient();
+	User();
+	~User();
+	User &newUser();
 	void addCmdBuffer(char *buffer, size_t size);
 
 	public:

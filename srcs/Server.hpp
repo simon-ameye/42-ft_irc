@@ -1,7 +1,7 @@
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
-#include "Client.hpp"
+#include "User.hpp"
 #include "Utils.hpp"
 
 /*Basics*/
@@ -43,7 +43,7 @@ class Server
 	socklen_t		_sizeofsin;
 	int				_exitSignal;
 	int				_masterSocket;
-	std::map<int, Client> _clients;
+	std::map<int, User> _users;
 	std::vector<pollfd>	_pollfds;
 };
 

@@ -46,12 +46,12 @@ Server::Server(char *port, char *password)
 
 /*Create the pollfds structure.
 It will be used here and also in further functions
-Check master socket and all clients fd with pollfds structure
+Check master socket and all users fd with pollfds structure
 If none is ready, wait (saves computer ressources)
 Check the master socket
-It it is ready, it means that a client is trying to connect
-Thus, creates a client and give it its new fd.
-This client is not set in pollfs. Thus, its fd will be read in the next loop*/
+It it is ready, it means that a user is trying to connect
+Thus, creates a user and give it its new fd.
+This user is not set in pollfs. Thus, its fd will be read in the next loop*/
 void Server::connect(void)
 {
 	int tempFd;
@@ -64,8 +64,8 @@ void Server::connect(void)
 	tempPollFd.events = POLLIN;
 	_pollfds.push_back(tempPollFd);
 
-	/*Add all the clients sockets to pollfds*/
-	for (std::map<int, Client>::iterator itb = _clients.begin(); itb != _clients.end(); itb++)
+	/*Add all the users sockets to pollfds*/
+	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
 		tempPollFd.fd = itb->first;
 		_pollfds.push_back(tempPollFd);
@@ -77,32 +77,32 @@ void Server::connect(void)
 		std::cout << "error: poll()" << std::endl;
 
 	/*Check masterSocket's fd to check for new connection
-	Create new Client
-	-->Clients are created in Server::connect
-	-->Fds are created ans associated to Clients in Server::connect
-	-->Eventually Clients are close() and cleared in Server::connect
-	-->Any remaning Client is close() and cleared at Server destruction
-	==>This guarantees that clients are closed only once*/
+	Create new User
+	-->Users are created in Server::connect
+	-->Fds are created ans associated to Users in Server::connect
+	-->Eventually Users are close() and cleared in Server::connect
+	-->Any remaning User is close() and cleared at Server destruction
+	==>This guarantees that users are closed only once*/
 	if (_pollfds[0].revents == POLLIN)
 	{
-		/*Accepting and creating new client*/
+		/*Accepting and creating new user*/
 		std::cout << "accept()" << std::endl;
 		tempFd = accept(_masterSocket, (sockaddr*)&_sin, &_sizeofsin); //accept connection and get the fd
-		_clients[tempFd]; //create a client (without calling constructor twice)
+		_users[tempFd]; //create a user (without calling constructor twice)
 		if (tempFd == -1)
 			std::cout << "error: accept()" << std::endl;
 	}
 }
 
-/*If client's fd is ready, get the data
-And put it in client buffer and inputMessages*/
+/*If user's fd is ready, get the data
+And put it in user buffer and inputMessages*/
 void Server::getData(void)
 {
 	char buffer[BUFFER_SIZE];
 	int sizeRead;
 
 	/*Output debugging data*/
-	std::cout << "size of _clients : " << _clients.size() << std::endl;
+	std::cout << "size of _users : " << _users.size() << std::endl;
 	std::cout << "list of fds     : ";
 	for (long unsigned int i = 0; i < _pollfds.size(); i++)
 		std::cout << _pollfds[i].fd << " ";
@@ -112,45 +112,45 @@ void Server::getData(void)
 		std::cout << _pollfds[i].revents << " ";
 	std::cout << std::endl;
 
-	/*Check if clients's fd is sending new data*/
+	/*Check if users's fd is sending new data*/
 	for (std::vector<pollfd>::iterator itb = ++_pollfds.begin(); itb!=_pollfds.end(); itb++) //skipping the master socket
 	{
 		if (itb->revents == POLLIN)
 		{
-			/*Clients fd is ready, lets read it on one buffer.*/
+			/*Users fd is ready, lets read it on one buffer.*/
 			std::cout << "recv()" << std::endl;
 			Utils::clearBuffer(buffer, BUFFER_SIZE);
 			sizeRead = recv(itb->fd, buffer, BUFFER_SIZE, 0);
 			if (sizeRead == -1) //recv error
 				std::cout << "error: recv()" << std::endl;
-			else if (sizeRead == 0) //recv size = 0 : nothing to read anymore. Client dosconnected.
+			else if (sizeRead == 0) //recv size = 0 : nothing to read anymore. User dosconnected.
 			{
 				getpeername(itb->fd, (struct sockaddr*)&_sin, (socklen_t*)&_sizeofsin); 
 				std::cout << "Host disconnected , ip " << inet_ntoa(_sin.sin_addr) << " , port " << ntohs(_sin.sin_port) << std::endl;
 				close(itb->fd);
-				_clients.erase(itb->fd);
+				_users.erase(itb->fd);
 				std::cout << "host closed and erased" << std::endl;
 			}
-			else //data to read, add buffer to clients inputMessages
+			else //data to read, add buffer to users inputMessages
 			{
-				_clients[itb->fd].addCmdBuffer(buffer, sizeRead);
-				std::cout << "new input buffer for fd " << itb->fd << " : " << _clients[itb->fd].inputBuffer << std::endl;
+				_users[itb->fd].addCmdBuffer(buffer, sizeRead);
+				std::cout << "new input buffer for fd " << itb->fd << " : " << _users[itb->fd].inputBuffer << std::endl;
 			}
 		}
 	}
 }
 
 /*Double loop : 
-Loops over clients
-Loops over inputMessages for each client
+Loops over users
+Loops over inputMessages for each user
 Does something for each inputMessage
-Then clears client inputMessages*/
+Then clears user inputMessages*/
 void Server::processData(void)
 {
-	/*loop over clients*/
-	for (std::map<int, Client>::iterator itb = _clients.begin(); itb != _clients.end(); itb++)
+	/*loop over users*/
+	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
-		std::cout << "evaluation client with fd : " << itb->first << std::endl;
+		std::cout << "evaluation user with fd : " << itb->first << std::endl;
 		itb->second.outputBuffer.clear();
 		/*loop over inputMessages*/
 		for (std::vector<std::string>::iterator itb2 = itb->second.inputMessages.begin(); itb2 != itb->second.inputMessages.end(); itb2++) //loop over 
@@ -177,14 +177,14 @@ void Server::processData(void)
 	}
 }
 
-/*Loops while client outputBuffer is not empty
+/*Loops while user outputBuffer is not empty
 sends outputBuffer buffer by buffer*/
 void Server::sendData(void)
 {
 	char buffer[BUFFER_SIZE];
-	for (std::map<int, Client>::iterator itb = _clients.begin(); itb != _clients.end(); itb++)
+	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
-		std::cout << "Sending Client.outputBuffer to fd : " << itb->first << std::endl;
+		std::cout << "Sending User.outputBuffer to fd : " << itb->first << std::endl;
 		while (itb->second.outputBuffer.size() > 0)
 		{
 			Utils::clearBuffer(buffer, BUFFER_SIZE);
@@ -198,21 +198,21 @@ void Server::sendData(void)
 			}
 			send(itb->first , buffer , BUFFER_SIZE , 0 );
 		}
-		std::cout << "Finished sending Client.outputBuffer to fd : " << itb->first << std::endl;
+		std::cout << "Finished sending User.outputBuffer to fd : " << itb->first << std::endl;
 	}
 }
 
-/*Will close all client fd using close()*/
+/*Will close all user fd using close()*/
 Server::~Server()
 {
 	std::cout << "Server destructor called" << std::endl;
-	for (std::map<int, Client>::iterator itb = _clients.begin(); itb != _clients.end(); itb++)
+	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
 		std::cout << "Clearing host , ip " << inet_ntoa(_sin.sin_addr) << " , port " << ntohs(_sin.sin_port) << std::endl;
 		getpeername(itb->first, (struct sockaddr*)&_sin, (socklen_t*)&_sizeofsin);
 		close(itb->first);
 	}
-	_clients.clear();
+	_users.clear();
 	shutdown(_masterSocket, 2); //int shutdown(int socket, int how);
 }
 

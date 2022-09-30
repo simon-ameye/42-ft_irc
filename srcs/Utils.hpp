@@ -6,7 +6,7 @@
 class Utils
 {
 	public:
-	static int stringIsTerminated(std::string str);
+	static void clearBuffer(char *buffer, int size);
 };
 
 

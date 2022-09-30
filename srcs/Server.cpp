@@ -132,7 +132,7 @@ void Server::processData(void)
 			std::cout << "command found : " << *itb2 << std::endl;
 		}
 		if (itb->second.inputMessages.size() > 0)
-			itb->second.outputBuffer = "You have more than 1 message pending. Your first message was : " + itb->second.inputMessages[0] + "\n";
+			itb->second.outputBuffer = "You have more than 1 message pending. Your first message was : " + itb->second.inputMessages[0] + "\r\n";
 	}
 }
 
@@ -144,6 +144,7 @@ void Server::sendData(void) //loops untils all the outputBuffer is sent
 		std::cout << "sending a message to client with fd : " << itb->first << std::endl;
 		while (itb->second.outputBuffer.size() > 0)
 		{
+			Utils::clearBuffer(buffer, BUFFER_SIZE);
 			for (int i = 0; i < BUFFER_SIZE; i++)
 			{
 				if (itb->second.outputBuffer.size() > 0)
@@ -152,7 +153,7 @@ void Server::sendData(void) //loops untils all the outputBuffer is sent
 					itb->second.outputBuffer.erase(0, 1);
 				}
 			}
-			send(itb->first , buffer , sizeof(buffer) , 0 );
+			send(itb->first , buffer , BUFFER_SIZE , 0 );
 		}
 	}
 }

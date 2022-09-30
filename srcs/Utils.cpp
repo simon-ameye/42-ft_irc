@@ -1,8 +1,7 @@
 #include "Utils.hpp"
 
-int Utils::stringIsTerminated(std::string str)
+void Utils::clearBuffer(char *buffer, int size)
 {
-	if (str.size() < 1)
-		return (0);
-	return (str[str.size() - 1] == '\0');
+	for (int i = 0; i < size; i++)
+		buffer[i] = '\0';
 }

@@ -7,13 +7,12 @@
 #include <vector>
 
 //#define DELIMITER "\r\n"
-#define DELIMITER "\n"
+#define DELIMITER "\r\n"
 
 class Client
 {
 	public:
 	Client();
-	Client(int fd);
 	~Client();
 	Client &newClient();
 	void addCmdBuffer(char *buffer, size_t size);

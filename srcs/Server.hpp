@@ -34,17 +34,16 @@ class Server
 	void			getData(void);
 	void			processData(void);
 	void			sendData(void);
+	const int		&getExitSignal(void);
 
 	private:
-	//int				_sock;
 	int				_port;
 	std::string		_password;
 	sockaddr_in		_sin;
 	socklen_t		_sizeofsin;
-
+	int				_exitSignal;
 	int				_masterSocket;
 	std::map<int, Client> _clients;
-
 	std::vector<pollfd>	_pollfds;
 };
 

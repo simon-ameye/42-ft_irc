@@ -9,7 +9,7 @@ int main(int argc, char **argv)
 		return 1;
 	}
 	Server server(argv[1], argv[2]);
-	while (1)
+	while (!server.getExitSignal())
 	{
 		server.connect();
 		server.getData();

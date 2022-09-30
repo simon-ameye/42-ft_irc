@@ -49,5 +49,4 @@ class Server
 	std::vector<pollfd>	_pollfds;
 };
 
-
 #endif

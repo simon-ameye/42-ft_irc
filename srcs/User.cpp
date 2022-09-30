@@ -31,6 +31,5 @@ void User::addCmdBuffer(char *buffer, size_t size)
 	{
 		inputMessages.push_back(inputBuffer.substr(0, pos));
 		inputBuffer = inputBuffer.erase(0, pos + sizeof(DELIMITER) - 1);
-		std::cout << sizeof(DELIMITER);
 	}
 }

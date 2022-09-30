@@ -23,7 +23,9 @@
 #include <poll.h>
 
 #define BUFFER_SIZE 5
+#define DELIMITER "\r\n"
 
+class User;
 
 class Server
 {

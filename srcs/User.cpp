@@ -15,7 +15,7 @@ User &User::newUser()
 	return *(new User);
 }
 
-/*Adds the reiceved buffer to the users buffer
+/*Adds the reiceved buffer to the users buffer.
 Then, while delimiters are found in users buffer:
 Split and place sentences in users inputMessages
 Eventually the buffer is not empty at the end of the loop.
@@ -30,6 +30,7 @@ void User::addCmdBuffer(char *buffer, size_t size)
 	while ((pos = inputBuffer.find(DELIMITER)) != -1)
 	{
 		inputMessages.push_back(inputBuffer.substr(0, pos));
-		inputBuffer = inputBuffer.erase(0, pos + sizeof(DELIMITER));
+		inputBuffer = inputBuffer.erase(0, pos + sizeof(DELIMITER) - 1);
+		std::cout << sizeof(DELIMITER);
 	}
 }

@@ -6,8 +6,7 @@
 #include <poll.h>
 #include <vector>
 
-//#define DELIMITER "\r\n"
-#define DELIMITER "\r"
+#include "Server.hpp"
 
 class User
 {
@@ -18,11 +17,9 @@ class User
 	void addCmdBuffer(char *buffer, size_t size);
 
 	public:
-	//int				_fd;
 	std::vector<std::string> inputMessages;
 	std::string inputBuffer;
 	std::string outputBuffer;
-
 };
 
 #endif

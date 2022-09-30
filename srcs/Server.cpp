@@ -72,8 +72,8 @@ void Server::connect(void)
 	}
 
 	/*wait for an event*/
-	std::cout << "poll()" << std::endl;
-	if (poll(&(_pollfds[0]), _pollfds.size(), 30000) == -1) // BLOCKS untill a fd is available + set max ping to 300s
+	//std::cout << "poll()" << std::endl;
+	if (poll(&(_pollfds[0]), _pollfds.size(), 3000000) == -1) // BLOCKS untill a fd is available + set max ping to 300s
 		std::cout << "error: poll()" << std::endl;
 
 	/*Check masterSocket's fd to check for new connection
@@ -102,15 +102,15 @@ void Server::getData(void)
 	int sizeRead;
 
 	/*Output debugging data*/
-	std::cout << "size of _users : " << _users.size() << std::endl;
-	std::cout << "list of fds     : ";
-	for (long unsigned int i = 0; i < _pollfds.size(); i++)
-		std::cout << _pollfds[i].fd << " ";
-	std::cout << std::endl;
-	std::cout << "list of revents : ";
-	for (long unsigned int i = 0; i < _pollfds.size(); i++)
-		std::cout << _pollfds[i].revents << " ";
-	std::cout << std::endl;
+	//std::cout << "size of _users : " << _users.size() << std::endl;
+	//std::cout << "list of fds     : ";
+	//for (long unsigned int i = 0; i < _pollfds.size(); i++)
+	//	std::cout << _pollfds[i].fd << " ";
+	//std::cout << std::endl;
+	//std::cout << "list of revents : ";
+	//for (long unsigned int i = 0; i < _pollfds.size(); i++)
+	//	std::cout << _pollfds[i].revents << " ";
+	//std::cout << std::endl;
 
 	/*Check if users's fd is sending new data*/
 	for (std::vector<pollfd>::iterator itb = ++_pollfds.begin(); itb!=_pollfds.end(); itb++) //skipping the master socket
@@ -118,7 +118,7 @@ void Server::getData(void)
 		if (itb->revents == POLLIN)
 		{
 			/*Users fd is ready, lets read it on one buffer.*/
-			std::cout << "recv()" << std::endl;
+			//std::cout << "recv()" << std::endl;
 			Utils::clearBuffer(buffer, BUFFER_SIZE);
 			sizeRead = recv(itb->fd, buffer, BUFFER_SIZE, 0);
 			if (sizeRead == -1) //recv error
@@ -134,7 +134,7 @@ void Server::getData(void)
 			else //data to read, add buffer to users inputMessages
 			{
 				_users[itb->fd].addCmdBuffer(buffer, sizeRead);
-				std::cout << "new input buffer for fd " << itb->fd << " : " << _users[itb->fd].inputBuffer << std::endl;
+				//std::cout << "new input buffer for fd " << itb->fd << " : " << _users[itb->fd].inputBuffer << std::endl;
 			}
 		}
 	}
@@ -150,7 +150,7 @@ void Server::processData(void)
 	/*loop over users*/
 	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
-		std::cout << "evaluation user with fd : " << itb->first << std::endl;
+		//std::cout << "evaluation user with fd : " << itb->first << std::endl;
 		itb->second.outputBuffer.clear();
 		/*loop over inputMessages*/
 		for (std::vector<std::string>::iterator itb2 = itb->second.inputMessages.begin(); itb2 != itb->second.inputMessages.end(); itb2++) //loop over 
@@ -184,7 +184,8 @@ void Server::sendData(void)
 	char buffer[BUFFER_SIZE];
 	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
-		std::cout << "Sending User.outputBuffer to fd : " << itb->first << std::endl;
+		if (itb->second.outputBuffer.size() > 0)
+			std::cout << "Sending User.outputBuffer to fd : " << itb->first << std::endl;
 		while (itb->second.outputBuffer.size() > 0)
 		{
 			Utils::clearBuffer(buffer, BUFFER_SIZE);
@@ -198,7 +199,7 @@ void Server::sendData(void)
 			}
 			send(itb->first , buffer , BUFFER_SIZE , 0 );
 		}
-		std::cout << "Finished sending User.outputBuffer to fd : " << itb->first << std::endl;
+		//std::cout << "Finished sending User.outputBuffer to fd : " << itb->first << std::endl;
 	}
 }
 

@@ -22,7 +22,7 @@
 /*Poll*/
 #include <poll.h>
 
-#define BUFFER_SIZE 10
+#define BUFFER_SIZE 5
 
 
 class Server

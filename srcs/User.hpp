@@ -7,7 +7,7 @@
 #include <vector>
 
 //#define DELIMITER "\r\n"
-#define DELIMITER "\r\n"
+#define DELIMITER "\r"
 
 class User
 {

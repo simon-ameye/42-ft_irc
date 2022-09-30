@@ -166,6 +166,12 @@ void Server::processData(void)
 				itb->second.outputBuffer += "SERVER : hello\n";
 			else if(*itb2 == "say yo")
 				itb->second.outputBuffer += "SERVER : yo\n";
+			else
+			{
+				itb->second.outputBuffer += "SERVER : unknown command : ";
+				itb->second.outputBuffer += *itb2;
+				itb->second.outputBuffer += "\n";
+			}
 		}
 		itb->second.inputMessages.clear(); //all messages have been threated, clearing.
 	}

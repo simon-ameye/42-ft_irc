@@ -9,5 +9,4 @@ class Utils
 	static void clearBuffer(char *buffer, int size);
 };
 
-
 #endif

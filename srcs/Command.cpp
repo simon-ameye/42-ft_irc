@@ -4,9 +4,6 @@
 Command::Command(std::string cmd)
 {
     cmd = cmd;
-    std::pair<std::string, std::vector<std::string>> values = parse(cmd);
-    name = values.first;
-    args = values.second;
 }
 
 Command::~Command() {}

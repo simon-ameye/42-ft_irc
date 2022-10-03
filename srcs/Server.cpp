@@ -237,10 +237,10 @@ bool Server::hasUser(std::string nick)
 }
 
 
-std::string Server::processCmd(std::string cmd, User user)
+std::string Server::processCmd(std::string& cmd, User& user)
 {
 	Nick nick(cmd);
-
+	(void)user;
 	std::cout << "processing command " << cmd << "\n";
 	//todo je sais pas encore comment checker de quelle command il s'agit
 	nick.execute();	

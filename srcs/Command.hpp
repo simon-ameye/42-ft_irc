@@ -3,12 +3,11 @@
 
 #include <string>
 #include <vector>
-#include "../Server.hpp"
-#include "../Utils.hpp"
+#include "Utils.hpp"
 
 class Command
 {
-private:
+protected:
     std::string name;
     std::vector<std::string> args;
     std::string command;

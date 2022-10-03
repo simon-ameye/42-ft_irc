@@ -1,0 +1,6 @@
+#ifndef COMMAND_RESPONSES
+#define COMMAND_RESPONSES
+
+#define RPL_WELCOME 1
+
+#endif

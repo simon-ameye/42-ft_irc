@@ -1,6 +1,6 @@
 ################	COMPILER		#################
 
-CC			=		c++ -Wall -Wextra -Werror -std=c++98 #-fsanitize=address
+CC			=		c++ -g -Wall -Wextra -Werror -std=c++98 #-fsanitize=address
 
 ################	DIRECTORIES		#################
 
@@ -10,14 +10,16 @@ OBJS_DIR	=		obj
 
 #################	HEADER FILES	#################
 
-INCLUDE		=		-I srcs\
+INCLUDE		=		-I srcs -I srcs/Includes
 
 #################	SOURCE FILES	#################
 
 SRCS		=		main.cpp \
 					Server.cpp \
 					User.cpp \
-					Utils.cpp
+					Utils.cpp \
+					Nick.cpp \
+					Command.cpp
 
 SOURCES		=		$(addprefix $(SRCS_DIR)/,$(SRCS))
 

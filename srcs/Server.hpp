@@ -3,7 +3,8 @@
 
 #include "User.hpp"
 #include "Utils.hpp"
-#include "./Commands/Nick.hpp"·
+#include "Nick.hpp"
+#include "Command.hpp"
 #include "Error_Replies.hpp"
 #include "Command_Responses.hpp"
 
@@ -40,7 +41,7 @@ class Server
 	void			processData(void);
 	void			sendData(void);
 	const int		&getExitSignal(void);
-	std::string		processCmd(std::string cmd, User user);
+	std::string		processCmd(std::string& cmd, User& user);
 	bool			hasUser(std::string nick);
 
 	private:

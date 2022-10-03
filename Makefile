@@ -52,6 +52,7 @@ clean:
 
 fclean:				clean
 					@echo Cleaning binary...
+					@rm $(NAME)
 
 re:					fclean all
 

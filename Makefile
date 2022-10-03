@@ -10,16 +10,20 @@ OBJS_DIR	=		obj
 
 #################	HEADER FILES	#################
 
-INCLUDE		=		-I srcs -I srcs/Includes
+INCLUDE		=		-I srcs \
+					-I srcs/Server \
+					-I srcs/Utils \
+					-I srcs/Server/Commands \
+					-I srcs/Server/User \
 
 #################	SOURCE FILES	#################
 
 SRCS		=		main.cpp \
-					Server.cpp \
-					User.cpp \
-					Utils.cpp \
-					Nick.cpp \
-					Command.cpp
+					Server/Server.cpp \
+					Server/User/User.cpp \
+					Utils/Utils.cpp \
+					Server/Commands/Nick.cpp \
+					Server/Commands/Command.cpp
 
 SOURCES		=		$(addprefix $(SRCS_DIR)/,$(SRCS))
 
@@ -38,13 +42,16 @@ all:				$(NAME)
 
 $(NAME):			$(OBJS_DIR) $(OBJECTS)
 					@echo Building...
-					@$(CC) -DNAMESPACE=$(NAME) $(INCLUDE) $(OBJECTS) -o $(NAME)
+					@$(CC) $(INCLUDE) $(OBJECTS) -o $(NAME)
 
 $(OBJS_DIR):
-					mkdir -p $@
+					mkdir -p $@/Utils
+					mkdir -p $@/Server
+					mkdir -p $@/Server/Commands
+					mkdir -p $@/Server/User
 
 $(OBJECTS):			$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.cpp
-					@$(CC) -DNAMESPACE=$(NAME) $(INCLUDE) -c $< -o $@
+					@$(CC) $(INCLUDE) -c $< -o $@
 
 clean:
 					@echo Cleaning objects...
@@ -52,7 +59,7 @@ clean:
 
 fclean:				clean
 					@echo Cleaning binary...
-					@rm $(NAME)
+					@rm -f $(NAME)
 
 re:					fclean all
 

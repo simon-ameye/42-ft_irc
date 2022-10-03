@@ -1,6 +1,7 @@
 
 #include "Command.hpp"
 
+/*
 Command::Command(std::string cmd)
 {
     cmd = cmd;
@@ -17,3 +18,5 @@ std::string Command::getName()
 {
     return name;
 }
+
+*/

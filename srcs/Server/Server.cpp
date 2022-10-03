@@ -42,6 +42,8 @@ Server::Server(char *port, char *password)
 	std::cout << "listen()" << std::endl;
 	if (listen(_masterSocket, 5) == -1) // int listen(int socket, int backlog)
 		std::cout << "error: listen()" << std::endl;
+
+	initCommands();
 }
 
 /*Create the pollfds structure.
@@ -237,13 +239,21 @@ bool Server::hasUser(std::string nick)
 }
 
 
-std::string Server::processCmd(std::string& cmd, User& user)
+std::string Server::processCmd(std::string &cmd, User &user)
 {
+	(void) user;
+	(void) cmd;
+	/*
 	Nick nick(cmd);
-	(void)user;
 	std::cout << "processing command " << cmd << "\n";
 	//todo je sais pas encore comment checker de quelle command il s'agit
-	nick.execute();	
+	nick.execute();
 
+	*/
 	return "";
+}
+
+void Server::initCommands(void)
+{
+	
 }

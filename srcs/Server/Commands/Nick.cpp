@@ -1,10 +1,10 @@
 #include "Nick.hpp"
-
+/*
 Nick::Nick(std::string cmd) : Command(cmd)
 {
-    std::pair<std::string, std::vector<std::string> > values = parse(cmd);
-    name = values.first;
-    args = values.second;
+    //std::pair<std::string, std::vector<std::string> > values = parse(cmd);
+    //name = values.first;
+    //args = values.second;
 }
 
 Nick::~Nick() {}
@@ -39,3 +39,4 @@ void Nick::execute()
 
     // return ":" + nick + " " + cmd;
 }
+*/

@@ -3,6 +3,7 @@
 
 #include "User.hpp"
 #include "Utils.hpp"
+
 #include "Nick.hpp"
 #include "Command.hpp"
 #include "Error_Replies.hpp"
@@ -43,6 +44,7 @@ class Server
 	const int		&getExitSignal(void);
 	std::string		processCmd(std::string& cmd, User& user);
 	bool			hasUser(std::string nick);
+	void			initCommands(void);
 
 	private:
 	int				_port;
@@ -53,6 +55,7 @@ class Server
 	int				_masterSocket;
 	std::map<int, User> _users;
 	std::vector<pollfd>	_pollfds;
+	std::map<std::string, Command> _commands;
 };
 
 #endif

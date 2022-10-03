@@ -1,13 +1,13 @@
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
-#include "User.hpp"
-#include "Utils.hpp"
+#include "User/User.hpp"
+#include "../Utils/Utils.hpp"
 
-#include "Nick.hpp"
-#include "Command.hpp"
-#include "Error_Replies.hpp"
-#include "Command_Responses.hpp"
+#include "Commands/Nick.hpp"
+#include "Commands/Command.hpp"
+#include "Commands/Error_Replies.hpp"
+#include "Commands/Command_Responses.hpp"
 
 /*Basics*/
 #include <iostream>

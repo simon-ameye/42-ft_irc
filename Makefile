@@ -8,14 +8,6 @@ SRCS_DIR	=		srcs
 
 OBJS_DIR	=		obj
 
-#################	HEADER FILES	#################
-
-INCLUDE		=		-I srcs \
-					-I srcs/Server \
-					-I srcs/Utils \
-					-I srcs/Server/Commands \
-					-I srcs/Server/User \
-
 #################	SOURCE FILES	#################
 
 SRCS		=		main.cpp \
@@ -42,7 +34,7 @@ all:				$(NAME)
 
 $(NAME):			$(OBJS_DIR) $(OBJECTS)
 					@echo Building...
-					@$(CC) $(INCLUDE) $(OBJECTS) -o $(NAME)
+					@$(CC) $(OBJECTS) -o $(NAME)
 
 $(OBJS_DIR):
 					mkdir -p $@/Utils
@@ -51,7 +43,7 @@ $(OBJS_DIR):
 					mkdir -p $@/Server/User
 
 $(OBJECTS):			$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.cpp
-					@$(CC) $(INCLUDE) -c $< -o $@
+					@$(CC) -c $< -o $@
 
 clean:
 					@echo Cleaning objects...

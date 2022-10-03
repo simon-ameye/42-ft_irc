@@ -157,7 +157,7 @@ void Server::processData(void)
 		{
 			/*Example of function on each command*/
 			std::cout << "Threating command : $" << *itb2 << "$" << std::endl;
-			itb->second.outputBuffer += processCmd(*itb2, itb->second);
+			processCmd(*itb2, itb->second);
 	
 			// if (*itb2 == "exit server")
 			// {
@@ -224,29 +224,33 @@ const int &Server::getExitSignal(void)
 	return (_exitSignal);
 }
 
-bool Server::hasUser(std::string nick)
-{
-	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
-	{
-		if (itb->second.nickName.compare(nick) == 0)
-		{
-			return (true);
-		}
-	}
-	return (false);
-}
-
-
-std::string Server::processCmd(std::string &cmd, User &user)
+void Server::processCmd(std::string &cmd, User &user)
 {
 	(void) user;
 	(void) cmd;
-	/*
-	Nick nick(cmd);
 	std::cout << "processing command " << cmd << "\n";
-	//todo je sais pas encore comment checker de quelle command il s'agit
-	nick.execute();
 
-	*/
-	return "";
+	std::vector<std::string> tokens;
+	std::string function;
+
+	tokens = Utils::split(cmd, ' ');
+	function = tokens[0];
+	tokens.erase(tokens.begin());
+
+	if (function == "")
+		std::cout << "no function" << std::endl;
+	//else if (function == "NICK")
+	//	_nick(tokens, user); //=====>SEGFAULT HERE
+	else if (function == "sayHello")
+		user.outputBuffer += "SERVER : hello\n";
+	else if (function == "exitServer")
+	{
+		_exitSignal = 1;
+		user.outputBuffer += "SERVER : you have asked for server shutdown\n";
+	}
+	else
+	{
+		std::cout << "error : " << ERR_UNKNOWNCOMMAND << std::endl;
+		user.outputBuffer += "Unknown function\n";
+	}
 }

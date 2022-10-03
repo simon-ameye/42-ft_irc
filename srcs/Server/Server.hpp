@@ -1,13 +1,15 @@
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
-#include "User/User.hpp"
 #include "../Utils/Utils.hpp"
 
-#include "Commands/Nick.hpp"
-#include "Commands/ACommand.hpp"
-#include "Commands/Error_Replies.hpp"
-#include "Commands/Command_Responses.hpp"
+#include "User/User.hpp"
+//#include "Commands/Commands.hpp"
+#include "ServerSettings.hpp"
+//#include "Commands/CommandSrcs/Nick.hpp"
+//#include "Commands/ACommand.hpp"
+#include "ErrorReplies.hpp"
+#include "CommandResponses.hpp"
 
 /*Basics*/
 #include <iostream>
@@ -27,9 +29,6 @@
 /*Poll*/
 #include <poll.h>
 
-#define BUFFER_SIZE 5
-#define DELIMITER "\r\n"
-
 class User;
 
 class Server
@@ -42,7 +41,7 @@ class Server
 	void			processData(void);
 	void			sendData(void);
 	const int		&getExitSignal(void);
-	std::string		processCmd(std::string& cmd, User& user);
+	void			processCmd(std::string& cmd, User& user);
 	bool			hasUser(std::string nick);
 
 	private:
@@ -54,6 +53,9 @@ class Server
 	int				_masterSocket;
 	std::map<int, User> _users;
 	std::vector<pollfd>	_pollfds;
+
+	private:
+	void			_nick(std::vector<std::string> tokens, User &user);
 };
 
 #endif

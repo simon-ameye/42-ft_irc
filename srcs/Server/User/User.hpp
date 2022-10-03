@@ -6,7 +6,7 @@
 #include <poll.h>
 #include <vector>
 
-#include "../Server.hpp"
+#include "../ServerSettings.hpp"
 
 class User
 {

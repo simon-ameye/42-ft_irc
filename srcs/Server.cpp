@@ -9,8 +9,8 @@ Server::Server(char *port, char *password)
 	std::cout << "Server starting on port " << _port << " with password " << _password << std::endl;
 
 	/*Defining server sockaddr_in structure*/
-	_sin.sin_port = htons(_port); //set port
-	_sin.sin_addr.s_addr = htonl(INADDR_ANY); //set IP address automatically
+	_sin.sin_port = htons(_port);			  // set port
+	_sin.sin_addr.s_addr = htonl(INADDR_ANY); // set IP address automatically
 	_sin.sin_family = AF_INET;
 
 	/*Defining server sockaddr_in structure size*/
@@ -18,13 +18,13 @@ Server::Server(char *port, char *password)
 
 	/*Creating socket*/
 	std::cout << "socket()" << std::endl;
-	_masterSocket = socket(AF_INET, SOCK_STREAM, 0); //int socket(int domain, int type, int protocol), AF_INET=TCP/IP, SOCK_STREAM=TCP/IP
-	if(_masterSocket == -1)
+	_masterSocket = socket(AF_INET, SOCK_STREAM, 0); // int socket(int domain, int type, int protocol), AF_INET=TCP/IP, SOCK_STREAM=TCP/IP
+	if (_masterSocket == -1)
 		std::cout << "error: socket()" << std::endl;
 
 	/*Setting socket reuse*/
 	std::cout << "setsockopt()" << std::endl;
-	int enable = 1; //pas compris encore
+	int enable = 1; // pas compris encore
 	if (setsockopt(_masterSocket, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &enable, sizeof(enable)) == -1)
 		std::cout << "error: setsockopt()" << std::endl;
 
@@ -35,12 +35,12 @@ Server::Server(char *port, char *password)
 
 	/*Binding socket to port and set socket settings*/
 	std::cout << "bind()" << std::endl;
-	if (bind(_masterSocket, (sockaddr*)&_sin, _sizeofsin) == -1) //int bind(int socket, const struct sockaddr* addr, socklen_t addrlen)
+	if (bind(_masterSocket, (sockaddr *)&_sin, _sizeofsin) == -1) // int bind(int socket, const struct sockaddr* addr, socklen_t addrlen)
 		std::cout << "error: bind()" << std::endl;
 
 	/*Listening*/
 	std::cout << "listen()" << std::endl;
-	if (listen(_masterSocket, 5) == -1) //int listen(int socket, int backlog)
+	if (listen(_masterSocket, 5) == -1) // int listen(int socket, int backlog)
 		std::cout << "error: listen()" << std::endl;
 }
 
@@ -72,7 +72,7 @@ void Server::connect(void)
 	}
 
 	/*wait for an event*/
-	//std::cout << "poll()" << std::endl;
+	// std::cout << "poll()" << std::endl;
 	if (poll(&(_pollfds[0]), _pollfds.size(), 3000000) == -1) // BLOCKS untill a fd is available + set max ping to 300s
 		std::cout << "error: poll()" << std::endl;
 
@@ -87,8 +87,8 @@ void Server::connect(void)
 	{
 		/*Accepting and creating new user*/
 		std::cout << "accept()" << std::endl;
-		tempFd = accept(_masterSocket, (sockaddr*)&_sin, &_sizeofsin); //accept connection and get the fd
-		_users[tempFd]; //create a user (without calling constructor twice)
+		tempFd = accept(_masterSocket, (sockaddr *)&_sin, &_sizeofsin); // accept connection and get the fd
+		_users[tempFd];													// create a user (without calling constructor twice)
 		if (tempFd == -1)
 			std::cout << "error: accept()" << std::endl;
 	}
@@ -102,45 +102,45 @@ void Server::getData(void)
 	int sizeRead;
 
 	/*Output debugging data*/
-	//std::cout << "size of _users : " << _users.size() << std::endl;
-	//std::cout << "list of fds     : ";
-	//for (long unsigned int i = 0; i < _pollfds.size(); i++)
+	// std::cout << "size of _users : " << _users.size() << std::endl;
+	// std::cout << "list of fds     : ";
+	// for (long unsigned int i = 0; i < _pollfds.size(); i++)
 	//	std::cout << _pollfds[i].fd << " ";
-	//std::cout << std::endl;
-	//std::cout << "list of revents : ";
-	//for (long unsigned int i = 0; i < _pollfds.size(); i++)
+	// std::cout << std::endl;
+	// std::cout << "list of revents : ";
+	// for (long unsigned int i = 0; i < _pollfds.size(); i++)
 	//	std::cout << _pollfds[i].revents << " ";
-	//std::cout << std::endl;
+	// std::cout << std::endl;
 
 	/*Check if users's fd is sending new data*/
-	for (std::vector<pollfd>::iterator itb = ++_pollfds.begin(); itb!=_pollfds.end(); itb++) //skipping the master socket
+	for (std::vector<pollfd>::iterator itb = ++_pollfds.begin(); itb != _pollfds.end(); itb++) // skipping the master socket
 	{
 		if (itb->revents == POLLIN)
 		{
 			/*Users fd is ready, lets read it on one buffer.*/
-			//std::cout << "recv()" << std::endl;
+			// std::cout << "recv()" << std::endl;
 			Utils::clearBuffer(buffer, BUFFER_SIZE);
 			sizeRead = recv(itb->fd, buffer, BUFFER_SIZE, 0);
-			if (sizeRead == -1) //recv error
+			if (sizeRead == -1) // recv error
 				std::cout << "error: recv()" << std::endl;
-			else if (sizeRead == 0) //recv size = 0 : nothing to read anymore. User dosconnected.
+			else if (sizeRead == 0) // recv size = 0 : nothing to read anymore. User dosconnected.
 			{
-				getpeername(itb->fd, (struct sockaddr*)&_sin, (socklen_t*)&_sizeofsin); 
+				getpeername(itb->fd, (struct sockaddr *)&_sin, (socklen_t *)&_sizeofsin);
 				std::cout << "Host disconnected , ip " << inet_ntoa(_sin.sin_addr) << " , port " << ntohs(_sin.sin_port) << std::endl;
 				close(itb->fd);
 				_users.erase(itb->fd);
 				std::cout << "host closed and erased" << std::endl;
 			}
-			else //data to read, add buffer to users inputMessages
+			else // data to read, add buffer to users inputMessages
 			{
 				_users[itb->fd].addCmdBuffer(buffer, sizeRead);
-				//std::cout << "new input buffer for fd " << itb->fd << " : " << _users[itb->fd].inputBuffer << std::endl;
+				// std::cout << "new input buffer for fd " << itb->fd << " : " << _users[itb->fd].inputBuffer << std::endl;
 			}
 		}
 	}
 }
 
-/*Double loop : 
+/*Double loop :
 Loops over users
 Loops over inputMessages for each user
 Does something for each inputMessage
@@ -150,30 +150,32 @@ void Server::processData(void)
 	/*loop over users*/
 	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
-		//std::cout << "evaluation user with fd : " << itb->first << std::endl;
+		// std::cout << "evaluation user with fd : " << itb->first << std::endl;
 		itb->second.outputBuffer.clear();
 		/*loop over inputMessages*/
-		for (std::vector<std::string>::iterator itb2 = itb->second.inputMessages.begin(); itb2 != itb->second.inputMessages.end(); itb2++) //loop over 
+		for (std::vector<std::string>::iterator itb2 = itb->second.inputMessages.begin(); itb2 != itb->second.inputMessages.end(); itb2++) // loop over
 		{
 			/*Example of function on each command*/
 			std::cout << "Threating command : $" << *itb2 << "$" << std::endl;
-			if (*itb2 == "exit server")
-			{
-				_exitSignal = 1;
-				itb->second.outputBuffer += "SERVER : you have asked for server shutdown\n";
-			}
-			else if(*itb2 == "say hello")
-				itb->second.outputBuffer += "SERVER : hello\n";
-			else if(*itb2 == "say yo")
-				itb->second.outputBuffer += "SERVER : yo\n";
-			else
-			{
-				itb->second.outputBuffer += "SERVER : unknown command : ";
-				itb->second.outputBuffer += *itb2;
-				itb->second.outputBuffer += "\n";
-			}
+			itb->second.outputBuffer += processCmd(*itb2, itb->second);
+	
+			// if (*itb2 == "exit server")
+			// {
+			// 	_exitSignal = 1;
+			// 	itb->second.outputBuffer += "SERVER : you have asked for server shutdown\n";
+			// }
+			// else if (*itb2 == "say hello")
+			// 	itb->second.outputBuffer += "SERVER : hello\n";
+			// else if (*itb2 == "say yo")
+			// 	itb->second.outputBuffer += "SERVER : yo\n";
+			// else
+			// {
+			// 	itb->second.outputBuffer += "SERVER : unknown command : ";
+			// 	itb->second.outputBuffer += *itb2;
+			// 	itb->second.outputBuffer += "\n";
+			// }
 		}
-		itb->second.inputMessages.clear(); //all messages have been threated, clearing.
+		itb->second.inputMessages.clear(); // all messages have been threated, clearing.
 	}
 }
 
@@ -197,9 +199,9 @@ void Server::sendData(void)
 					itb->second.outputBuffer.erase(0, 1);
 				}
 			}
-			send(itb->first , buffer , BUFFER_SIZE , 0 );
+			send(itb->first, buffer, BUFFER_SIZE, 0);
 		}
-		//std::cout << "Finished sending User.outputBuffer to fd : " << itb->first << std::endl;
+		// std::cout << "Finished sending User.outputBuffer to fd : " << itb->first << std::endl;
 	}
 }
 
@@ -210,14 +212,38 @@ Server::~Server()
 	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
 		std::cout << "Clearing host , ip " << inet_ntoa(_sin.sin_addr) << " , port " << ntohs(_sin.sin_port) << std::endl;
-		getpeername(itb->first, (struct sockaddr*)&_sin, (socklen_t*)&_sizeofsin);
+		getpeername(itb->first, (struct sockaddr *)&_sin, (socklen_t *)&_sizeofsin);
 		close(itb->first);
 	}
 	_users.clear();
-	shutdown(_masterSocket, 2); //int shutdown(int socket, int how);
+	shutdown(_masterSocket, 2); // int shutdown(int socket, int how);
 }
 
 const int &Server::getExitSignal(void)
 {
 	return (_exitSignal);
+}
+
+bool Server::hasUser(std::string nick)
+{
+	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
+	{
+		if (itb->second.nickName.compare(nick) == 0)
+		{
+			return (true);
+		}
+	}
+	return (false);
+}
+
+
+std::string Server::processCmd(std::string cmd, User user)
+{
+	Nick nick(cmd);
+
+	std::cout << "processing command " << cmd << "\n";
+	//todo je sais pas encore comment checker de quelle command il s'agit
+	nick.execute();	
+
+	return "";
 }

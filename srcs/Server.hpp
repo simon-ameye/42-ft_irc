@@ -3,6 +3,9 @@
 
 #include "User.hpp"
 #include "Utils.hpp"
+#include "./Commands/Nick.hpp"·
+#include "Error_Replies.hpp"
+#include "Command_Responses.hpp"
 
 /*Basics*/
 #include <iostream>
@@ -37,6 +40,8 @@ class Server
 	void			processData(void);
 	void			sendData(void);
 	const int		&getExitSignal(void);
+	std::string		processCmd(std::string cmd, User user);
+	bool			hasUser(std::string nick);
 
 	private:
 	int				_port;

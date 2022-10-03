@@ -5,7 +5,7 @@
 #include "../Utils/Utils.hpp"
 
 #include "Commands/Nick.hpp"
-#include "Commands/Command.hpp"
+#include "Commands/ACommand.hpp"
 #include "Commands/Error_Replies.hpp"
 #include "Commands/Command_Responses.hpp"
 
@@ -44,7 +44,6 @@ class Server
 	const int		&getExitSignal(void);
 	std::string		processCmd(std::string& cmd, User& user);
 	bool			hasUser(std::string nick);
-	void			initCommands(void);
 
 	private:
 	int				_port;
@@ -55,7 +54,6 @@ class Server
 	int				_masterSocket;
 	std::map<int, User> _users;
 	std::vector<pollfd>	_pollfds;
-	std::map<std::string, Command> _commands;
 };
 
 #endif

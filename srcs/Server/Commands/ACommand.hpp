@@ -1,5 +1,5 @@
-#ifndef COMMAND_HPP
-#define COMMAND_HPP
+#ifndef ACOMMAND_HPP
+#define ACOMMAND_HPP
 
 #include <string>
 #include <vector>

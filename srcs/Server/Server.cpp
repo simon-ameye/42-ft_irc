@@ -42,8 +42,6 @@ Server::Server(char *port, char *password)
 	std::cout << "listen()" << std::endl;
 	if (listen(_masterSocket, 5) == -1) // int listen(int socket, int backlog)
 		std::cout << "error: listen()" << std::endl;
-
-	initCommands();
 }
 
 /*Create the pollfds structure.
@@ -251,9 +249,4 @@ std::string Server::processCmd(std::string &cmd, User &user)
 
 	*/
 	return "";
-}
-
-void Server::initCommands(void)
-{
-	
 }

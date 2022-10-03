@@ -15,7 +15,7 @@ SRCS		=		main.cpp \
 					Server/User/User.cpp \
 					Utils/Utils.cpp \
 					Server/Commands/Nick.cpp \
-					Server/Commands/Command.cpp
+					Server/Commands/ACommand.cpp
 
 SOURCES		=		$(addprefix $(SRCS_DIR)/,$(SRCS))
 
@@ -47,7 +47,7 @@ $(OBJECTS):			$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.cpp
 
 clean:
 					@echo Cleaning objects...
-					@rm -f $(OBJECTS)
+					@rm -rf $(OBJECTS)
 
 fclean:				clean
 					@echo Cleaning binary...

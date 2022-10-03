@@ -1,6 +1,6 @@
 #ifndef NICK_HPP
 #define NICK_HPP
-#include "Command.hpp"
+#include "ACommand.hpp"
 
 class Nick : public Command
 {

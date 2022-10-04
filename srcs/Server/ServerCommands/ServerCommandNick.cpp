@@ -21,5 +21,5 @@ void Server::_nick(std::vector<std::string> tokens, User &user)
 		return;
 	}
 
-	user.nickName = tokens[1];
+	user.nickName = tokens[0];
 }

@@ -239,8 +239,8 @@ void Server::processCmd(std::string &cmd, User &user)
 
 	if (function == "")
 		std::cout << "no function" << std::endl;
-	//else if (function == "NICK")
-	//	_nick(tokens, user); //=====>SEGFAULT HERE
+	else if (function == "NICK")
+		_nick(tokens, user);
 	else if (function == "sayHello")
 		user.outputBuffer += "SERVER : hello\n";
 	else if (function == "exitServer")

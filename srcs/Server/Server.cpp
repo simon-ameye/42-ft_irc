@@ -225,12 +225,15 @@ void Server::processCmd(std::string &cmd, User &user)
 		_nick(tokens, user);
 	else if (function == "PASS")
 		_pass(tokens, user);
+	else if (function == "OPER")
+		_oper(tokens, user);
 	else if (function == "sayHello")
 		user.outputBuffer += "SERVER : hello\n";
 	else if (function == "exitServer")
 	{
 		_exitSignal = 1;
-		user.outputBuffer += "SERVER : you have asked for server shutdown\n";
+		user.outputBuffer += "SERVER : you have asked for server shutdown";
+		user.outputBuffer += DELIMITER;
 	}
 	else
 	{

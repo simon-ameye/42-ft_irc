@@ -1,13 +1,13 @@
 #include "Server.hpp"
 
-void Server::_errorReplies(User &user, int error, std::string cmd, Channel &channel)
+void Server::_errorReplies(User &user, int err, std::string cmd, Channel &channel)
 {
 	std::stringstream result;
 
 	result << ":" << _serverName << " ";
-	result << error << " ";
+	result << err << " ";
 
-	switch (error)
+	switch (err)
 	{
 		case 401:
 			result << user.nickName << " :No such nick/channel";
@@ -35,6 +35,9 @@ void Server::_errorReplies(User &user, int error, std::string cmd, Channel &chan
 			break;
 		case 462:
 			result << ":Unauthorized command (already registered)";
+			break;
+		case 464:
+			result << ":Password incorrect";
 			break;
 
 		default:

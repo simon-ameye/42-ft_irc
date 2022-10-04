@@ -4,6 +4,7 @@ User::User()
 {
 	//std::cout << "user constructor called" << std::endl;
 	_passProvided = 0;
+	_operator = 0;
 }
 
 User::~User()

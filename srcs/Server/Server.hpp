@@ -58,7 +58,9 @@ class Server
 	private:
 	void			_nick(std::vector<std::string> tokens, User &user);
 	void			_pass(std::vector<std::string> tokens, User &user);
-	void			_errorReplies(User &user, int error, std::string cmd, Channel &channel);
+	void			_oper(std::vector<std::string> tokens, User &user);
+	void			_errorReplies(User &user, int err, std::string cmd, Channel &channel);
+	void			_commandResponces(User &user, int rpl, std::string cmd, Channel &channel);
 };
 
 #endif

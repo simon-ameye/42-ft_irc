@@ -22,6 +22,7 @@ class User
 	std::string inputBuffer; //to set private + getter
 	std::string outputBuffer; //to set private + getter
 	bool		_passProvided; //to set private + getter
+	bool		_operator; //to set private + getter
 };
 
 #endif

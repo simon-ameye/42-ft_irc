@@ -11,8 +11,7 @@ void Server::_nick(std::vector<std::string> tokens, User &user)
 
 	std::string nickname = tokens[0];
 
-
-	if (Server::hasUser(nickname))
+	if (Server::hasUser(nickname, user.nickName))
 	{
 		user.outputBuffer += "433 *";
 		user.outputBuffer += nickname;
@@ -21,5 +20,23 @@ void Server::_nick(std::vector<std::string> tokens, User &user)
 		return;
 	}
 
-	user.nickName = tokens[0];
+	if (user.nickName.size() == 0) // not registered TOTO replace by !user.isRegistered
+	{
+		user.nickName = nickname;
+		user.outputBuffer += ": NICK";
+		user.outputBuffer += " :" + nickname;
+		user.outputBuffer += DELIMITER;
+	}
+	else
+	{
+		//:user42!user42@localhost NICK :fffff
+		user.outputBuffer += ":";
+		user.outputBuffer += user.nickName;
+		user.outputBuffer += "@"+user.hostName;
+		user.outputBuffer += " NICK ";
+		user.outputBuffer += ":";
+		user.outputBuffer += nickname;
+		user.outputBuffer += DELIMITER;
+		user.nickName = nickname;
+	}
 }

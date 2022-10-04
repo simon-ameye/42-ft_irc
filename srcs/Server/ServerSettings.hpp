@@ -1,7 +1,7 @@
 #ifndef SERVERSETTINGS_HPP
 #define SERVERSETTINGS_HPP
 
-#define BUFFER_SIZE 5
+#define BUFFER_SIZE 4096
 //#define DELIMITER "\r\n"
 #define DELIMITER "\n"
 

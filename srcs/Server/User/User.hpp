@@ -16,6 +16,10 @@ class User
 	void addCmdBuffer(char *buffer, size_t size);
 	std::string realName; //to set private + getter
 	std::string nickName; //to set private + getter
+	std::string userName;
+	std::string hostName;
+	std::string serverName;
+	bool		isRegistered;
 
 	public:
 	std::vector<std::string> inputMessages; //to set private + getter

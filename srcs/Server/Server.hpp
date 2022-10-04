@@ -41,7 +41,7 @@ class Server
 	void			sendData(void);
 	const int		&getExitSignal(void);
 	void			processCmd(std::string& cmd, User& user);
-	bool			hasUser(std::string nick);
+	bool			hasUser(std::string nick, std::string exclude = "");
 
 	private:
 	int				_port;
@@ -61,6 +61,7 @@ class Server
 	void			_oper(std::vector<std::string> tokens, User &user);
 	void			_errorReplies(User &user, int err, std::string cmd, Channel &channel);
 	void			_commandResponces(User &user, int rpl, std::string cmd, Channel &channel);
+	void			_user(std::vector<std::string> tokens, User &user);
 };
 
 #endif

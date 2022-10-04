@@ -183,6 +183,7 @@ void Server::sendData(void)
 					itb->second.outputBuffer.erase(0, 1);
 				}
 			}
+			std::cout << "<===" << buffer;
 			send(itb->first, buffer, BUFFER_SIZE, 0);
 		}
 		// std::cout << "Finished sending User.outputBuffer to fd : " << itb->first << std::endl;
@@ -227,6 +228,8 @@ void Server::processCmd(std::string &cmd, User &user)
 		_pass(tokens, user);
 	else if (function == "OPER")
 		_oper(tokens, user);
+	else if (function == "USER")
+		_user(tokens,user);
 	else if (function == "sayHello")
 		user.outputBuffer += "SERVER : hello\n";
 	else if (function == "exitServer")
@@ -237,7 +240,7 @@ void Server::processCmd(std::string &cmd, User &user)
 	}
 	else
 	{
-		Channel channel; //useless, just used to pass to _errorReplies
-		_errorReplies(user, ERR_UNKNOWNCOMMAND, function, channel);
+		//Channel channel; //useless, just used to pass to _errorReplies
+		//_errorReplies(user, ERR_UNKNOWNCOMMAND, function, channel);
 	}
 }

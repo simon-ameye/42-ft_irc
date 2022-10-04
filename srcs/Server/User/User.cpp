@@ -2,13 +2,13 @@
 
 User::User()
 {
-	std::cout << "user constructor called" << std::endl;
+	//std::cout << "user constructor called" << std::endl;
 	_passProvided = 0;
 }
 
 User::~User()
 {
-	std::cout << "user destructor called" << std::endl;
+	//std::cout << "user destructor called" << std::endl;
 }
 
 User &User::newUser()

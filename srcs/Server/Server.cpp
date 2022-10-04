@@ -18,29 +18,29 @@ Server::Server(char *port, char *password)
 	_sizeofsin = sizeof(_sin);
 
 	/*Creating socket*/
-	std::cout << "socket()" << std::endl;
+	//std::cout << "socket()" << std::endl;
 	_masterSocket = socket(AF_INET, SOCK_STREAM, 0); // int socket(int domain, int type, int protocol), AF_INET=TCP/IP, SOCK_STREAM=TCP/IP
 	if (_masterSocket == -1)
 		std::cout << "error: socket()" << std::endl;
 
 	/*Setting socket reuse*/
-	std::cout << "setsockopt()" << std::endl;
+	//std::cout << "setsockopt()" << std::endl;
 	int enable = 1; // pas compris encore
 	if (setsockopt(_masterSocket, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &enable, sizeof(enable)) == -1)
 		std::cout << "error: setsockopt()" << std::endl;
 
 	/*Setting socket to be non blocking*/
-	std::cout << "fcntl()" << std::endl;
+	//std::cout << "fcntl()" << std::endl;
 	if (fcntl(_masterSocket, F_SETFL, O_NONBLOCK) == -1)
 		std::cout << "error: fcntl()" << std::endl;
 
 	/*Binding socket to port and set socket settings*/
-	std::cout << "bind()" << std::endl;
+	//std::cout << "bind()" << std::endl;
 	if (bind(_masterSocket, (sockaddr *)&_sin, _sizeofsin) == -1) // int bind(int socket, const struct sockaddr* addr, socklen_t addrlen)
 		std::cout << "error: bind()" << std::endl;
 
 	/*Listening*/
-	std::cout << "listen()" << std::endl;
+	//std::cout << "listen()" << std::endl;
 	if (listen(_masterSocket, 5) == -1) // int listen(int socket, int backlog)
 		std::cout << "error: listen()" << std::endl;
 }
@@ -87,11 +87,12 @@ void Server::connect(void)
 	if (_pollfds[0].revents == POLLIN)
 	{
 		/*Accepting and creating new user*/
-		std::cout << "accept()" << std::endl;
+		//std::cout << "accept()" << std::endl;
 		tempFd = accept(_masterSocket, (sockaddr *)&_sin, &_sizeofsin); // accept connection and get the fd
 		_users[tempFd];													// create a user (without calling constructor twice)
 		if (tempFd == -1)
 			std::cout << "error: accept()" << std::endl;
+		std::cout << "New user accepted with fd: " << tempFd << std::endl;
 	}
 }
 
@@ -170,7 +171,7 @@ void Server::sendData(void)
 	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
 		if (itb->second.outputBuffer.size() > 0)
-			std::cout << "Sending fd: " << itb->first << " User.outputBuffer: $" << itb->second.outputBuffer << "$" << std::endl;
+			std::cout << "Sending fd: " << itb->first << " : $" << itb->second.outputBuffer << "$" << std::endl;
 		while (itb->second.outputBuffer.size() > 0)
 		{
 			Utils::clearBuffer(buffer, BUFFER_SIZE);
@@ -233,8 +234,7 @@ void Server::processCmd(std::string &cmd, User &user)
 	}
 	else
 	{
-		std::cout << "error : " << ERR_UNKNOWNCOMMAND << std::endl;
-		user.outputBuffer += "Unknown function";
-		user.outputBuffer += DELIMITER;
+		Channel channel; //useless, just used to pass to _errorReplies
+		_errorReplies(user, ERR_UNKNOWNCOMMAND, function, channel);
 	}
 }

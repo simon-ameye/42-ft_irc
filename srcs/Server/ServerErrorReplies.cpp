@@ -27,7 +27,9 @@ void Server::_errorReplies(User &user, int error, std::string cmd, Channel &chan
 		case 406:
 			result << user.nickName << " :There was no such nickname";
 			break;
-
+		case 421:
+			result << cmd << " :Unknown command";
+			break;
 		case 461:
 			result << cmd << " :Not enough parameters";
 			break;

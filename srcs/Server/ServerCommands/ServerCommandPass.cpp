@@ -15,6 +15,6 @@ void Server::_pass(std::vector<std::string> tokens, User &user)
 		return;
 	}
 
-	if (tokens[0] == _password)
+	if (tokens[0] == _password) //In case of wrong password : no error is returned
 		user._passProvided = 1;
 }

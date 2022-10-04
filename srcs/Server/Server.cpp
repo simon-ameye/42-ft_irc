@@ -156,25 +156,7 @@ void Server::processData(void)
 		/*loop over inputMessages*/
 		for (std::vector<std::string>::iterator itb2 = itb->second.inputMessages.begin(); itb2 != itb->second.inputMessages.end(); itb2++) // loop over
 		{
-			/*Example of function on each command*/
-			std::cout << "Threating command : $" << *itb2 << "$" << std::endl;
 			processCmd(*itb2, itb->second);
-	
-			// if (*itb2 == "exit server")
-			// {
-			// 	_exitSignal = 1;
-			// 	itb->second.outputBuffer += "SERVER : you have asked for server shutdown\n";
-			// }
-			// else if (*itb2 == "say hello")
-			// 	itb->second.outputBuffer += "SERVER : hello\n";
-			// else if (*itb2 == "say yo")
-			// 	itb->second.outputBuffer += "SERVER : yo\n";
-			// else
-			// {
-			// 	itb->second.outputBuffer += "SERVER : unknown command : ";
-			// 	itb->second.outputBuffer += *itb2;
-			// 	itb->second.outputBuffer += "\n";
-			// }
 		}
 		itb->second.inputMessages.clear(); // all messages have been threated, clearing.
 	}
@@ -188,7 +170,7 @@ void Server::sendData(void)
 	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
 		if (itb->second.outputBuffer.size() > 0)
-			std::cout << "Sending User.outputBuffer to fd : " << itb->first << std::endl;
+			std::cout << "Sending fd: " << itb->first << " User.outputBuffer: $" << itb->second.outputBuffer << "$" << std::endl;
 		while (itb->second.outputBuffer.size() > 0)
 		{
 			Utils::clearBuffer(buffer, BUFFER_SIZE);
@@ -227,9 +209,7 @@ const int &Server::getExitSignal(void)
 
 void Server::processCmd(std::string &cmd, User &user)
 {
-	(void) user;
-	(void) cmd;
-	std::cout << "processing command " << cmd << "\n";
+	std::cout << "Processing command : $" << cmd << "$" << std::endl;
 
 	std::vector<std::string> tokens;
 	std::string function;
@@ -254,6 +234,7 @@ void Server::processCmd(std::string &cmd, User &user)
 	else
 	{
 		std::cout << "error : " << ERR_UNKNOWNCOMMAND << std::endl;
-		user.outputBuffer += "Unknown function\n";
+		user.outputBuffer += "Unknown function";
+		user.outputBuffer += DELIMITER;
 	}
 }

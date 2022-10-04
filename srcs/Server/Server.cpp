@@ -3,6 +3,7 @@
 Server::Server(char *port, char *password)
 {
 	/*Set server parameters*/
+	_serverName = "ft_irc";
 	_exitSignal = 0;
 	_port = atoi(port);
 	_password = password;
@@ -241,6 +242,8 @@ void Server::processCmd(std::string &cmd, User &user)
 		std::cout << "no function" << std::endl;
 	else if (function == "NICK")
 		_nick(tokens, user);
+	else if (function == "PASS")
+		_pass(tokens, user);
 	else if (function == "sayHello")
 		user.outputBuffer += "SERVER : hello\n";
 	else if (function == "exitServer")

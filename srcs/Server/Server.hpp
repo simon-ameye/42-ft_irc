@@ -4,10 +4,8 @@
 #include "../Utils/Utils.hpp"
 
 #include "User/User.hpp"
-//#include "Commands/Commands.hpp"
+#include "Channel/Channel.hpp"
 #include "ServerSettings.hpp"
-//#include "Commands/CommandSrcs/Nick.hpp"
-//#include "Commands/ACommand.hpp"
 #include "ErrorReplies.hpp"
 #include "CommandResponses.hpp"
 
@@ -18,6 +16,7 @@
 #include <stdio.h>
 #include <vector>
 #include <map>
+#include <sstream>
 
 /*Socket requirements*/
 #include <sys/types.h>
@@ -52,10 +51,14 @@ class Server
 	int				_exitSignal;
 	int				_masterSocket;
 	std::map<int, User> _users;
+	std::map<int, Channel> _channels;
 	std::vector<pollfd>	_pollfds;
+	std::string _serverName;
 
 	private:
 	void			_nick(std::vector<std::string> tokens, User &user);
+	void			_pass(std::vector<std::string> tokens, User &user);
+	void			_errorReplies(User &user, int error, std::string cmd, Channel &channel);
 };
 
 #endif

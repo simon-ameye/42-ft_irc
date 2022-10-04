@@ -15,7 +15,11 @@ SRCS		=		main.cpp \
 					Server/User/User.cpp \
 					Utils/Utils.cpp \
 					Server/ServerUtils.cpp\
-					Server/ServerCommands/ServerCommandNick.cpp
+					Server/ServerCommands/ServerCommandNick.cpp \
+					Server/ServerCommands/ServerCommandPass.cpp \
+					Server/ServerErrorReplies.cpp\
+					Server/Channel/Channel.cpp
+
 
 SOURCES		=		$(addprefix $(SRCS_DIR)/,$(SRCS))
 
@@ -40,6 +44,7 @@ $(OBJS_DIR):
 					mkdir -p $@/Utils
 					mkdir -p $@/Server
 					mkdir -p $@/Server/User
+					mkdir -p $@/Server/Channel
 					mkdir -p $@/Server/ServerCommands
 
 $(OBJECTS):			$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.cpp

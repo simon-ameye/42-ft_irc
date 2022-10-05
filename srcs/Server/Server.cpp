@@ -167,25 +167,13 @@ void Server::processMessages(void)
 sends _outputMessage buffer by buffer*/
 void Server::sendMessage(void)
 {
-	char buffer[BUFFER_SIZE];
 	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
 		if (itb->second._outputMessage.size() > 0)
 			std::cout << "Sending fd: " << itb->first << " : $" << itb->second._outputMessage << "$" << std::endl;
-		while (itb->second._outputMessage.size() > 0)
-		{
-			Utils::clearBuffer(buffer, BUFFER_SIZE);
-			for (int i = 0; i < BUFFER_SIZE; i++)
-			{
-				if (itb->second._outputMessage.size() > 0)
-				{
-					buffer[i] = itb->second._outputMessage[0];
-					itb->second._outputMessage.erase(0, 1);
-				}
-			}
-			std::cout << "<===" << buffer;
-			send(itb->first, buffer, BUFFER_SIZE, 0);
-		}
+
+		if(send(itb->first, itb->second._outputMessage.c_str(), itb->second._outputMessage.length(), 0) == -1)
+			std::cout << "Send error " << std::endl; 
 		// std::cout << "Finished sending User._outputMessage to fd : " << itb->first << std::endl;
 	}
 }
@@ -223,13 +211,13 @@ void Server::processMessage(std::string &message, User &user)
 	std::cout << "split cmd res[1] : $" << splitCmd[1] << "$" << std::endl;
 
 	//args = Utils::split(message, ' ');
-/*
-	if (args.size() == 0)
-	{
-		std::cout << "empty token" << std::endl;
-		return ;
-	}
-*/
+	/*
+		if (args.size() == 0)
+		{
+			std::cout << "empty token" << std::endl;
+			return ;
+		}
+	*/
 	cmd = splitCmd[0];
 	//args.erase(args.begin());
 	args = splitCmd[1];
@@ -258,7 +246,8 @@ void Server::processMessage(std::string &message, User &user)
 	}
 	else
 	{
-		Channel channel; //useless, just used to pass to _errorReplies
-		_errorReplies(user, ERR_UNKNOWNCOMMAND, cmd, channel);
+		// note : ça casse le client quand on envoie une reponse avec unknown command
+		// Channel channel; //useless, just used to pass to _errorReplies
+		// _errorReplies(user, ERR_UNKNOWNCOMMAND, cmd, channel);
 	}
 }

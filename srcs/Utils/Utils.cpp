@@ -11,7 +11,7 @@ std::vector<std::string> Utils::split_cmd(std::string str, char delimiter)
 	size_t pos = 0;
 	std::vector<std::string> result;
 	pos = str.find(delimiter);
-	if (pos < 0)
+	if (pos == std::string::npos)
 	{
 		result.push_back("");
 		result.push_back("");

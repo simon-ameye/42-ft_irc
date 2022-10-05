@@ -32,14 +32,14 @@ void Server::_nick(std::string args, User &user)
 	}
 	else
 	{
-		//:user42!user42@localhost NICK :fffff
+
 		user._outputMessage += ":";
 		user._outputMessage += user.nickName;
-		user._outputMessage += "@"+user.hostName;
-		user._outputMessage += " NICK ";
-		user._outputMessage += ":";
+		user._outputMessage += " NICK :";
 		user._outputMessage += nickname;
 		user._outputMessage += DELIMITER;
 		user.nickName = nickname;
+
+		// todo envoyer le message aux autre clients (dans les memes channel)
 	}
 }

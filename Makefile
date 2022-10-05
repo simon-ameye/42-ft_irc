@@ -19,6 +19,7 @@ SRCS		=		main.cpp \
 					Server/ServerCommands/ServerCommandPass.cpp \
 					Server/ServerCommands/ServerCommandOper.cpp \
 					Server/ServerCommands/ServerCommandUser.cpp \
+					Server/ServerCommands/ServerCommandPing.cpp \
 					Server/ServerReplies/ServerErrorReplies.cpp\
 					Server/ServerReplies/ServerCommandResponses.cpp\
 					Server/Channel/Channel.cpp

@@ -232,6 +232,8 @@ void Server::processMessage(std::string &message, User &user)
 		_nick(args, user);
 	else if (cmd == "PASS")
 		_pass(args, user);
+	else if (cmd == "PING")
+		_ping(args, user); // NEW
 	else if (cmd == "OPER")
 		_oper(args, user);
 	else if (cmd == "USER")

@@ -62,6 +62,7 @@ class Server
 	void			_errorReplies(User &user, int err, std::string cmd, Channel &channel);
 	void			_commandResponces(User &user, int rpl, std::string cmd, Channel &channel);
 	void			_user(std::vector<std::string> args, User &user);
+	void			_ping(std::vector<std::string> args, User &user);
 };
 
 #endif

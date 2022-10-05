@@ -1,4 +1,4 @@
-#include "Server.hpp"
+#include "../Server.hpp"
 
 void Server::_commandResponces(User &user, int rpl, std::string cmd, Channel &channel)
 {
@@ -21,5 +21,5 @@ void Server::_commandResponces(User &user, int rpl, std::string cmd, Channel &ch
 		result << "Unknown reply";
 	}
 	result << DELIMITER;
-	user.outputBuffer += result.str();
+	user._outputMessage += result.str();
 }

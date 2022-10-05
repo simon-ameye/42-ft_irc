@@ -97,8 +97,8 @@ void Server::connect(void)
 }
 
 /*If user's fd is ready, get the data
-And put it in user buffer and inputMessages*/
-void Server::getData(void)
+And put it in user buffer and _inputMessages*/
+void Server::getMessages(void)
 {
 	char buffer[BUFFER_SIZE];
 	int sizeRead;
@@ -133,10 +133,10 @@ void Server::getData(void)
 				_users.erase(itb->fd);
 				std::cout << "host closed and erased" << std::endl;
 			}
-			else // data to read, add buffer to users inputMessages
+			else // data to read, add buffer to users _inputMessages
 			{
-				_users[itb->fd].addCmdBuffer(buffer, sizeRead);
-				// std::cout << "new input buffer for fd " << itb->fd << " : " << _users[itb->fd].inputBuffer << std::endl;
+				_users[itb->fd].addBufferToMessages(buffer, sizeRead);
+				// std::cout << "new input buffer for fd " << itb->fd << " : " << _users[itb->fd]._inputMessagesBuffer << std::endl;
 			}
 		}
 	}
@@ -144,49 +144,49 @@ void Server::getData(void)
 
 /*Double loop :
 Loops over users
-Loops over inputMessages for each user
+Loops over _inputMessages for each user
 Does something for each inputMessage
-Then clears user inputMessages*/
-void Server::processData(void)
+Then clears user _inputMessages*/
+void Server::processMessages(void)
 {
 	/*loop over users*/
 	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
 		// std::cout << "evaluation user with fd : " << itb->first << std::endl;
-		itb->second.outputBuffer.clear();
-		/*loop over inputMessages*/
-		for (std::vector<std::string>::iterator itb2 = itb->second.inputMessages.begin(); itb2 != itb->second.inputMessages.end(); itb2++) // loop over
+		itb->second._outputMessage.clear();
+		/*loop over _inputMessages*/
+		for (std::vector<std::string>::iterator itb2 = itb->second._inputMessages.begin(); itb2 != itb->second._inputMessages.end(); itb2++) // loop over
 		{
-			processCmd(*itb2, itb->second);
+			processMessage(*itb2, itb->second);
 		}
-		itb->second.inputMessages.clear(); // all messages have been threated, clearing.
+		itb->second._inputMessages.clear(); // all messages have been threated, clearing.
 	}
 }
 
-/*Loops while user outputBuffer is not empty
-sends outputBuffer buffer by buffer*/
-void Server::sendData(void)
+/*Loops while user _outputMessage is not empty
+sends _outputMessage buffer by buffer*/
+void Server::sendMessage(void)
 {
 	char buffer[BUFFER_SIZE];
 	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
-		if (itb->second.outputBuffer.size() > 0)
-			std::cout << "Sending fd: " << itb->first << " : $" << itb->second.outputBuffer << "$" << std::endl;
-		while (itb->second.outputBuffer.size() > 0)
+		if (itb->second._outputMessage.size() > 0)
+			std::cout << "Sending fd: " << itb->first << " : $" << itb->second._outputMessage << "$" << std::endl;
+		while (itb->second._outputMessage.size() > 0)
 		{
 			Utils::clearBuffer(buffer, BUFFER_SIZE);
 			for (int i = 0; i < BUFFER_SIZE; i++)
 			{
-				if (itb->second.outputBuffer.size() > 0)
+				if (itb->second._outputMessage.size() > 0)
 				{
-					buffer[i] = itb->second.outputBuffer[0];
-					itb->second.outputBuffer.erase(0, 1);
+					buffer[i] = itb->second._outputMessage[0];
+					itb->second._outputMessage.erase(0, 1);
 				}
 			}
 			std::cout << "<===" << buffer;
 			send(itb->first, buffer, BUFFER_SIZE, 0);
 		}
-		// std::cout << "Finished sending User.outputBuffer to fd : " << itb->first << std::endl;
+		// std::cout << "Finished sending User._outputMessage to fd : " << itb->first << std::endl;
 	}
 }
 
@@ -209,44 +209,44 @@ const int &Server::getExitSignal(void)
 	return (_exitSignal);
 }
 
-void Server::processCmd(std::string &cmd, User &user)
+void Server::processMessage(std::string &message, User &user)
 {
-	std::cout << "Processing command : $" << cmd << "$" << std::endl;
+	std::cout << "Processing command : $" << message << "$" << std::endl;
 
-	std::vector<std::string> tokens;
-	std::string function;
+	std::vector<std::string> args;
+	std::string cmd;
 
-	tokens = Utils::split(cmd, ' ');
+	args = Utils::split(message, ' ');
 
-	if (tokens.size() == 0)
+	if (args.size() == 0)
 	{
 		std::cout << "empty token" << std::endl;
 		return ;
 	}
-	function = tokens[0];
-	tokens.erase(tokens.begin());
+	cmd = args[0];
+	args.erase(args.begin());
 
-	if (function == "")
-		std::cout << "empty function" << std::endl;
-	else if (function == "NICK")
-		_nick(tokens, user);
-	else if (function == "PASS")
-		_pass(tokens, user);
-	else if (function == "OPER")
-		_oper(tokens, user);
-	else if (function == "USER")
-		_user(tokens,user);
-	else if (function == "sayHello")
-		user.outputBuffer += "SERVER : hello\n";
-	else if (function == "exitServer")
+	if (cmd == "")
+		std::cout << "empty cmd" << std::endl;
+	else if (cmd == "NICK")
+		_nick(args, user);
+	else if (cmd == "PASS")
+		_pass(args, user);
+	else if (cmd == "OPER")
+		_oper(args, user);
+	else if (cmd == "USER")
+		_user(args,user);
+	else if (cmd == "sayHello")
+		user._outputMessage += "SERVER : hello\n";
+	else if (cmd == "exitServer")
 	{
 		_exitSignal = 1;
-		user.outputBuffer += "SERVER : you have asked for server shutdown";
-		user.outputBuffer += DELIMITER;
+		user._outputMessage += "SERVER : you have asked for server shutdown";
+		user._outputMessage += DELIMITER;
 	}
 	else
 	{
 		Channel channel; //useless, just used to pass to _errorReplies
-		_errorReplies(user, ERR_UNKNOWNCOMMAND, function, channel);
+		_errorReplies(user, ERR_UNKNOWNCOMMAND, cmd, channel);
 	}
 }

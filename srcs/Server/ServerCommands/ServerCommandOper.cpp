@@ -1,6 +1,6 @@
 #include "../Server.hpp"
 
-void			Server::_oper(std::vector<std::string> tokens, User &user)
+void			Server::_oper(std::vector<std::string> args, User &user)
 {
 	Channel channel;
 	std::string name;
@@ -12,14 +12,14 @@ void			Server::_oper(std::vector<std::string> tokens, User &user)
 	operpass = OPERPASS;
 
 	//ERR_NOOPERHOST : not required
-	if (tokens.size() < 2)
+	if (args.size() < 2)
 	{
 		_errorReplies(user, ERR_NEEDMOREPARAMS, "OPER", channel);
 		return;
 	}
 
-	name = tokens[0];
-	pass = tokens[1];
+	name = args[0];
+	pass = args[1];
 
 	if (name != opername || pass != operpass)
 	{

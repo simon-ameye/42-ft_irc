@@ -1,10 +1,10 @@
 #include "../Server.hpp"
 
-void Server::_user(std::vector<std::string> tokens, User &user)
+void Server::_user(std::vector<std::string> args, User &user)
 {
 
 	Channel c;
-	if (tokens.size() < 4)
+	if (args.size() < 4)
 	{
 		_errorReplies(user, ERR_NEEDMOREPARAMS, "USER", c);
 	}
@@ -14,9 +14,9 @@ void Server::_user(std::vector<std::string> tokens, User &user)
 		_errorReplies(user, ERR_ALREADYREGISTRED, "USER", c);
 	}
 
-	user.userName = tokens[0];
-	user.hostName = tokens[1];
-	user.serverName = tokens[2];
+	user.userName = args[0];
+	user.hostName = args[1];
+	user.serverName = args[2];
 
 	// todo real name
 	if (user._passProvided == 0) // add error message
@@ -24,8 +24,8 @@ void Server::_user(std::vector<std::string> tokens, User &user)
 
 
 	user.isRegistered = 1;
-	user.outputBuffer += ":" + user.nickName + " 001 " + user.userName + " :Welcome to the Internet Relay Chat Network " + user.nickName + "!" + user.userName + "@" + user.hostName;
-	user.outputBuffer += DELIMITER;
+	user._outputMessage += ":" + user.nickName + " 001 " + user.userName + " :Welcome to the Internet Relay Chat Network " + user.nickName + "!" + user.userName + "@" + user.hostName;
+	user._outputMessage += DELIMITER;
 
 	// todo use _commandResponces(user, RPL_WELCOME, "USER", c);
 }

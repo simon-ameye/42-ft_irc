@@ -13,7 +13,7 @@ class User
 	User();
 	~User();
 	User &newUser();
-	void addCmdBuffer(char *buffer, size_t size);
+	void addBufferToMessages(char *buffer, size_t size);
 	std::string realName; //to set private + getter
 	std::string nickName; //to set private + getter
 	std::string userName;
@@ -22,9 +22,9 @@ class User
 	bool		isRegistered;
 
 	public:
-	std::vector<std::string> inputMessages; //to set private + getter
-	std::string inputBuffer; //to set private + getter
-	std::string outputBuffer; //to set private + getter
+	std::vector<std::string> _inputMessages; //to set private + getter
+	std::string _inputMessagesBuffer; //to set private + getter
+	std::string _outputMessage; //to set private + getter
 	bool		_passProvided; //to set private + getter
 	bool		_operator; //to set private + getter
 };

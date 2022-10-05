@@ -19,8 +19,8 @@ SRCS		=		main.cpp \
 					Server/ServerCommands/ServerCommandPass.cpp \
 					Server/ServerCommands/ServerCommandOper.cpp \
 					Server/ServerCommands/ServerCommandUser.cpp \
-					Server/ServerErrorReplies.cpp\
-					Server/ServerCommandResponses.cpp\
+					Server/ServerReplies/ServerErrorReplies.cpp\
+					Server/ServerReplies/ServerCommandResponses.cpp\
 					Server/Channel/Channel.cpp
 
 
@@ -49,6 +49,7 @@ $(OBJS_DIR):
 					mkdir -p $@/Server/User
 					mkdir -p $@/Server/Channel
 					mkdir -p $@/Server/ServerCommands
+					mkdir -p $@/Server/ServerReplies
 
 $(OBJECTS):			$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.cpp
 					@$(CC) -c $< -o $@

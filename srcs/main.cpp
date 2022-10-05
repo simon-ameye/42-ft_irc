@@ -12,9 +12,9 @@ int main(int argc, char **argv)
 	while (!server.getExitSignal())
 	{
 		server.connect();
-		server.getData();
-		server.processData();
-		server.sendData();
+		server.getMessages();
+		server.processMessages();
+		server.sendMessage();
 		//sleep(1);
 	}
 }

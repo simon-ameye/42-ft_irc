@@ -1,4 +1,4 @@
-#include "Server.hpp"
+#include "../Server.hpp"
 
 void Server::_errorReplies(User &user, int err, std::string cmd, Channel &channel)
 {
@@ -45,5 +45,5 @@ void Server::_errorReplies(User &user, int err, std::string cmd, Channel &channe
 			
 	}
 	result << DELIMITER;
-	user.outputBuffer += result.str();
+	user._outputMessage += result.str();
 }

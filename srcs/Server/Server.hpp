@@ -6,8 +6,8 @@
 #include "User/User.hpp"
 #include "Channel/Channel.hpp"
 #include "ServerSettings.hpp"
-#include "ErrorReplies.hpp"
-#include "CommandResponses.hpp"
+#include "ServerReplies/ErrorReplies.hpp"
+#include "ServerReplies/CommandResponses.hpp"
 
 /*Basics*/
 #include <iostream>
@@ -36,11 +36,11 @@ class Server
 	Server(char *port, char *password);
 	~Server();
 	void			connect(void);
-	void			getData(void);
-	void			processData(void);
-	void			sendData(void);
+	void			getMessages(void);
+	void			processMessages(void);
+	void			sendMessage(void);
 	const int		&getExitSignal(void);
-	void			processCmd(std::string& cmd, User& user);
+	void			processMessage(std::string& message, User& user);
 	bool			hasUser(std::string nick, std::string exclude = "");
 
 	private:
@@ -56,12 +56,12 @@ class Server
 	std::string _serverName;
 
 	private:
-	void			_nick(std::vector<std::string> tokens, User &user);
-	void			_pass(std::vector<std::string> tokens, User &user);
-	void			_oper(std::vector<std::string> tokens, User &user);
+	void			_nick(std::vector<std::string> args, User &user);
+	void			_pass(std::vector<std::string> args, User &user);
+	void			_oper(std::vector<std::string> args, User &user);
 	void			_errorReplies(User &user, int err, std::string cmd, Channel &channel);
 	void			_commandResponces(User &user, int rpl, std::string cmd, Channel &channel);
-	void			_user(std::vector<std::string> tokens, User &user);
+	void			_user(std::vector<std::string> args, User &user);
 };
 
 #endif

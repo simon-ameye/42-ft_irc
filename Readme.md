@@ -25,7 +25,7 @@ flowchart TD
             poll-->|"if FD_ISSET(master socket)==1"|newClient
             poll-->|"else"|pass
             end
-        subgraph server::getData
+        subgraph server::getMessages
             direction TB
             checkClients["FD_ISSET on each client socket"]
             recv["recv on client buffer"]
@@ -36,21 +36,21 @@ flowchart TD
             recv-->|"recv buffer == 0"|close_socket
             direction TB
             end
-        subgraph server::processData
+        subgraph server::processMessages
             direction TB
-            checkinput["check all client inputBuffer ending with \0 meaning it's ready"]
-            process["process: Channels::doTheStuff to fill outputBuffer"]
-            reset["resset inputBuffers to \0"]
+            checkinput["check all client _inputMessagesBuffer ending with \0 meaning it's ready"]
+            process["process: Channels::doTheStuff to fill _outputMessage"]
+            reset["resset _inputMessagesBuffers to \0"]
             checkinput-->process-->reset
             end
-        subgraph server::sendData
+        subgraph server::sendMessage
             direction TB
-            checkoutput["check all client outputBuffer"]
+            checkoutput["check all client _outputMessage"]
             send["send(socket , buffer)"]
             checkoutput-->send
             end
         end
-    server::init-->server::connect-->server::getData-->server::processData-->server::sendData
+    server::init-->server::connect-->server::getMessages-->server::processMessages-->server::sendMessage
 ```
 
 ## Classes :
@@ -65,7 +65,7 @@ classDiagram
         -vector~Channel~ channels
         +init()
         +connect()
-        +getData()
+        +getMessages()
         sockaddr_in _sin;
         socklen_t _sizeofsin;
     }
@@ -76,8 +76,8 @@ classDiagram
         +getInputBuffer()
         +getOutputBuffer()
         -socket clientSocket
-        -char inputBuffer[42]
-        -char outputBuffer[42]
+        -char _inputMessagesBuffer[42]
+        -char _outputMessage[42]
     }
     class Channel{
         +Channel(channel settings)

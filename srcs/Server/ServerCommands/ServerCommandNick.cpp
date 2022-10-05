@@ -1,7 +1,10 @@
 #include "../Server.hpp"
 
-void Server::_nick(std::vector<std::string> args, User &user)
+void Server::_nick(std::string args, User &user)
 {
+	std::vector<std::string> splitArgs;
+	splitArgs = Utils::split(args, ' ');
+
 	if (args.size() == 0)
 	{
 		user._outputMessage += "431 :No nickname given ";
@@ -9,7 +12,7 @@ void Server::_nick(std::vector<std::string> args, User &user)
 		return;
 	}
 
-	std::string nickname = args[0];
+	std::string nickname = splitArgs[0];
 
 	if (Server::hasUser(nickname, user.nickName))
 	{

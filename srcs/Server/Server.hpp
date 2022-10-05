@@ -56,13 +56,13 @@ class Server
 	std::string _serverName;
 
 	private:
-	void			_nick(std::vector<std::string> args, User &user);
-	void			_pass(std::vector<std::string> args, User &user);
-	void			_oper(std::vector<std::string> args, User &user);
+	void			_nick(std::string args, User &user);
+	void			_pass(std::string args, User &user);
+	void			_oper(std::string args, User &user);
 	void			_errorReplies(User &user, int err, std::string cmd, Channel &channel);
 	void			_commandResponces(User &user, int rpl, std::string cmd, Channel &channel);
-	void			_user(std::vector<std::string> args, User &user);
-	void			_ping(std::vector<std::string> args, User &user);
+	void			_user(std::string args, User &user);
+	void			_ping(std::string args, User &user);
 };
 
 #endif

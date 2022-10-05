@@ -6,6 +6,22 @@ void Utils::clearBuffer(char *buffer, int size)
 		buffer[i] = '\0';
 }
 
+std::vector<std::string> Utils::split_cmd(std::string str, char delimiter)
+{
+	size_t pos = 0;
+	std::vector<std::string> result;
+	pos = str.find(delimiter);
+	if (pos < 0)
+	{
+		result.push_back("");
+		result.push_back("");
+	}
+	result.push_back(str.substr(0, pos));
+	result.push_back(str.substr(pos + 1, str.size() - pos - 1));
+	return result;
+}
+
+
 std::vector<std::string> Utils::split(std::string s, char delimiter)
 {
 	std::vector<std::string> result;

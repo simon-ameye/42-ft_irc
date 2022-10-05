@@ -213,18 +213,26 @@ void Server::processMessage(std::string &message, User &user)
 {
 	std::cout << "Processing command : $" << message << "$" << std::endl;
 
-	std::vector<std::string> args;
+	//std::vector<std::string> args;
+	std::vector<std::string> splitCmd;
 	std::string cmd;
+	std::string args;
 
-	args = Utils::split(message, ' ');
+	splitCmd = Utils::split_cmd(message, ' ');
+	std::cout << "split cmd res[0] : $" << splitCmd[0] << "$" << std::endl;
+	std::cout << "split cmd res[1] : $" << splitCmd[1] << "$" << std::endl;
 
+	//args = Utils::split(message, ' ');
+/*
 	if (args.size() == 0)
 	{
 		std::cout << "empty token" << std::endl;
 		return ;
 	}
-	cmd = args[0];
-	args.erase(args.begin());
+*/
+	cmd = splitCmd[0];
+	//args.erase(args.begin());
+	args = splitCmd[1];
 
 	if (cmd == "")
 		std::cout << "empty cmd" << std::endl;
@@ -240,6 +248,8 @@ void Server::processMessage(std::string &message, User &user)
 		_user(args,user);
 	else if (cmd == "sayHello")
 		user._outputMessage += "SERVER : hello\n";
+	//else if (cmd == "PRIVMSG")
+		//_privmsg(atgs, )
 	else if (cmd == "exitServer")
 	{
 		_exitSignal = 1;

@@ -1,13 +1,15 @@
 #include "../Server.hpp"
 
-void			Server::_ping(std::vector<std::string> args, User &user)
+void			Server::_ping(std::string args, User &user)
 {
 	Channel channel;
+	std::vector<std::string> splitArgs;
+	splitArgs = Utils::split(args, ' ');
 
 	if (args.size() != 1)
 		return ;
 
-	if (_serverName != args[0])
+	if (_serverName != splitArgs[0])
 	{
 		_errorReplies(user, ERR_NOSUCHSERVER, "OPER", channel);
 		return;

@@ -1,7 +1,10 @@
 #include "../Server.hpp"
 
-void			Server::_oper(std::vector<std::string> args, User &user)
+void			Server::_oper(std::string args, User &user)
 {
+	std::vector<std::string> splitArgs;
+	splitArgs = Utils::split(args, ' ');
+
 	Channel channel;
 	std::string name;
 	std::string pass;
@@ -12,14 +15,14 @@ void			Server::_oper(std::vector<std::string> args, User &user)
 	operpass = OPERPASS;
 
 	//ERR_NOOPERHOST : not required
-	if (args.size() < 2)
+	if (splitArgs.size() < 2)
 	{
 		_errorReplies(user, ERR_NEEDMOREPARAMS, "OPER", channel);
 		return;
 	}
 
-	name = args[0];
-	pass = args[1];
+	name = splitArgs[0];
+	pass = splitArgs[1];
 
 	if (name != opername || pass != operpass)
 	{

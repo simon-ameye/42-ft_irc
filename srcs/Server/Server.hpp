@@ -63,6 +63,8 @@ class Server
 	void			_commandResponces(User &user, int rpl, std::string cmd, Channel &channel);
 	void			_user(std::string args, User &user);
 	void			_ping(std::string args, User &user);
+	void			_privmsg(std::string args, User &user);
+	void			_join(std::string args, User &user);
 };
 
 #endif

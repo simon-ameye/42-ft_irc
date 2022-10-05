@@ -245,11 +245,11 @@ void Server::processMessage(std::string &message, User &user)
 	else if (cmd == "OPER")
 		_oper(args, user);
 	else if (cmd == "USER")
-		_user(args,user);
+		_user(args, user);
+	else if (cmd == "PRIVMSG")
+		_privmsg(args, user);
 	else if (cmd == "sayHello")
 		user._outputMessage += "SERVER : hello\n";
-	//else if (cmd == "PRIVMSG")
-		//_privmsg(atgs, )
 	else if (cmd == "exitServer")
 	{
 		_exitSignal = 1;

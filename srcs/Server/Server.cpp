@@ -217,11 +217,17 @@ void Server::processCmd(std::string &cmd, User &user)
 	std::string function;
 
 	tokens = Utils::split(cmd, ' ');
+
+	if (tokens.size() == 0)
+	{
+		std::cout << "empty token" << std::endl;
+		return ;
+	}
 	function = tokens[0];
 	tokens.erase(tokens.begin());
 
 	if (function == "")
-		std::cout << "no function" << std::endl;
+		std::cout << "empty function" << std::endl;
 	else if (function == "NICK")
 		_nick(tokens, user);
 	else if (function == "PASS")
@@ -240,7 +246,7 @@ void Server::processCmd(std::string &cmd, User &user)
 	}
 	else
 	{
-		//Channel channel; //useless, just used to pass to _errorReplies
-		//_errorReplies(user, ERR_UNKNOWNCOMMAND, function, channel);
+		Channel channel; //useless, just used to pass to _errorReplies
+		_errorReplies(user, ERR_UNKNOWNCOMMAND, function, channel);
 	}
 }

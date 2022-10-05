@@ -19,6 +19,9 @@ void Server::_user(std::vector<std::string> tokens, User &user)
 	user.serverName = tokens[2];
 
 	// todo real name
+	if (user._passProvided == 0) // add error message
+		return ;
+
 
 	user.isRegistered = 1;
 	user.outputBuffer += ":" + user.nickName + " 001 " + user.userName + " :Welcome to the Internet Relay Chat Network " + user.nickName + "!" + user.userName + "@" + user.hostName;

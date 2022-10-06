@@ -16,13 +16,13 @@ void Server::_errorReplies(User &user, int err, std::string cmd, const Channel &
 			result << _serverName << " :No such server";
 			break;
 		case 403:
-			result << channel.channelName << " :No such server";
+			result << channel._channelName << " :No such server";
 			break;
 		case 404:
-			result << channel.channelName << " :Cannot send to channel";
+			result << channel._channelName << " :Cannot send to channel";
 			break;
 		case 405:
-			result << channel.channelName << " :You have joined too many channels";
+			result << channel._channelName << " :You have joined too many channels";
 			break;
 		case 406:
 			result << user.nickName << " :There was no such nickname";

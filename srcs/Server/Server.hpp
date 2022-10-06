@@ -41,8 +41,9 @@ class Server
 	void			sendMessage(void);
 	const int		&getExitSignal(void);
 	void			processMessage(std::string& message, User& user);
-	bool			hasUser(std::string nick, std::string exclude = "");
-	void 			deleteUser(User& user);
+	bool			hasUser(std::string nickName, std::string exclude = "");
+	void			deleteUser(std::string nickName);
+	void			deleteChannel(std::string channelName);
 
 	private:
 	int				_port;
@@ -52,7 +53,7 @@ class Server
 	int				_exitSignal;
 	int				_masterSocket;
 	std::map<int, User> _users;
-	std::map<int, Channel> _channels;
+	std::vector<Channel> _channels;
 	std::vector<pollfd>	_pollfds;
 	std::string _serverName;
 

@@ -30,7 +30,7 @@ void Server::_nick(std::string args, User &user)
 	if (Server::hasUser(nickname, user.nickName))
 	{
 		_errorReplies(user, ERR_NICKNAMEINUSE, "NICK", channel, nickname);
-		deleteUser(user);
+		deleteUser(user.nickName);
 		return;
 	}
 

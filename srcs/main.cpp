@@ -15,6 +15,6 @@ int main(int argc, char **argv)
 		server.getMessages();
 		server.processMessages();
 		server.sendMessage();
-		//sleep(1);
+		sleep(1);
 	}
 }

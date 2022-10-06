@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "../ServerSettings.hpp"
+#include "../Channel/Channel.hpp"
 
 class User
 {
@@ -20,6 +21,7 @@ class User
 	std::string hostName;
 	std::string serverName;
 	bool		isRegistered;
+	void		deleteChannel(std::string channelName);
 
 	public:
 	std::vector<std::string> _inputMessages; //to set private + getter
@@ -27,6 +29,9 @@ class User
 	std::string _outputMessage; //to set private + getter
 	bool		_passProvided; //to set private + getter
 	bool		_operator; //to set private + getter
+
+	std::vector<std::vector<Channel>::iterator> _channels; //vector of iterators on server's channels vector
+	bool isInChannel(std::string channelName);
 };
 
 #endif

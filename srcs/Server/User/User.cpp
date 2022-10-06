@@ -37,3 +37,22 @@ void User::addBufferToMessages(char *buffer, size_t size)
 		_inputMessagesBuffer = _inputMessagesBuffer.erase(0, pos + sizeof(DELIMITER) - 1);
 	}
 }
+
+bool User::isInChannel(std::string channelName)
+{
+	for (size_t i = 0; i < _channels.size(); i++)
+	{
+		if (_channels[i]->_channelName == channelName)
+			return 1;
+	}
+	return (0);
+}
+
+void User::deleteChannel(std::string channelName)
+{
+	for (size_t i = 0; i < _channels.size(); i++)
+	{
+		if (_channels[i]->_channelName == channelName)
+			_channels.erase(_channels.begin() + i);
+	}
+}

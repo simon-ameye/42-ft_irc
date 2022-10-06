@@ -10,7 +10,7 @@
 class Channel
 {
 	public :
-	std::string channelName;
+	std::string _channelName;
 	std::vector<std::string> _users;
 	private:
 };

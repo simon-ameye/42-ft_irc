@@ -285,8 +285,7 @@ void Server::processMessage(std::string &message, User &user)
 	}
 	else
 	{
-		// note : ça casse le client quand on envoie une reponse avec unknown command
-		// Channel channel; //useless, just used to pass to _errorReplies
-		// _errorReplies(user, ERR_UNKNOWNCOMMAND, cmd, channel);
+		Channel channel; //useless, just used to pass to _errorReplies
+		_errorReplies(user, ERR_UNKNOWNCOMMAND, splitCmd[0], channel);
 	}
 }

@@ -13,7 +13,7 @@ std::vector<std::string> Utils::split_cmd(std::string str, char delimiter)
 	pos = str.find(delimiter);
 	if (pos == std::string::npos)
 	{
-		result.push_back("");
+		result.push_back(str);
 		result.push_back("");
 	}
 	result.push_back(str.substr(0, pos));

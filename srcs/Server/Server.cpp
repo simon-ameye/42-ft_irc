@@ -214,6 +214,7 @@ void Server::sendMessage(void)
 		if(send(itb->first, itb->second._outputMessage.c_str(), itb->second._outputMessage.length(), 0) == -1)
 			std::cout << "Send error " << std::endl; 
 		// std::cout << "Finished sending User._outputMessage to fd : " << itb->first << std::endl;
+		itb->second._outputMessage.clear();
 	}
 }
 
@@ -240,44 +241,36 @@ void Server::processMessage(std::string &message, User &user)
 {
 	std::cout << "Processing command : $" << message << "$" << std::endl;
 
-	//std::vector<std::string> args;
 	std::vector<std::string> splitCmd;
-	//std::string cmd;
-	//std::string args;
+	std::string cmd;
+	std::string args;
 
 	splitCmd = Utils::split_cmd(message, ' ');
-	//std::cout << "split cmd res[0] : $" << splitCmd[0] << "$" << std::endl;
-	//std::cout << "split cmd res[1] : $" << splitCmd[1] << "$" << std::endl;
+	cmd = splitCmd[0];
+	args = splitCmd[1];
+	
+	std::cout << "cmd : $" << cmd << "$" << std::endl;
+	std::cout << "args : $" << args << "$" << std::endl;
 
-	//args = Utils::split(message, ' ');
-	/*
-		if (args.size() == 0)
-		{
-			std::cout << "empty token" << std::endl;
-			return ;
-		}
-	*/
-	//cmd = splitCmd[0];
-	//args.erase(args.begin());
-	//args = splitCmd[1];
-
-	if (splitCmd[0] == "")
+	if (cmd == "")
 		std::cout << "empty cmd" << std::endl;
-	else if (splitCmd[0] == "NICK")
-		_nick(splitCmd[1], user);
-	else if (splitCmd[0] == "PASS")
-		_pass(splitCmd[1], user);
-	else if (splitCmd[0] == "PING")
-		_ping(splitCmd[1], user); // NEW
-	else if (splitCmd[0] == "OPER")
-		_oper(splitCmd[1], user);
-	else if (splitCmd[0] == "USER")
-		_user(splitCmd[1], user);
-	else if (splitCmd[0] == "PRIVMSG")
-		_privmsg(splitCmd[1], user);
-	else if (splitCmd[0] == "sayHello")
+
+	else if (cmd == "NICK")
+		_nick(args, user);
+	else if (cmd == "PASS")
+		_pass(args, user);
+	else if (cmd == "PING")
+		_ping(args, user);
+	else if (cmd == "OPER")
+		_oper(args, user);
+	else if (cmd == "USER")
+		_user(args, user);
+	else if (cmd == "PRIVMSG")
+		_privmsg(args, user);
+
+	else if (cmd == "sayHello")
 		user._outputMessage += "SERVER : hello\n";
-	else if (splitCmd[0] == "exitServer")
+	else if (cmd == "exitServer")
 	{
 		_exitSignal = 1;
 		user._outputMessage += "SERVER : you have asked for server shutdown";
@@ -286,6 +279,6 @@ void Server::processMessage(std::string &message, User &user)
 	else
 	{
 		Channel channel; //useless, just used to pass to _errorReplies
-		_errorReplies(user, ERR_UNKNOWNCOMMAND, splitCmd[0], channel);
+		_errorReplies(user, ERR_UNKNOWNCOMMAND, cmd, channel);
 	}
 }

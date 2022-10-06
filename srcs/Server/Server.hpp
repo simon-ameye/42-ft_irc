@@ -42,8 +42,12 @@ class Server
 	const int		&getExitSignal(void);
 	void			processMessage(std::string& message, User& user);
 	bool			hasUser(std::string nickName, std::string exclude = "");
+	bool			hasChannel(std::string channelName);
 	void			deleteUser(std::string nickName);
 	void			deleteChannel(std::string channelName);
+	std::vector<Channel>::iterator findChannel(std::string channelName);
+
+	
 
 	private:
 	int				_port;

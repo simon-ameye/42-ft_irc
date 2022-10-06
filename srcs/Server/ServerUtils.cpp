@@ -12,6 +12,28 @@ bool Server::hasUser(std::string nickName, std::string exclude)
 	return (false);
 }
 
+bool Server::hasChannel(std::string channelName)
+{
+	for (std::vector<Channel>::iterator itb = _channels.begin(); itb != _channels.end(); itb++)
+	{
+		if (itb->_channelName == channelName)
+			return (true);
+	}
+	return (false);
+}
+
+/*returns an iterator
+if not found, returns iterator on end*/
+std::vector<Channel>::iterator Server::findChannel(std::string channelName)
+{
+	for (std::vector<Channel>::iterator itb = _channels.begin(); itb != _channels.end(); itb++)
+	{
+		if (itb->_channelName == channelName)
+			return (itb);
+	}
+	return (_channels.end());
+}
+
 
 void Server::deleteUser(std::string nickName)
 {

@@ -1,6 +1,5 @@
 #include "Server.hpp"
 
-
 void Server::processMessage(std::string &message, User &user)
 {
 	std::cout << "Processing command : $" << message << "$" << std::endl;
@@ -19,6 +18,8 @@ void Server::processMessage(std::string &message, User &user)
 	if (cmd == "")
 		std::cout << "empty cmd" << std::endl;
 
+	else if (cmd == "CAP")
+		_cap(args, user);
 	else if (cmd == "NICK")
 		_nick(args, user);
 	else if (cmd == "PASS")
@@ -29,10 +30,10 @@ void Server::processMessage(std::string &message, User &user)
 		_oper(args, user);
 	else if (cmd == "USER")
 		_user(args, user);
+	else if (cmd == "JOIN")
+		_join(args, user);
 	else if (cmd == "PRIVMSG")
 		_privmsg(args, user);
-	else if (cmd == "CAP")
-		_cap(args, user);
 
 	else if (cmd == "sayHello")
 		user._outputMessage += "SERVER : hello\n";

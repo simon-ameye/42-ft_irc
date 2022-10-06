@@ -78,8 +78,6 @@ Thus, creates a user and give it its new fd.
 This user is not set in pollfs. Thus, its fd will be read in the next loop*/
 void Server::connect(void)
 {
-	std::cout << "---------- ICI 0 ---------" << std::endl;
-
 	int tempFd;
 	pollfd tempPollFd;
 
@@ -172,7 +170,6 @@ void Server::getMessages(void)
 			else // data to read, add buffer to users _inputMessages
 			{
 				_users[itb->fd].addBufferToMessages(buffer, sizeRead);
-				std::cout << "new input buffer for fd " << itb->fd << " : " << _users[itb->fd]._inputMessagesBuffer << std::endl;
 			}
 		}
 	}
@@ -185,8 +182,6 @@ Does something for each inputMessage
 Then clears user _inputMessages*/
 void Server::processMessages(void)
 {
-	std::cout << "---------- ICI 2 ---------" << std::endl;
-
 	/*loop over users*/
 	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
@@ -205,7 +200,6 @@ void Server::processMessages(void)
 sends _outputMessage buffer by buffer*/
 void Server::sendMessage(void)
 {
-	std::cout << "---------- ICI 3 ---------" << std::endl;
 	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
 		if (itb->second._outputMessage.size() > 0)

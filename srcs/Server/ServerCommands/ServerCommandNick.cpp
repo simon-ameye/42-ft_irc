@@ -16,7 +16,7 @@ void Server::_nick(std::string args, User &user)
 
 	if (Server::hasUser(nickname, user.nickName))
 	{
-		_errorReplies(user, ERR_NONICKNAMEGIVEN, "NICK",channel, nickname);
+		_errorReplies(user, ERR_NICKNAMEINUSE, "NICK",channel, nickname);
 		//delete user + close (fd)
 		return;
 	}

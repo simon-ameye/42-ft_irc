@@ -35,6 +35,7 @@ void Server::_errorReplies(User &user, int err, std::string cmd, const Channel &
 			break;
 		case 433:
 			result << optionalString << " :Nickname is already in use";
+			break;
 		case 461:
 			result << cmd << " :Not enough parameters";
 			break;

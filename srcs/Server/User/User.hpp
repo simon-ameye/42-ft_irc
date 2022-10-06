@@ -18,9 +18,8 @@ class User
 	std::string realName; //to set private + getter
 	std::string nickName; //to set private + getter
 	std::string userName;
-	std::string hostName;
-	std::string serverName;
 	bool		isRegistered;
+	
 	void		deleteChannel(std::string channelName);
 
 	public:

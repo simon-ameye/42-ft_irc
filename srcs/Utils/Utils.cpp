@@ -39,3 +39,22 @@ std::vector<std::string> Utils::split(std::string s, char delimiter)
 
 	return result;
 }
+
+std::string Utils::getCode(int code)
+{
+	std::stringstream stream;
+	if (code < 10)
+	{
+		stream << "00" << code;
+	}
+	else if (code < 100)
+	{
+		stream << "0" << code;
+	}
+	else
+	{
+		stream << code;
+	}
+
+	return stream.str();
+}

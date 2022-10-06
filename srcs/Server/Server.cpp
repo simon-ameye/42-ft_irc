@@ -1,4 +1,6 @@
 #include "Server.hpp"
+#include <stdio.h>
+#include <stdlib.h>
 
 Server::Server(char *port, char *password)
 {
@@ -10,7 +12,15 @@ Server::Server(char *port, char *password)
 	std::cout << "Server starting on port " << _port << " with password " << _password << std::endl;
 
 	/*Defining server sockaddr_in structure*/
-	_sin.sin_port = htons(_port);			  // set port
+	// set port
+	if (!isdigit(htons(_port))) //checker si le port est un nombre ? 
+	{
+		std::cout << "Invalid port" << std::endl;
+		exit (-1);
+	}
+	else
+		_sin.sin_port = htons(_port); // utilite htons ?			  
+	
 	_sin.sin_addr.s_addr = htonl(INADDR_ANY); // set IP address automatically
 	_sin.sin_family = AF_INET;
 
@@ -21,28 +31,41 @@ Server::Server(char *port, char *password)
 	//std::cout << "socket()" << std::endl;
 	_masterSocket = socket(AF_INET, SOCK_STREAM, 0); // int socket(int domain, int type, int protocol), AF_INET=TCP/IP, SOCK_STREAM=TCP/IP
 	if (_masterSocket == -1)
+	{
 		std::cout << "error: socket()" << std::endl;
+		exit (-1);
+	}
 
 	/*Setting socket reuse*/
 	//std::cout << "setsockopt()" << std::endl;
 	int enable = 1; // pas compris encore
 	if (setsockopt(_masterSocket, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &enable, sizeof(enable)) == -1)
+	{
 		std::cout << "error: setsockopt()" << std::endl;
-
+		exit (-1);
+	}
 	/*Setting socket to be non blocking*/
 	//std::cout << "fcntl()" << std::endl;
 	if (fcntl(_masterSocket, F_SETFL, O_NONBLOCK) == -1)
+	{
 		std::cout << "error: fcntl()" << std::endl;
+		exit (-1);
+	}	
 
 	/*Binding socket to port and set socket settings*/
 	//std::cout << "bind()" << std::endl;
 	if (bind(_masterSocket, (sockaddr *)&_sin, _sizeofsin) == -1) // int bind(int socket, const struct sockaddr* addr, socklen_t addrlen)
+	{
 		std::cout << "error: bind()" << std::endl;
-
+		exit (-1);
+	}
 	/*Listening*/
 	//std::cout << "listen()" << std::endl;
 	if (listen(_masterSocket, 5) == -1) // int listen(int socket, int backlog)
+	{
 		std::cout << "error: listen()" << std::endl;
+		exit (-1);
+	}
 }
 
 /*Create the pollfds structure.
@@ -55,6 +78,8 @@ Thus, creates a user and give it its new fd.
 This user is not set in pollfs. Thus, its fd will be read in the next loop*/
 void Server::connect(void)
 {
+	std::cout << "---------- ICI 0 ---------" << std::endl;
+
 	int tempFd;
 	pollfd tempPollFd;
 
@@ -74,8 +99,11 @@ void Server::connect(void)
 
 	/*wait for an event*/
 	// std::cout << "poll()" << std::endl;
-	if (poll(&(_pollfds[0]), _pollfds.size(), 3000000) == -1) // BLOCKS untill a fd is available + set max ping to 300s
-		std::cout << "error: poll()" << std::endl;
+	if (poll(&(_pollfds[0]), _pollfds.size(), 300000) == -1) // BLOCKS untill a fd is available + set max ping to 300s
+	{
+		std::cout << "error: poll()" << std::endl; //le time est-il bon ?
+		exit (-1);
+	}
 
 	/*Check masterSocket's fd to check for new connection
 	Create new User
@@ -91,7 +119,10 @@ void Server::connect(void)
 		tempFd = accept(_masterSocket, (sockaddr *)&_sin, &_sizeofsin); // accept connection and get the fd
 		_users[tempFd];													// create a user (without calling constructor twice)
 		if (tempFd == -1)
+		{
 			std::cout << "error: accept()" << std::endl;
+			exit (-1);
+		}
 		std::cout << "New user accepted with fd: " << tempFd << std::endl;
 	}
 }
@@ -100,6 +131,8 @@ void Server::connect(void)
 And put it in user buffer and _inputMessages*/
 void Server::getMessages(void)
 {
+	std::cout << "---------- ICI 1 ---------" << std::endl;
+
 	char buffer[BUFFER_SIZE];
 	int sizeRead;
 
@@ -124,7 +157,10 @@ void Server::getMessages(void)
 			Utils::clearBuffer(buffer, BUFFER_SIZE);
 			sizeRead = recv(itb->fd, buffer, BUFFER_SIZE, 0);
 			if (sizeRead == -1) // recv error
+			{
 				std::cout << "error: recv()" << std::endl;
+				exit (-1);
+			}
 			else if (sizeRead == 0) // recv size = 0 : nothing to read anymore. User dosconnected.
 			{
 				getpeername(itb->fd, (struct sockaddr *)&_sin, (socklen_t *)&_sizeofsin);
@@ -149,6 +185,8 @@ Does something for each inputMessage
 Then clears user _inputMessages*/
 void Server::processMessages(void)
 {
+	std::cout << "---------- ICI 2 ---------" << std::endl;
+
 	/*loop over users*/
 	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
@@ -167,6 +205,7 @@ void Server::processMessages(void)
 sends _outputMessage buffer by buffer*/
 void Server::sendMessage(void)
 {
+	std::cout << "---------- ICI 3 ---------" << std::endl;
 	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
 		if (itb->second._outputMessage.size() > 0)
@@ -207,8 +246,8 @@ void Server::processMessage(std::string &message, User &user)
 	//std::string args;
 
 	splitCmd = Utils::split_cmd(message, ' ');
-	std::cout << "split cmd res[0] : $" << splitCmd[0] << "$" << std::endl;
-	std::cout << "split cmd res[1] : $" << splitCmd[1] << "$" << std::endl;
+	//std::cout << "split cmd res[0] : $" << splitCmd[0] << "$" << std::endl;
+	//std::cout << "split cmd res[1] : $" << splitCmd[1] << "$" << std::endl;
 
 	//args = Utils::split(message, ' ');
 	/*

@@ -203,8 +203,8 @@ void Server::processMessage(std::string &message, User &user)
 
 	//std::vector<std::string> args;
 	std::vector<std::string> splitCmd;
-	std::string cmd;
-	std::string args;
+	//std::string cmd;
+	//std::string args;
 
 	splitCmd = Utils::split_cmd(message, ' ');
 	std::cout << "split cmd res[0] : $" << splitCmd[0] << "$" << std::endl;
@@ -218,27 +218,27 @@ void Server::processMessage(std::string &message, User &user)
 			return ;
 		}
 	*/
-	cmd = splitCmd[0];
+	//cmd = splitCmd[0];
 	//args.erase(args.begin());
-	args = splitCmd[1];
+	//args = splitCmd[1];
 
-	if (cmd == "")
+	if (splitCmd[0] == "")
 		std::cout << "empty cmd" << std::endl;
-	else if (cmd == "NICK")
-		_nick(args, user);
-	else if (cmd == "PASS")
-		_pass(args, user);
-	else if (cmd == "PING")
-		_ping(args, user); // NEW
-	else if (cmd == "OPER")
-		_oper(args, user);
-	else if (cmd == "USER")
-		_user(args, user);
-	else if (cmd == "PRIVMSG")
-		_privmsg(args, user);
-	else if (cmd == "sayHello")
+	else if (splitCmd[0] == "NICK")
+		_nick(splitCmd[1], user);
+	else if (splitCmd[0] == "PASS")
+		_pass(splitCmd[1], user);
+	else if (splitCmd[0] == "PING")
+		_ping(splitCmd[1], user); // NEW
+	else if (splitCmd[0] == "OPER")
+		_oper(splitCmd[1], user);
+	else if (splitCmd[0] == "USER")
+		_user(splitCmd[1], user);
+	else if (splitCmd[0] == "PRIVMSG")
+		_privmsg(splitCmd[1], user);
+	else if (splitCmd[0] == "sayHello")
 		user._outputMessage += "SERVER : hello\n";
-	else if (cmd == "exitServer")
+	else if (splitCmd[0] == "exitServer")
 	{
 		_exitSignal = 1;
 		user._outputMessage += "SERVER : you have asked for server shutdown";

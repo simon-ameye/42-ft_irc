@@ -15,6 +15,7 @@ SRCS		=		main.cpp \
 					Server/User/User.cpp \
 					Utils/Utils.cpp \
 					Server/ServerUtils.cpp\
+					Server/ServerProcessMessage.cpp\
 					Server/ServerCommands/ServerCommandNick.cpp \
 					Server/ServerCommands/ServerCommandPass.cpp \
 					Server/ServerCommands/ServerCommandOper.cpp \

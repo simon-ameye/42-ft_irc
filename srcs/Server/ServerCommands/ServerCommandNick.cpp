@@ -20,6 +20,7 @@ void Server::_nick(std::string args, User &user)
 		user._outputMessage += nickname;
 		user._outputMessage += " :Nickname is already in use.";
 		user._outputMessage += DELIMITER;
+		//delete user + close (fd)
 		return;
 	}
 

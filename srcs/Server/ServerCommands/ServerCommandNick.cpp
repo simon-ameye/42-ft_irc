@@ -1,5 +1,14 @@
 #include "../Server.hpp"
 
+bool invalid_nickName(std::string str)
+{
+	for (size_t i = 0; i < str.size(); i++)
+	{
+		if (isalnum(str[i]) == 0)
+			return false;
+	}
+	return true;
+}
 void Server::_nick(std::string args, User &user)
 {
 	Channel channel;
@@ -13,11 +22,15 @@ void Server::_nick(std::string args, User &user)
 	}
 
 	std::string nickname = splitArgs[0];
-
+	if (invalid_nickName(nickname) == false)
+	{
+		_errorReplies(user, ERR_ERRONEUSNICKNAME, "NICK", channel);
+		return;
+	}
 	if (Server::hasUser(nickname, user.nickName))
 	{
-		_errorReplies(user, ERR_NICKNAMEINUSE, "NICK",channel, nickname);
-		//delete user + close (fd)
+		_errorReplies(user, ERR_NICKNAMEINUSE, "NICK", channel, nickname);
+		deleteUser(user);
 		return;
 	}
 

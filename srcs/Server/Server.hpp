@@ -42,6 +42,7 @@ class Server
 	const int		&getExitSignal(void);
 	void			processMessage(std::string& message, User& user);
 	bool			hasUser(std::string nick, std::string exclude = "");
+	void 			deleteUser(User& user);
 
 	private:
 	int				_port;

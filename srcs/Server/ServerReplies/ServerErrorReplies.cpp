@@ -31,7 +31,10 @@ void Server::_errorReplies(User &user, int err, std::string cmd, const Channel &
 			result << cmd << " :Unknown command";
 			break;
 		case 431:
-			result << ":No nickname given";
+			result << " :No nickname given";
+			break;
+		case 432:
+			result << " :Erroneus nickname";
 			break;
 		case 433:
 			result << optionalString << " :Nickname is already in use";

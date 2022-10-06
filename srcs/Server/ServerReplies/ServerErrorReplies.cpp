@@ -1,6 +1,6 @@
 #include "../Server.hpp"
 
-void Server::_errorReplies(User &user, int err, std::string cmd, Channel &channel)
+void Server::_errorReplies(User &user, int err, std::string cmd, const Channel &channel, const std::string &optionalString)
 {
 	std::stringstream result;
 
@@ -30,6 +30,11 @@ void Server::_errorReplies(User &user, int err, std::string cmd, Channel &channe
 		case 421:
 			result << cmd << " :Unknown command";
 			break;
+		case 431:
+			result << ":No nickname given";
+			break;
+		case 433:
+			result << optionalString << " :Nickname is already in use";
 		case 461:
 			result << cmd << " :Not enough parameters";
 			break;

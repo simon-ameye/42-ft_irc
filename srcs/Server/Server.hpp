@@ -59,7 +59,7 @@ class Server
 	void			_nick(std::string args, User &user);
 	void			_pass(std::string args, User &user);
 	void			_oper(std::string args, User &user);
-	void			_errorReplies(User &user, int err, std::string cmd, Channel &channel);
+	void			_errorReplies(User &user, int err, std::string cmd, const Channel &optionalChannel, const std::string &optionalString = std::string());
 	void			_commandResponces(User &user, int rpl, std::string cmd, Channel &channel);
 	void			_user(std::string args, User &user);
 	void			_ping(std::string args, User &user);

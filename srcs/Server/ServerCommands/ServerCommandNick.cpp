@@ -2,13 +2,13 @@
 
 void Server::_nick(std::string args, User &user)
 {
+	Channel channel;
 	std::vector<std::string> splitArgs;
 	splitArgs = Utils::split(args, ' ');
 
 	if (args.size() == 0)
 	{
-		user._outputMessage += "431 :No nickname given ";
-		user._outputMessage += DELIMITER;
+		_errorReplies(user, ERR_NONICKNAMEGIVEN, "NICK", channel);
 		return;
 	}
 
@@ -16,10 +16,7 @@ void Server::_nick(std::string args, User &user)
 
 	if (Server::hasUser(nickname, user.nickName))
 	{
-		user._outputMessage += "433 *";
-		user._outputMessage += nickname;
-		user._outputMessage += " :Nickname is already in use.";
-		user._outputMessage += DELIMITER;
+		_errorReplies(user, ERR_NONICKNAMEGIVEN, "NICK",channel, nickname);
 		//delete user + close (fd)
 		return;
 	}

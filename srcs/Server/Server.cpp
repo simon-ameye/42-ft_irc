@@ -172,7 +172,7 @@ void Server::getMessages(void)
 			else // data to read, add buffer to users _inputMessages
 			{
 				_users[itb->fd].addBufferToMessages(buffer, sizeRead);
-				// std::cout << "new input buffer for fd " << itb->fd << " : " << _users[itb->fd]._inputMessagesBuffer << std::endl;
+				std::cout << "new input buffer for fd " << itb->fd << " : " << _users[itb->fd]._inputMessagesBuffer << std::endl;
 			}
 		}
 	}
@@ -267,6 +267,8 @@ void Server::processMessage(std::string &message, User &user)
 		_user(args, user);
 	else if (cmd == "PRIVMSG")
 		_privmsg(args, user);
+	else if (cmd == "CAP")
+		_cap(args, user);
 
 	else if (cmd == "sayHello")
 		user._outputMessage += "SERVER : hello\n";

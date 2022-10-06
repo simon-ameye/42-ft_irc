@@ -13,13 +13,13 @@ Server::Server(char *port, char *password)
 
 	/*Defining server sockaddr_in structure*/
 	// set port
-	if (!isdigit(htons(_port))) //checker si le port est un nombre ? 
+	if (_port == 0) //checker si le port est un nombre
 	{
 		std::cout << "Invalid port" << std::endl;
 		exit (-1);
 	}
 	else
-		_sin.sin_port = htons(_port); // utilite htons ?			  
+		_sin.sin_port = htons(_port);		  
 	
 	_sin.sin_addr.s_addr = htonl(INADDR_ANY); // set IP address automatically
 	_sin.sin_family = AF_INET;

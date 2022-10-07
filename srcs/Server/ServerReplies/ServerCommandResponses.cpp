@@ -15,6 +15,8 @@ void Server::_commandResponces(User &user, int rpl, std::string cmd, Channel &ch
 	case 1:
 		result << user.nickName << " :Welcome to the Internet Relay Chat Network " << user.nickName << "!" << user.userName;
 		break;
+	case 332:
+		result << user.nickName << channel._channelName << " :" <<channel._topic;
 	case 381:
 		result << ":You are now an IRC operator";
 		break;

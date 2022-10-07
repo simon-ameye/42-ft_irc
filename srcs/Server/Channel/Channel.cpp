@@ -4,6 +4,7 @@ Channel::Channel (void)
 {
 	std::cout << "Channel Default Constructor Called" << std::endl;
 	_channelName = "";
+	_topic = "";
 }
 
 Channel::Channel (std::string channelName)

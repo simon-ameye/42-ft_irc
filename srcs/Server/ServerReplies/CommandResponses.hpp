@@ -2,6 +2,7 @@
 #define COMMAND_RESPONSES
 
 #define RPL_WELCOME 1
+#define RPL_TOPIC 332
 #define RPL_YOUREOPER 381
 
 #endif

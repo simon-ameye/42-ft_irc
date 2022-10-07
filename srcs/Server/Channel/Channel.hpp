@@ -14,6 +14,7 @@ class Channel
 	Channel (std::string channelName);
 	~Channel(void);
 	std::string _channelName;
+	std::string _topic;
 	//std::vector<std::string> _users;
 	private:
 };

@@ -12,6 +12,7 @@ bool Server::hasUser(std::string nickName, std::string exclude)
 	return (false);
 }
 
+//returns true if the channel exists
 bool Server::hasChannel(std::string channelName)
 {
 	for (std::vector<Channel>::iterator itb = _channels.begin(); itb != _channels.end(); itb++)
@@ -34,7 +35,7 @@ std::vector<Channel>::iterator Server::findChannel(std::string channelName)
 	return (_channels.end());
 }
 
-
+//delete user from server
 void Server::deleteUser(std::string nickName)
 {
 	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
@@ -47,6 +48,7 @@ void Server::deleteUser(std::string nickName)
 	}
 }
 
+//delete channel from server
 void Server::deleteChannel(std::string channelName) //first delete the channel from each User
 {
 	for (std::map<int, User>::iterator itb1 = _users.begin(); itb1 != _users.end(); itb1++)
@@ -61,4 +63,18 @@ void Server::deleteChannel(std::string channelName) //first delete the channel f
 			_channels.erase(itb2);
 		}
 	}
+}
+
+//returns vector of iterators on each User in a channel
+std::vector<std::map<int, User>::iterator> Server::getUsersInChannel(std::string channelName)
+{
+	std::vector<std::map<int, User>::iterator> vectorOfUserIterators;
+	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
+	{
+		if (itb->second.isInChannel(channelName)) //user is in channel
+		{
+			vectorOfUserIterators.push_back(itb);
+		}
+	}
+	return vectorOfUserIterators;
 }

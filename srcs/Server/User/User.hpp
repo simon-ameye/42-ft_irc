@@ -18,6 +18,7 @@ class User
 	std::string realName; //to set private + getter
 	std::string nickName; //to set private + getter
 	std::string userName;
+	std::string symbol;
 	bool		isRegistered;
 	
 	void		addChannel(std::vector<Channel>::iterator channelIt);

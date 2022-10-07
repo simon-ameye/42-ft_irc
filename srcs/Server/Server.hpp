@@ -41,14 +41,17 @@ class Server
 	void			sendMessage(void);
 	const int		&getExitSignal(void);
 	void			processMessage(std::string& message, User& user);
+
+
 	bool			hasUser(std::string nickName, std::string exclude = "");
 	bool			hasChannel(std::string channelName);
 	void			deleteUser(std::string nickName);
 	void			deleteChannel(std::string channelName);
 	std::vector<Channel>::iterator findChannel(std::string channelName);
+	std::vector<std::map<int, User>::iterator> getUsersInChannel(std::string channelName);
+	void			nameReply(User &user, Channel &channel);
 
 	
-
 	private:
 	int				_port;
 	std::string		_password;
@@ -66,7 +69,7 @@ class Server
 	void			_pass(std::string args, User &user);
 	void			_oper(std::string args, User &user);
 	void			_errorReplies(User &user, int err, std::string cmd, const Channel &Channel, const std::string &optionalString = std::string());
-	void			_commandResponces(User &user, int rpl, std::string cmd, Channel &channel);
+	void			_commandResponces(User &user, int rpl, std::string cmd, Channel &channel, const std::string &optionalString = std::string());
 	void			_user(std::string args, User &user);
 	void			_ping(std::string args, User &user);
 	void			_privmsg(std::string args, User &user);

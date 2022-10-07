@@ -1,10 +1,21 @@
 #include "../Server.hpp"
 
+void Server::nameReply(User &user, Channel &channel)
+{
+	std::vector<std::map<int, User>::iterator> vectorOfUserIterators;
+	for (size_t i = 0; i < vectorOfUserIterators.size(); i++)
+	{
+		_commandResponces(user, RPL_NAMREPLY, "JOIN", channel, vectorOfUserIterators[i]->second.nickName);
+	}
+}
+
+
 void Server::_join(std::string args, User &user)
 {
 	(void)args;
 	(void)user;
 
+/*
 	std::string rowChannels;
 	std::vector<std::string> channels;
 	std::vector<Channel>::iterator channelIt;
@@ -36,11 +47,13 @@ void Server::_join(std::string args, User &user)
 			user.addChannel(channelIt);
 			_commandResponces(user, RPL_TOPIC, "JOIN", *channelIt);
 			std::cout << user.nickName << " joins " << channelIt->_channelName << std::endl;
+			nameReply(user, *channelIt);
 		}
 	}
 
 	//A JOIN message with the client as the message <source> and the channel they have joined as the first parameter of the message.
 	// RPL_TOPIC (332)
-	// one or more RPL_NAMREPLY (353)
+	// one or more RPL_NAMREPLY (353) + RPL_ENDOFNAMES (366)
 	//"<client> <symbol> <channel> :[prefix]<nick>{ [prefix]<nick>}"
+	*/
 }

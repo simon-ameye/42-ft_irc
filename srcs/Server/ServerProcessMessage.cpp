@@ -11,9 +11,11 @@ void Server::processMessage(std::string &message, User &user)
 	splitCmd = Utils::split_cmd(message, ' ');
 	cmd = splitCmd[0];
 	args = splitCmd[1];
-	
-	//std::cout << "cmd : $" << cmd << "$" << std::endl;
-	//std::cout << "args : $" << args << "$" << std::endl;
+
+	std::cout << "splitCmd : $" << splitCmd.size() << "$" << std::endl;
+
+	std::cout << "cmd : $" << cmd << "$" << std::endl;
+	std::cout << "args : $" << args << "$" << std::endl;
 
 	if (cmd == "")
 		std::cout << "empty cmd" << std::endl;

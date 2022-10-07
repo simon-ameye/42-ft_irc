@@ -11,10 +11,10 @@ class Channel
 {
 	public :
 	Channel(void);
-	//~Channel(void);
+	Channel (std::string channelName);
+	~Channel(void);
 	std::string _channelName;
-	std::vector<std::string> _users;
-	std::string _key;
+	//std::vector<std::string> _users;
 	private:
 };
 

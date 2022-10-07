@@ -20,6 +20,7 @@ class User
 	std::string userName;
 	bool		isRegistered;
 	
+	void		addChannel(std::vector<Channel>::iterator channelIt);
 	void		deleteChannel(std::string channelName);
 
 	public:

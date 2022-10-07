@@ -56,3 +56,8 @@ void User::deleteChannel(std::string channelName)
 			_channels.erase(_channels.begin() + i);
 	}
 }
+
+void User::addChannel(std::vector<Channel>::iterator channelIt)
+{
+	_channels.push_back(channelIt);
+}

@@ -37,10 +37,10 @@ class Server
 	~Server();
 	void			connect(void);
 	void			getMessages(void);
-	void			processMessages(void);
+	void			dispatchs(void);
 	void			sendMessage(void);
 	const int		&getExitSignal(void);
-	void			processMessage(std::string& message, User& user);
+	void			dispatch(std::string& message, User& user);
 
 
 	bool			hasUser(std::string nickName, std::string exclude = "");

@@ -36,7 +36,7 @@ flowchart TD
             recv-->|"recv buffer == 0"|close_socket
             direction TB
             end
-        subgraph server::processMessages
+        subgraph server::dispatchs
             direction TB
             checkinput["check all client _inputMessagesBuffer ending with \0 meaning it's ready"]
             process["process: Channels::doTheStuff to fill _outputMessage"]
@@ -50,7 +50,7 @@ flowchart TD
             checkoutput-->send
             end
         end
-    server::init-->server::connect-->server::getMessages-->server::processMessages-->server::sendMessage
+    server::init-->server::connect-->server::getMessages-->server::dispatchs-->server::sendMessage
 ```
 
 ## Classes :

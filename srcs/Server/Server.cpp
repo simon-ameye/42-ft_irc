@@ -131,7 +131,6 @@ void Server::connect(void)
 And put it in user buffer and _inputMessages*/
 void Server::getMessages(void)
 {
-	std::cout << "---------- Server::getMessages ---------" << std::endl;
 
 	char buffer[BUFFER_SIZE];
 	int sizeRead;
@@ -182,9 +181,8 @@ Loops over users
 Loops over _inputMessages for each user
 Does something for each inputMessage
 Then clears user _inputMessages*/
-void Server::processMessages(void)
+void Server::dispatchs(void)
 {
-	std::cout << "---------- Server::processMessages ---------" << std::endl;
 
 	/*loop over users*/
 	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
@@ -194,7 +192,7 @@ void Server::processMessages(void)
 		/*loop over _inputMessages*/
 		for (std::vector<std::string>::iterator itb2 = itb->second._inputMessages.begin(); itb2 != itb->second._inputMessages.end(); itb2++) // loop over
 		{
-			processMessage(*itb2, itb->second);
+			dispatch(*itb2, itb->second);
 		}
 		itb->second._inputMessages.clear(); // all messages have been threated, clearing.
 	}
@@ -204,7 +202,6 @@ void Server::processMessages(void)
 sends _outputMessage buffer by buffer*/
 void Server::sendMessage(void)
 {
-	std::cout << "---------- Server::sendMessage ---------" << std::endl;
 
 	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{

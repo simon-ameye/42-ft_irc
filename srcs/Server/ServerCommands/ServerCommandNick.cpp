@@ -4,7 +4,7 @@ bool invalid_nickName(std::string str)
 {
 	for (size_t i = 0; i < str.size(); i++)
 	{
-		if (isalnum(str[i]) == 0)
+		if (isalnum(str[i]) == 0) //A REMPLACER : fonction interditei
 			return false;
 	}
 	return true;
@@ -30,7 +30,7 @@ void Server::_nick(std::string args, User &user)
 	if (Server::hasUser(nickname, user.nickName))
 	{
 		_errorReplies(user, ERR_NICKNAMEINUSE, "NICK", channel, nickname);
-		deleteUser(user.nickName);
+		//deleteUser(user.nickName);
 		return;
 	}
 

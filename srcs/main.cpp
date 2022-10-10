@@ -13,7 +13,7 @@ int main(int argc, char **argv)
 	{
 		server.connect();
 		server.getMessages();
-		server.processMessages();
+		server.dispatchs();
 		server.sendMessage();
 		sleep(1);
 	}

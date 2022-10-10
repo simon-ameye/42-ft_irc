@@ -40,7 +40,7 @@ void Server::_join(std::string args, User &user)
 			channelIt = findChannel(*itb);
 			user.addChannel(channelIt);
 		}
-		/* ne prends plus en compte, /join toto, si toto deja creer, y va sans passer par resverProcess
+		// ne prends plus en compte, /join toto, si toto deja creer, y va sans passer par resverProcess
  		else
 		{
 			//welcome on this channel
@@ -49,7 +49,7 @@ void Server::_join(std::string args, User &user)
 			_commandResponces(user, RPL_TOPIC, "JOIN", *channelIt);
 			std::cout << user.nickName << " joins " << channelIt->_channelName << std::endl;
 			nameReply(user, *channelIt);
-		}*/
+		}
 	}
 
 	//A JOIN message with the client as the message <source> and the channel they have joined as the first parameter of the message.

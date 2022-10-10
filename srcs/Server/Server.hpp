@@ -75,6 +75,7 @@ class Server
 	void			_privmsg(std::string args, User &user);
 	void			_join(std::string args, User &user);
 	void			_cap(std::string args, User &user);
+	void			_mode(std::string args, User &user);
 };
 
 #endif

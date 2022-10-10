@@ -48,6 +48,9 @@ void Server::_errorReplies(User &user, int err, std::string cmd, const Channel &
 		case 464:
 			result << ":Password incorrect";
 			break;
+		case 465:
+			result << ":You havn't user rights";
+			break;
 
 		default:
 			result << "Unknown error";

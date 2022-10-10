@@ -19,7 +19,6 @@ void Server::processMessage(std::string &message, User &user)
 
 	if (cmd == "")
 		std::cout << "empty cmd" << std::endl;
-
 	else if (cmd == "CAP")
 		_cap(args, user);
 	else if (cmd == "NICK")
@@ -40,7 +39,7 @@ void Server::processMessage(std::string &message, User &user)
 		user._outputMessage += "SERVER : hello\n";
 	else if (cmd == "MODE")
 		_mode(args, user);
-	else if (cmd == "DIE")
+	else if (cmd == "die")
 		_die(args, user);
 	else if (cmd == "exitServer")
 	{

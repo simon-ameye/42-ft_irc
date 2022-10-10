@@ -5,7 +5,7 @@ void Server::_errorReplies(User &user, int err, std::string cmd, const Channel &
 	std::stringstream result;
 
 	result << ":" << _serverName << " ";
-	result << err << " ";
+	result << Utils::getCode(err) << " ";
 
 	switch (err)
 	{

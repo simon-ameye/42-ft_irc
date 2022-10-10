@@ -19,7 +19,7 @@ Server::Server(char *port, char *password)
 		exit (-1);
 	}
 	else
-		_sin.sin_port = htons(_port);		  
+		_sin.sin_port = htons(_port);
 	
 	_sin.sin_addr.s_addr = htonl(INADDR_ANY); // set IP address automatically
 	_sin.sin_family = AF_INET;

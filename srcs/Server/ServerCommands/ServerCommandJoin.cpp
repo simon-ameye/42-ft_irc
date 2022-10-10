@@ -3,18 +3,18 @@
 void Server::nameReply(User &user, Channel &channel)
 {
 	std::vector<std::map<int, User>::iterator> vectorOfUserIterators;
+	vectorOfUserIterators = getUsersInChannel(channel._channelName);
 	for (size_t i = 0; i < vectorOfUserIterators.size(); i++)
 	{
 		_commandResponces(user, RPL_NAMREPLY, "JOIN", channel, vectorOfUserIterators[i]->second.nickName);
 	}
+	_commandResponces(user, RPL_ENDOFNAMES, "JOIN", channel);
 }
-
 
 void Server::_join(std::string args, User &user)
 {
 	(void)args;
 	(void)user;
-
 
 	std::string rowChannels;
 	std::vector<std::string> channels;
@@ -30,7 +30,7 @@ void Server::_join(std::string args, User &user)
 		_errorReplies(user, ERR_NEEDMOREPARAMS, "JOIN", c);
 	}
 
-	for (std::vector<std::string>::iterator itb = channels.begin(); itb != channels.end(); itb++)
+	for (std::vector<std::string>::iterator itb = channels.begin(); itb != channels.end(); itb++) //loops over input channels
 	{
 		if (!hasChannel(*itb))
 		{
@@ -39,9 +39,10 @@ void Server::_join(std::string args, User &user)
 			_channels.push_back(Channel(*itb));
 			channelIt = findChannel(*itb);
 			user.addChannel(channelIt);
+			nameReply(user, *channelIt);
 		}
-		// ne prends plus en compte, /join toto, si toto deja creer, y va sans passer par resverProcess
- 		else
+
+		else
 		{
 			//welcome on this channel
 			channelIt = findChannel(*itb);
@@ -56,5 +57,4 @@ void Server::_join(std::string args, User &user)
 	// RPL_TOPIC (332)
 	// one or more RPL_NAMREPLY (353) + RPL_ENDOFNAMES (366)
 	//"<client> <symbol> <channel> :[prefix]<nick>{ [prefix]<nick>}"
-	
 }

@@ -1,8 +1,7 @@
 #include "../Server.hpp"
 
-static void sendMesage(User &sender, User &recipient, std::string &message, std::string channelName)
+static void sendChannelMesage(User &sender, User &recipient, std::string &message, std::string channelName)
 {
-	std::cout << " ===== SEND MESSAGE ======" << std::endl;
 	recipient._outputMessage += ":" + sender.nickName + " PRIVMSG " + channelName + " :" + message;
 	recipient._outputMessage += DELIMITER;
 }
@@ -32,10 +31,6 @@ void Server::_privmsg(std::string args, User &user)
 		std::map<int, User>::iterator it1 = findUser(recievers[i]); //for users
 		if (it1 != _users.end())
 		{
-			std::cout << "------- USER --------\n";
-			std::cout << "user found = " << user.nickName << std::endl;
-			std::cout << "destinataire found = " << it1->second.nickName << std::endl;
-
 			it1->second._outputMessage += ":" + user.nickName + " PRIVMSG " + it1->second.nickName + " :" + message;
 			it1->second._outputMessage += DELIMITER;
 		}
@@ -45,17 +40,11 @@ void Server::_privmsg(std::string args, User &user)
 		{
 			std::vector<std::map<int, User>::iterator> itUsers;
 			itUsers = getUsersInChannel(recievers[i]);
-			std::cout << "------- CHANNEL --------\n";
 			for (size_t i = 0; i < itUsers.size(); i++)
 			{
-				std::cout << "user found = " << user.nickName << std::endl;
-				std::cout << "destinataire found = " << itUsers[i]->second.nickName << std::endl;
-				sendMesage(user, itUsers[i]->second, message, it2->_channelName);
+				if (user.nickName != itUsers[i]->second.nickName) //avoid sending message to sender
+					sendChannelMesage(user, itUsers[i]->second, message, it2->_channelName);
 			}
 		}
-
 	}
-
-//no need add error cause fin alone if not enought param
-	
 }

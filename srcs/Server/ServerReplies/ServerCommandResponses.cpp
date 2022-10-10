@@ -10,6 +10,8 @@ void Server::_commandResponces(User &user, int rpl, std::string cmd, Channel &ch
 	result << ":" << _serverName << " ";
 	result << Utils::getCode(rpl) << " ";
 
+
+
 	switch (rpl)
 	{
 	case 1:
@@ -19,10 +21,10 @@ void Server::_commandResponces(User &user, int rpl, std::string cmd, Channel &ch
 		result << user.nickName << channel._channelName << " :" <<channel._topic;
 		break;
 	case 353:
-		result << user.nickName << user.symbol << channel._channelName << " :" << optionalString; //"<client> <symbol> <channel> :[prefix]<nick>{ [prefix]<nick>}"
+		result << channel._channelName << " :" << user.symbol << optionalString; //"<client> <symbol> <channel> :[prefix]<nick>{ [prefix]<nick>}"
 		break;
 	case 366:
-		//result <<;
+		result << channel._channelName << " :End of /NAMES list";
 		break;
 	case 381:
 		result << ":You are now an IRC operator";

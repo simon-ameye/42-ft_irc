@@ -35,8 +35,10 @@ void Server::processMessage(std::string &message, User &user)
 	else if (cmd == "JOIN")
 		_join(args, user);
 	else if (cmd == "PRIVMSG")
+	{
+		std::cout << "COUOUOUOUUCOUUO " << std::endl;
 		_privmsg(args, user);
-
+	}
 	else if (cmd == "sayHello")
 		user._outputMessage += "SERVER : hello\n";
 	else if (cmd == "exitServer")
@@ -47,6 +49,8 @@ void Server::processMessage(std::string &message, User &user)
 	}
 	else
 	{
+		std::cout << "WHAAAAT " << std::endl;
+
 		Channel channel; //useless, just used to pass to _errorReplies
 		_errorReplies(user, ERR_UNKNOWNCOMMAND, cmd, channel);
 	}

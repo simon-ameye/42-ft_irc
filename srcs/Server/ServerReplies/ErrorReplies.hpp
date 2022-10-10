@@ -18,6 +18,4 @@
 #define ERR_ALREADYREGISTRED 462
 #define ERR_PASSWDMISMATCH 464
 
-
-
 #endif

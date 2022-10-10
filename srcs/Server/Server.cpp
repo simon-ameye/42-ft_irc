@@ -190,7 +190,7 @@ void Server::processMessages(void)
 	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
 		// std::cout << "evaluation user with fd : " << itb->first << std::endl;
-		itb->second._outputMessage.clear();
+		//itb->second._outputMessage.clear(); elle supprime loutput msg d'user qu'on vient de modifier avant de l'envoyer  
 		/*loop over _inputMessages*/
 		for (std::vector<std::string>::iterator itb2 = itb->second._inputMessages.begin(); itb2 != itb->second._inputMessages.end(); itb2++) // loop over
 		{

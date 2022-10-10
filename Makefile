@@ -23,6 +23,7 @@ SRCS		=		main.cpp \
 					Server/ServerCommands/ServerCommandPing.cpp \
 					Server/ServerCommands/ServerCommandCap.cpp \
 					Server/ServerCommands/ServerCommandPrivmsg.cpp \
+					Server/ServerCommands/ServerCommandPrivmsg2.cpp \
 					Server/ServerCommands/ServerCommandJoin.cpp \
 					Server/ServerReplies/ServerErrorReplies.cpp\
 					Server/ServerReplies/ServerCommandResponses.cpp\

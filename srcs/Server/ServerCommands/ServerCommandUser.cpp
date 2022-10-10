@@ -33,9 +33,4 @@ void Server::_user(std::string args, User &user)
 	user.realName = _realName;
 	user.isRegistered = true;
 	_commandResponces(user, RPL_WELCOME, "USER", c);
-
-	// user._outputMessage += ":" + user.nickName + " 001 " + user.userName + " :Welcome to the Internet Relay Chat Network " + user.nickName + "!" + user.userName;
-	// user._outputMessage += DELIMITER;
-
-	// // todo use _commandResponces(user, RPL_WELCOME, "USER", c);
 }

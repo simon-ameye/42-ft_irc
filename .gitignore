@@ -34,3 +34,4 @@
 obj/*
 .vscode/*
 ircserv
+.vscode/settings.json

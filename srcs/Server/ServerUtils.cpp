@@ -12,6 +12,18 @@ bool Server::hasUser(std::string nickName, std::string exclude)
 	return (false);
 }
 
+std::map<int, User>::iterator Server::findUser(std::string nickName)
+{
+	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
+	{
+		if (itb->second.nickName.compare(nickName) == 0 )
+		{
+			return (itb);
+		}
+	}
+	return (_users.end());
+}
+
 //returns true if the channel exists
 bool Server::hasChannel(std::string channelName)
 {

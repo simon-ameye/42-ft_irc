@@ -49,6 +49,7 @@ class Server
 	void			deleteChannel(std::string channelName);
 	std::vector<Channel>::iterator findChannel(std::string channelName);
 	std::vector<std::map<int, User>::iterator> getUsersInChannel(std::string channelName);
+	std::map<int, User>::iterator			findUser(std::string nickName);
 	void			nameReply(User &user, Channel &channel);
 
 	

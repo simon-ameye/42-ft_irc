@@ -26,8 +26,8 @@ SRCS		=		main.cpp \
 					Server/ServerCommands/ServerCommandJoin.cpp \
 					Server/ServerReplies/ServerErrorReplies.cpp\
 					Server/ServerReplies/ServerCommandResponses.cpp\
-					Server/Channel/Channel.cpp
-					ServerCommandMode.cpp
+					Server/Channel/Channel.cpp \
+					Server/ServerCommands/ServerCommandMode.cpp
 
 
 SOURCES		=		$(addprefix $(SRCS_DIR)/,$(SRCS))

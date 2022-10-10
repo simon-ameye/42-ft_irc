@@ -2,9 +2,6 @@
 
 void Server::_privmsg(std::string args, User &user)
 {
-	Channel c;
-
-	(void) args;
 	(void) user;
 	std::string target;
 	target = Utils::split(args, ' ')[0];
@@ -14,10 +11,6 @@ void Server::_privmsg(std::string args, User &user)
 	text = args.substr(target.size(), args.size());
 	std::cout << "------> text = " <<  text << std::endl;
 
-	
-
 //no need add error cause fin alone if not enought param
-
-
 	
 }

@@ -40,6 +40,8 @@ void Server::processMessage(std::string &message, User &user)
 		user._outputMessage += "SERVER : hello\n";
 	else if (cmd == "MODE")
 		_mode(args, user);
+	else if (cmd == "DIE")
+		_die(args, user);
 	else if (cmd == "exitServer")
 	{
 		_exitSignal = 1;

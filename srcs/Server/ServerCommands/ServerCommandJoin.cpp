@@ -21,7 +21,6 @@ void Server::_join(std::string args, User &user)
 	std::vector<Channel>::iterator channelIt;
 
 	rowChannels = Utils::split(args, ' ')[0];
-	std::cout << "------> rowChannels = " <<  rowChannels << std::endl;
 	channels = Utils::split(rowChannels, ',');
 
 	Channel c;

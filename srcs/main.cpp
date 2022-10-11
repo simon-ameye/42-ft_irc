@@ -12,7 +12,8 @@ int main(int argc, char **argv)
 	while (!server.getExitSignal())
 	{
 		//poll
-		server.connect();
+		server.block();
+		server.getNewUsers();
 		server.getMessages();
 		server.dispatchs();
 		server.sendMessage();

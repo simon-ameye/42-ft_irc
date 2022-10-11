@@ -35,7 +35,8 @@ class Server
 	public:
 	Server(char *port, char *password);
 	~Server();
-	void			connect(void);
+	void			block(void);
+	void			getNewUsers(void);
 	void			getMessages(void);
 	void			dispatchs(void);
 	void			sendMessage(void);

@@ -1,10 +1,17 @@
 #include "../Server.hpp"
+bool	ft_isalnum(int c)
+{
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+		|| (c >= '0' && c <= '9'))
+		return (true);
+	return (false);
+}
 
 bool invalid_nickName(std::string str)
 {
 	for (size_t i = 0; i < str.size(); i++)
 	{
-		if (isalnum(str[i]) == 0) //A REMPLACER : fonction interditei
+		if (ft_isalnum(str[i]) == 0)
 			return false;
 	}
 	return true;

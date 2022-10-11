@@ -29,8 +29,8 @@ void Server::_user(std::string args, User &user)
 		return _errorReplies(user, ERR_NEEDMOREPARAMS, "USER", c);
 	}
 
-	user.userName = _username;
-	user.realName = _realName;
+	user.setUserName(_username);
+	user.setRealName(_realName);
 	user.isRegistered = true;
 	_commandResponces(user, RPL_WELCOME, "USER", c);
 }

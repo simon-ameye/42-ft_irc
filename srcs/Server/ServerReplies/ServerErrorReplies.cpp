@@ -10,7 +10,7 @@ void Server::_errorReplies(User &user, int err, std::string cmd, const Channel &
 	switch (err)
 	{
 		case 401:
-			result << user.nickName << " :No such nick/channel";
+			result << user.getNickName() << " :No such nick/channel";
 			break;
 		case 402:
 			result << _serverName << " :No such server";
@@ -25,7 +25,7 @@ void Server::_errorReplies(User &user, int err, std::string cmd, const Channel &
 			result << channel._channelName << " :You have joined too many channels";
 			break;
 		case 406:
-			result << user.nickName << " :There was no such nickname";
+			result << user.getNickName() << " :There was no such nickname";
 			break;
 		case 421:
 			result << cmd << " :Unknown command";

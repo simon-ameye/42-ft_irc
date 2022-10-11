@@ -15,10 +15,19 @@ class User
 	~User();
 	User &newUser();
 	void addBufferToMessages(char *buffer, size_t size);
-	std::string realName; //to set private + getter
-	std::string nickName; //to set private + getter
+	private:
+	std::string realName; 
+	std::string nickName; 
 	std::string userName;
+	public:
 	std::string symbol;
+	std::string getRealName();
+	std::string getNickName();
+	std::string getUserName();
+	void setRealName(std::string _realName);
+	void setNickName(std::string _nickName);
+	void setUserName(std::string _userName);
+
 	bool		isRegistered;
 	
 	void		addChannel(std::vector<Channel>::iterator channelIt);

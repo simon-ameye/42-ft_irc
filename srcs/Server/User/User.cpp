@@ -5,13 +5,38 @@ User::User()
 	std::cout << "user constructor called" << std::endl;
 	_passProvided = 0;
 	_operator = 0;
-	 isRegistered = 0;
-
+	isRegistered = 0;
 }
 
 User::~User()
 {
 	std::cout << "user destructor called" << std::endl;
+}
+
+void User::setNickName(std::string _nickName)
+{
+	this->nickName = _nickName;
+}
+
+void User::setUserName(std::string _userName)
+{
+	this->userName = _userName;
+}
+void User::setRealName(std::string _realName)
+{
+	this->realName = _realName;
+}
+std::string User::getNickName(void)
+{
+	return (nickName);
+}
+std::string User::getUserName(void)
+{
+	return (userName);
+}
+std::string User::getRealName(void)
+{
+	return (realName);
 }
 
 User &User::newUser()

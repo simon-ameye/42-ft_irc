@@ -34,16 +34,16 @@ void Server::_nick(std::string args, User &user)
 		_errorReplies(user, ERR_ERRONEUSNICKNAME, "NICK", channel);
 		return;
 	}
-	if (Server::hasUser(nickname, user.nickName))
+	if (Server::hasUser(nickname, user.getNickName()))
 	{
 		_errorReplies(user, ERR_NICKNAMEINUSE, "NICK", channel, nickname);
 		//deleteUser(user.nickName);
 		return;
 	}
 
-	if (user.nickName.size() == 0) // not registered TOTO replace by !user.isRegistered
+	if (user.getNickName().size() == 0) // not registered TOTO replace by !user.isRegistered
 	{
-		user.nickName = nickname;
+		user.setNickName(nickname);
 		user._outputMessage += ": NICK";
 		user._outputMessage += " :" + nickname;
 		user._outputMessage += DELIMITER;
@@ -52,12 +52,11 @@ void Server::_nick(std::string args, User &user)
 	{
 
 		user._outputMessage += ":";
-		user._outputMessage += user.nickName;
+		user._outputMessage += user.getNickName();
 		user._outputMessage += " NICK :";
 		user._outputMessage += nickname;
 		user._outputMessage += DELIMITER;
-		user.nickName = nickname;
-
+		user.setNickName(nickname);
 		// todo envoyer le message aux autre clients (dans les memes channel)
 	}
 }

@@ -4,7 +4,7 @@ bool Server::hasUser(std::string nickName, std::string exclude)
 {
 	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
-		if (itb->second.nickName.compare(nickName) == 0 && (exclude == "" || itb->second.nickName != exclude) )
+		if (itb->second.getNickName().compare(nickName) == 0 && (exclude == "" || itb->second.getNickName() != exclude) )
 		{
 			return (true);
 		}
@@ -16,7 +16,7 @@ std::map<int, User>::iterator Server::findUser(std::string nickName)
 {
 	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
-		if (itb->second.nickName.compare(nickName) == 0 )
+		if (itb->second.getNickName().compare(nickName) == 0 )
 		{
 			return (itb);
 		}
@@ -52,7 +52,7 @@ void Server::deleteUser(std::string nickName)
 {
 	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
-		if (itb->second.nickName  == nickName)
+		if (itb->second.getNickName()  == nickName)
 		{
 			close(itb->first);
 			_users.erase(itb->first);

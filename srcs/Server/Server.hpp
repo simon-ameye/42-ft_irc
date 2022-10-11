@@ -51,6 +51,7 @@ class Server
 	std::vector<std::map<int, User>::iterator> getUsersInChannel(std::string channelName);
 	std::map<int, User>::iterator			findUser(std::string nickName);
 	void			nameReply(User &user, Channel &channel);
+	void			joinReply(User &user, Channel &channel);
 
 	
 	private:

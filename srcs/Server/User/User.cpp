@@ -67,7 +67,7 @@ bool User::isInChannel(std::string channelName)
 {
 	for (size_t i = 0; i < _channels.size(); i++)
 	{
-		if (_channels[i]->_channelName == channelName)
+		if (_channels[i]->getName() == channelName)
 			return 1;
 	}
 	return (0);
@@ -77,7 +77,7 @@ void User::deleteChannel(std::string channelName)
 {
 	for (size_t i = 0; i < _channels.size(); i++)
 	{
-		if (_channels[i]->_channelName == channelName)
+		if (_channels[i]->getName() == channelName)
 			_channels.erase(_channels.begin() + i);
 	}
 }

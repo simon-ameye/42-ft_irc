@@ -9,14 +9,19 @@
 
 class Channel
 {
-	public :
-	Channel(void);
-	Channel (std::string channelName);
-	~Channel(void);
+private:
 	std::string _channelName;
 	std::string _topic;
-	//std::vector<std::string> _users;
-	private:
+
+public:
+	Channel(void);
+	Channel(std::string channelName);
+	~Channel(void);
+	std::string getName() const;
+	std::string getTopic();
+
+	// std::vector<std::string> _users;
+private:
 };
 
 #endif

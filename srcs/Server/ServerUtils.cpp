@@ -29,7 +29,7 @@ bool Server::hasChannel(std::string channelName)
 {
 	for (std::vector<Channel>::iterator itb = _channels.begin(); itb != _channels.end(); itb++)
 	{
-		if (itb->_channelName == channelName)
+		if (itb->getName() == channelName)
 			return (true);
 	}
 	return (false);
@@ -41,7 +41,7 @@ std::vector<Channel>::iterator Server::findChannel(std::string channelName)
 {
 	for (std::vector<Channel>::iterator itb = _channels.begin(); itb != _channels.end(); itb++)
 	{
-		if (itb->_channelName == channelName)
+		if (itb->getName() == channelName)
 			return (itb);
 	}
 	return (_channels.end());
@@ -70,7 +70,7 @@ void Server::deleteChannel(std::string channelName) //first delete the channel f
 
 	for (std::vector<Channel>::iterator itb2 = _channels.begin(); itb2 != _channels.end(); itb2++)
 	{
-		if (itb2->_channelName == channelName)
+		if (itb2->getName() == channelName)
 		{
 			_channels.erase(itb2);
 		}

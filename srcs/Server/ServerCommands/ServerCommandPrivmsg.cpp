@@ -43,7 +43,7 @@ void Server::_privmsg(std::string args, User &user)
 			for (size_t i = 0; i < itUsers.size(); i++)
 			{
 				if (user.getNickName() != itUsers[i]->second.getNickName()) //avoid sending message to sender
-					sendChannelMesage(user, itUsers[i]->second, message, it2->_channelName);
+					sendChannelMesage(user, itUsers[i]->second, message, it2->getName());
 			}
 		}
 	}

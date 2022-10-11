@@ -3,7 +3,7 @@
 void Server::nameReply(User &user, Channel &channel)
 {
 	std::vector<std::map<int, User>::iterator> vectorOfUserIterators;
-	vectorOfUserIterators = getUsersInChannel(channel._channelName);
+	vectorOfUserIterators = getUsersInChannel(channel.getName());
 	std::string users = "";
 	for (size_t i = 0; i < vectorOfUserIterators.size(); i++)
 	{
@@ -17,10 +17,10 @@ void Server::nameReply(User &user, Channel &channel)
 
 void Server::joinReply(User &newUser, Channel &channel)
 {
-	std::vector<std::map<int, User>::iterator> it = getUsersInChannel(channel._channelName);
+	std::vector<std::map<int, User>::iterator> it = getUsersInChannel(channel.getName());
 	for (size_t i = 0; i < it.size(); i++)
 	{
-		it[i]->second._outputMessage += ":" + newUser.getNickName() + " JOIN " + channel._channelName + DELIMITER;
+		it[i]->second._outputMessage += ":" + newUser.getNickName() + " JOIN " + channel.getName() + DELIMITER;
 	}
 }
 
@@ -64,7 +64,7 @@ void Server::_join(std::string args, User &user)
 			channelIt = findChannel(*itb);
 			user.addChannel(channelIt);
 			_commandResponces(user, RPL_TOPIC, "JOIN", *channelIt);
-			std::cout << user.getNickName() << " joins " << channelIt->_channelName << std::endl;
+			std::cout << user.getNickName() << " joins " << channelIt->getName() << std::endl;
 			joinReply(user, *channelIt);
 			nameReply(user, *channelIt);
 		}

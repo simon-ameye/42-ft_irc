@@ -13,4 +13,13 @@ Channel::Channel (std::string channelName)
 	std::cout << "Channel Constructor Called" << std::endl;
 }
 
+std::string Channel::getName() const
+{
+	return (_channelName);
+
+}
+std::string Channel::getTopic()
+{
+	return (_topic);
+}
 Channel::~Channel(){}

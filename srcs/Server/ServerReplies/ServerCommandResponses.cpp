@@ -14,23 +14,12 @@ void Server::_commandResponces(User &user, int rpl, std::string cmd, Channel &ch
 
 	switch (rpl)
 	{
-	case 1:
-		result << user.getNickName() << " :Welcome to the Internet Relay Chat Network " << user.getNickName() << "!" << user.getUserName();
-		break;
-	case 332:
-		result << user.getNickName() << channel.getName() << " :" <<channel.getTopic();
-		break;
-	case 353:
-		result << user.getNickName() << " " << channel.getName() << " :" << user.symbol << optionalString; //"<client> <symbol> <channel> :[prefix]<nick>{ [prefix]<nick>}"
-		break;
-	case 366:
-		result << user.getNickName() << " " << channel.getName() << " :End of /NAMES list";
-		break;
-	case 381:
-		result << ":You are now an IRC operator";
-		break;
-	default:
-		result << "Unknown reply";
+	case 1: result << user.getNickName() << " :Welcome to the Internet Relay Chat Network " << user.getNickName() << "!" << user.getUserName(); break;
+	case 332: result << user.getNickName() << channel.getName() << " :" <<channel.getTopic(); break;
+	case 353: result << user.getNickName() << " " << channel.getName() << " :" << user.symbol << optionalString; //"<client> <symbol> <channel> :[prefix]<nick>{ [prefix]<nick>}" break;
+	case 366: result << user.getNickName() << " " << channel.getName() << " :End of /NAMES list"; break;
+	case 381: result << ":You are now an IRC operator"; break;
+	default: result << "Unknown reply";
 	}
 	result << DELIMITER;
 	user._outputMessage += result.str();

@@ -6,7 +6,7 @@ void Server::_die(std::string args, User &user)
     (void)args;
     (void)user;
     
-    if (user._operator == false)
+    if (user.getIsOperator() == false)
     	_errorReplies(user, ERR_NOPRIVILEGES, "DIE", c);
     else
     {

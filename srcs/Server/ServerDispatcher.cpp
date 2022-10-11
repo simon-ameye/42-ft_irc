@@ -1,6 +1,6 @@
 #include "Server.hpp"
 
-void Server::dispatch(std::string &message, User &user)
+void Server::dispatch(const std::string &message, User &user)
 {
 	std::cout << "Processing command : $" << message << "$" << std::endl;
 

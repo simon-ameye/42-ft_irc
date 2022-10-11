@@ -1,8 +1,7 @@
 #include "../Server.hpp"
-bool	ft_isalnum(int c)
+bool ft_isalnum(int c)
 {
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
-		|| (c >= '0' && c <= '9'))
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))
 		return (true);
 	return (false);
 }
@@ -37,25 +36,18 @@ void Server::_nick(std::string args, User &user)
 	if (Server::hasUser(nickname, user.getNickName()))
 	{
 		_errorReplies(user, ERR_NICKNAMEINUSE, "NICK", channel, nickname);
-		//deleteUser(user.nickName);
+		// deleteUser(user.nickName);
 		return;
 	}
 
-	if (user.getNickName().size() == 0) // not registered TOTO replace by !user.isRegistered
+	if (!user.getIsRegistered()) // not registered TOTO replace by !user.isRegistered
 	{
 		user.setNickName(nickname);
-		user._outputMessage += ": NICK";
-		user._outputMessage += " :" + nickname;
-		user._outputMessage += DELIMITER;
+		user.addOutputMessage(": NICK :" + nickname);
 	}
 	else
 	{
-
-		user._outputMessage += ":";
-		user._outputMessage += user.getNickName();
-		user._outputMessage += " NICK :";
-		user._outputMessage += nickname;
-		user._outputMessage += DELIMITER;
+		user.addOutputMessage(":" + user.getNickName() + " NICK :" + nickname);
 		user.setNickName(nickname);
 		// todo envoyer le message aux autre clients (dans les memes channel)
 	}

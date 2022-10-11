@@ -20,7 +20,7 @@ void Server::joinReply(User &newUser, Channel &channel)
 	std::vector<std::map<int, User>::iterator> it = getUsersInChannel(channel.getName());
 	for (size_t i = 0; i < it.size(); i++)
 	{
-		it[i]->second._outputMessage += ":" + newUser.getNickName() + " JOIN " + channel.getName() + DELIMITER;
+		it[i]->second.addOutputMessage(":" + newUser.getNickName() + " JOIN " + channel.getName());
 	}
 }
 
@@ -53,8 +53,7 @@ void Server::_join(std::string args, User &user)
 			channelIt = findChannel(*itb);
 			user.addChannel(channelIt);
 			// JOIN
-			user._outputMessage += ":" + user.getNickName() + " JOIN " + *itb;
-			user._outputMessage += DELIMITER;
+			user.addOutputMessage(":" + user.getNickName() + " JOIN " + *itb);
 			nameReply(user, *channelIt);
 		}
 

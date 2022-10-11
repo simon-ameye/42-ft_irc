@@ -2,8 +2,7 @@
 
 static void sendChannelMesage(User &sender, User &recipient, std::string &message, std::string channelName)
 {
-	recipient._outputMessage += ":" + sender.getNickName() + " PRIVMSG " + channelName + " :" + message;
-	recipient._outputMessage += DELIMITER;
+	recipient.addOutputMessage(":" + sender.getNickName() + " PRIVMSG " + channelName + " :" + message);
 }
 
 void Server::_privmsg(std::string args, User &user)
@@ -31,8 +30,7 @@ void Server::_privmsg(std::string args, User &user)
 		std::map<int, User>::iterator it1 = findUser(recievers[i]); //for users
 		if (it1 != _users.end())
 		{
-			it1->second._outputMessage += ":" + user.getNickName() + " PRIVMSG " + it1->second.getNickName() + " :" + message;
-			it1->second._outputMessage += DELIMITER;
+			it1->second.addOutputMessage(":" + user.getNickName() + " PRIVMSG " + it1->second.getNickName() + " :" + message);
 		}
 
 		std::vector<Channel>::iterator it2 = findChannel(recievers[i]); //for channels

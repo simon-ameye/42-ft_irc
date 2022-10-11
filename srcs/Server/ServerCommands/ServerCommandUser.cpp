@@ -13,7 +13,7 @@ void Server::_user(std::string args, User &user)
 	_username = _args[0];
 
 	Channel c;
-	if (user.isRegistered)
+	if (user.getIsRegistered())
 	{
 		_errorReplies(user, ERR_ALREADYREGISTRED, "USER", c);
 		return;
@@ -31,6 +31,6 @@ void Server::_user(std::string args, User &user)
 
 	user.setUserName(_username);
 	user.setRealName(_realName);
-	user.isRegistered = true;
+	user.setIsRegistered(true);
 	_commandResponces(user, RPL_WELCOME, "USER", c);
 }

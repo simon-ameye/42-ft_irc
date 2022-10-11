@@ -41,7 +41,7 @@ class Server
 	void			dispatchs(void);
 	void			sendMessage(void);
 	const int		&getExitSignal(void);
-	void			dispatch(std::string& message, User& user);
+	void			dispatch(const std::string& message, User& user);
 
 
 	bool			hasUser(std::string nickName, std::string exclude = "");

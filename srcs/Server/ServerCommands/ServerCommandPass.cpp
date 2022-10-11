@@ -6,7 +6,7 @@ void Server::_pass(std::string args, User &user)
 	splitArgs = Utils::split(args, ' ');
 
 	Channel channel; //useless, just used to pass to _errorReplies
-	if (user._passProvided == 1)
+	if (user.getIsPassProvided() == 1)
 	{
 		_errorReplies(user, ERR_ALREADYREGISTRED, "PASS", channel);
 		return;
@@ -19,5 +19,5 @@ void Server::_pass(std::string args, User &user)
 	}
 
 	if (splitArgs[0] == _password) //In case of wrong password : no error is returned
-		user._passProvided = 1;
+		user.setIsPassProvided(true);
 }

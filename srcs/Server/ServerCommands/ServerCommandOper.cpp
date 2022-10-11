@@ -30,7 +30,7 @@ void			Server::_oper(std::string args, User &user)
 		return;
 	}
 
-	user._operator = 1;
+	user.setIsOperator(true);
 	_commandResponces(user, RPL_YOUREOPER, "OPER", channel);
 
 }

@@ -195,11 +195,11 @@ void Server::dispatchs(void)
 		// std::cout << "evaluation user with fd : " << itb->first << std::endl;
 		//itb->second._outputMessage.clear(); elle supprime loutput msg d'user qu'on vient de modifier avant de l'envoyer  
 		/*loop over _inputMessages*/
-		for (std::vector<std::string>::iterator itb2 = itb->second._inputMessages.begin(); itb2 != itb->second._inputMessages.end(); itb2++) // loop over
+		for (std::vector<std::string>::const_iterator itb2 = itb->second.getInputMessages().begin(); itb2 != itb->second.getInputMessages().end(); itb2++) // loop over
 		{
 			dispatch(*itb2, itb->second);
 		}
-		itb->second._inputMessages.clear(); // all messages have been threated, clearing.
+		itb->second.clearInputMessages(); // all messages have been threated, clearing.
 	}
 }
 
@@ -210,13 +210,13 @@ void Server::sendMessage(void)
 
 	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
-		if (itb->second._outputMessage.size() > 0)
-			std::cout << "Sending fd: " << itb->first << " : $" << itb->second._outputMessage << "$" << std::endl;
+		if (itb->second.getOutputMessage().size() > 0)
+			std::cout << "Sending fd: " << itb->first << " : $" << itb->second.getOutputMessage() << "$" << std::endl;
 
-		if(send(itb->first, itb->second._outputMessage.c_str(), itb->second._outputMessage.length(), 0) == -1)
+		if(send(itb->first, itb->second.getOutputMessage().c_str(), itb->second.getOutputMessage().length(), 0) == -1)
 			std::cout << "Send error " << std::endl; 
 		// std::cout << "Finished sending User._outputMessage to fd : " << itb->first << std::endl;
-		itb->second._outputMessage.clear();
+		itb->second.clearOutputMessage();
 	}
 }
 

@@ -16,8 +16,5 @@ void			Server::_ping(std::string args, User &user)
 		return;
 	}
 
-	user._outputMessage += "PONG ";
-	user._outputMessage += _serverName + " " + user.getNickName();
-	user._outputMessage += DELIMITER;
-
+	user.addOutputMessage("PONG "+ _serverName + " " + user.getNickName());
 }

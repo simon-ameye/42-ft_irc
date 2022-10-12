@@ -214,7 +214,7 @@ void Server::sendMessage(void)
 			std::cout << "Sending fd: " << itb->first << " : $" << itb->second.getOutputMessage() << "$" << std::endl;
 
 		if(send(itb->first, itb->second.getOutputMessage().c_str(), itb->second.getOutputMessage().length(), 0) == -1)
-			std::cout << "Send error " << std::endl; 
+			std::cout << "Send error " << std::endl;
 		// std::cout << "Finished sending User._outputMessage to fd : " << itb->first << std::endl;
 		itb->second.clearOutputMessage();
 	}

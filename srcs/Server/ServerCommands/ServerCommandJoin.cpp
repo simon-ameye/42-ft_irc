@@ -7,9 +7,11 @@ void Server::nameReply(User &user, Channel &channel)
 	std::string users = "";
 	for (size_t i = 0; i < vectorOfUserIterators.size(); i++)
 	{
+		users += "@";
 		users += vectorOfUserIterators[i]->second.getNickName();
-		if (i != vectorOfUserIterators.size() - 1)
-			users += " ";
+		users += " ";
+		//if (i != vectorOfUserIterators.size() - 1)
+		//	users += " ";
 	}
 	_commandResponces(user, RPL_NAMREPLY, "JOIN", channel, users);
 	_commandResponces(user, RPL_ENDOFNAMES, "JOIN", channel);
@@ -20,29 +22,31 @@ void Server::joinReply(User &newUser, Channel &channel)
 	std::vector<std::map<int, User>::iterator> it = getUsersInChannel(channel.getName());
 	for (size_t i = 0; i < it.size(); i++)
 	{
-		it[i]->second.addOutputMessage(":" + newUser.getNickName() + " JOIN " + channel.getName());
+		it[i]->second.addOutputMessage(":" + newUser.getNickName() + "@" + newUser.getRealName() + " JOIN " + channel.getName());
 	}
 }
 
 void Server::_join(std::string args, User &user)
 {
-	(void)args;
-	(void)user;
-
-	std::string rowChannels;
-	std::vector<std::string> channels;
-	std::vector<Channel>::iterator channelIt;
-
-	rowChannels = Utils::split(args, ' ')[0];
-	channels = Utils::split(rowChannels, ',');
-
 	Channel c;
 
-	if (args == "")
+	std::vector<std::string> splitArgs = Utils::split(args, ' ');
+	if (!splitArgs.size())
 	{
 		_errorReplies(user, ERR_NEEDMOREPARAMS, "JOIN", c);
+		return;
 	}
 
+	std::string rowChannels = splitArgs[0];
+
+	std::vector<std::string> channels = Utils::split(rowChannels, ',');
+	if (!channels.size())
+	{
+		_errorReplies(user, ERR_NEEDMOREPARAMS, "JOIN", c);
+		return;
+	}
+
+	std::vector<Channel>::iterator channelIt;
 	for (std::vector<std::string>::iterator itb = channels.begin(); itb != channels.end(); itb++) //loops over input channels
 	{
 		if (!hasChannel(*itb))
@@ -53,7 +57,8 @@ void Server::_join(std::string args, User &user)
 			channelIt = findChannel(*itb);
 			user.addChannel(channelIt);
 			// JOIN
-			user.addOutputMessage(":" + user.getNickName() + " JOIN " + *itb);
+			//user.addOutputMessage(":" + user.getNickName() + " JOIN " + *itb);
+			_commandResponces(user, RPL_TOPIC, "JOIN", *channelIt);
 			nameReply(user, *channelIt);
 		}
 

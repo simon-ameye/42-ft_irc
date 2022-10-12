@@ -15,10 +15,10 @@ void Server::_commandResponces(User &user, int rpl, std::string cmd, Channel &ch
 		result << user.getNickName() << " :Welcome to the Internet Relay Chat Network " << user.getNickName() << "!" << user.getUserName();
 		break;
 	case RPL_TOPIC:
-		result << user.getNickName() << channel.getName() << " :" << channel.getTopic();
+		result << user.getNickName() << " " << channel.getName() << " :" << channel.getTopic();
 		break;
 	case RPL_NAMREPLY:
-		result << user.getNickName() << " " << channel.getName() << " :" << user.getSymbol() << optionalString;
+		result << user.getNickName() << " = " << channel.getName() << " :" << optionalString;
 		break; //"<client> <symbol> <channel> :[prefix]<nick>{ [prefix]<nick>}" break;
 	case RPL_ENDOFNAMES:
 		result << user.getNickName() << " " << channel.getName() << " :End of /NAMES list";

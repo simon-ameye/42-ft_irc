@@ -9,46 +9,46 @@ void Server::_errorReplies(User &user, int err, std::string cmd, const Channel &
 
 	switch (err)
 	{
-	case 401:
+	case ERR_NOSUCHNICK:
 		result << user.getNickName() << " :No such nick/channel";
 		break;
-	case 402:
+	case ERR_NOSUCHSERVER:
 		result << _serverName << " :No such server";
 		break;
-	case 403:
+	case ERR_NOSUCHCHANNEL:
 		result << channel.getName() << " :No such server";
 		break;
-	case 404:
+	case ERR_CANNOTSENDTOCHAN:
 		result << channel.getName() << " :Cannot send to channel";
 		break;
-	case 405:
+	case ERR_TOOMANYCHANNELS:
 		result << channel.getName() << " :You have joined too many channels";
 		break;
-	case 406:
+	case ERR_WASNOSUCHNICK:
 		result << user.getNickName() << " :There was no such nickname";
 		break;
-	case 421:
+	case ERR_UNKNOWNCOMMAND:
 		result << cmd << " :Unknown command";
 		break;
-	case 431:
+	case ERR_NONICKNAMEGIVEN:
 		result << " :No nickname given";
 		break;
-	case 432:
+	case ERR_ERRONEUSNICKNAME:
 		result << " :Erroneus nickname";
 		break;
-	case 433:
+	case ERR_NICKNAMEINUSE:
 		result << optionalString << " :Nickname is already in use";
 		break;
-	case 461:
+	case ERR_NEEDMOREPARAMS:
 		result << cmd << " :Not enough parameters";
 		break;
-	case 462:
+	case ERR_ALREADYREGISTRED:
 		result << ":Unauthorized command (already registered)";
 		break;
-	case 464:
+	case ERR_PASSWDMISMATCH:
 		result << ":Password incorrect";
 		break;
-	case 465:
+	case ERR_NOPRIVILEGES:
 		result << ":You havn't user rights";
 		break;
 

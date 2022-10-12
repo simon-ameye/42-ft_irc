@@ -25,7 +25,5 @@ void Server::_mode(std::string args, User &user)
 		{
 			
 		}
-
 	}
-	
 }

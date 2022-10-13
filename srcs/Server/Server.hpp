@@ -73,8 +73,8 @@ class Server
 	std::string _serverName;
 
 	private:
-	void			_errorReplies(User &user, int err, std::string cmd, const Channel &Channel, const std::string &optionalString = std::string());
-	void			_commandResponces(User &user, int rpl, std::string cmd, Channel &channel, const std::string &optionalString = std::string());
+	void			_errorReplies(User &user, int err, std::string cmd, std::string str, const Channel &channel = Channel());
+	void			_commandResponces(User &user, int rpl, std::string cmd, std::string str, const Channel &channel = Channel());
 
 	void			_cap    (std::string args, User &user);
 	void			_die    (std::string args, User &user);

@@ -18,7 +18,7 @@ public:
 	Channel(std::string channelName);
 	~Channel(void);
 	std::string getName() const;
-	std::string getTopic();
+	std::string getTopic() const;
 
 	// std::vector<std::string> _users;
 private:

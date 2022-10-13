@@ -8,13 +8,13 @@ void Server::_pass(std::string args, User &user)
 	Channel channel; //useless, just used to pass to _errorReplies
 	if (user.getIsPassProvided() == 1)
 	{
-		_errorReplies(user, ERR_ALREADYREGISTRED, "PASS", channel);
+		_errorReplies(user, ERR_ALREADYREGISTRED, "PASS", "", channel);
 		return;
 	}
 
 	if (splitArgs.size() == 0)
 	{
-		_errorReplies(user, ERR_NEEDMOREPARAMS, "PASS", channel);
+		_errorReplies(user, ERR_NEEDMOREPARAMS, "PASS", "", channel);
 		return;
 	}
 

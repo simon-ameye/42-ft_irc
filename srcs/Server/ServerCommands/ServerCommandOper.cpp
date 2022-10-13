@@ -5,7 +5,6 @@ void			Server::_oper(std::string args, User &user)
 	std::vector<std::string> splitArgs;
 	splitArgs = Utils::split(args, ' ');
 
-	Channel channel;
 	std::string name;
 	std::string pass;
 	std::string opername;
@@ -17,7 +16,7 @@ void			Server::_oper(std::string args, User &user)
 	//ERR_NOOPERHOST : not required
 	if (splitArgs.size() < 2)
 	{
-		_errorReplies(user, ERR_NEEDMOREPARAMS, "OPER", channel);
+		_errorReplies(user, ERR_NEEDMOREPARAMS, "OPER", "");
 		return;
 	}
 
@@ -26,11 +25,11 @@ void			Server::_oper(std::string args, User &user)
 
 	if (name != opername || pass != operpass)
 	{
-		_errorReplies(user, ERR_PASSWDMISMATCH, "OPER", channel);
+		_errorReplies(user, ERR_PASSWDMISMATCH, "OPER", "");
 		return;
 	}
 
 	user.setIsOperator(true);
-	_commandResponces(user, RPL_YOUREOPER, "OPER", channel);
+	_commandResponces(user, RPL_YOUREOPER, "OPER", "");
 
 }

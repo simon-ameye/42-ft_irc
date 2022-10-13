@@ -10,14 +10,13 @@ void Server::_privmsg(std::string args, User &user)
 	std::string message;
 	std::vector<std::string> parts;
 	std::vector<std::string> recievers;
-	Channel channel;
 
 	parts = Utils::split(args, ':');
 	recievers = Utils::split(parts[0], ' ');
 
 	if (!recievers.size() || !parts.size())
 	{
-		_errorReplies(user, ERR_NEEDMOREPARAMS, "PRIVMSG", channel);
+		_errorReplies(user, ERR_NEEDMOREPARAMS, "PRIVMSG", "");
 		return;
 	}
 	message = parts[1];

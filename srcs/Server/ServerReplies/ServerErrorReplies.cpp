@@ -1,8 +1,8 @@
 #include "../Server.hpp"
 
-void Server::_errorReplies(User &user, int err, std::string cmd, const Channel &channel, const std::string &optionalString)
+void Server::_errorReplies(User &user, int err, std::string cmd, std::string str, const Channel &channel)
 {
-	(void) optionalString;
+	(void) str;
 	std::stringstream result;
 
 	result << ":" << _serverName << " " << Utils::getCode(err) << " " << user.getNickName() << " :";
@@ -37,7 +37,7 @@ void Server::_errorReplies(User &user, int err, std::string cmd, const Channel &
 		result << " Erroneus nickname";
 		break;
 	//case ERR_NICKNAMEINUSE:
-	//	result << optionalString << " :Nickname is already in use";
+	//	result << str << " :Nickname is already in use";
 	//	break;
 	case ERR_NEEDMOREPARAMS:
 		result << cmd << " Not enough parameters";

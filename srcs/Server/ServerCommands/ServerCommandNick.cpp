@@ -18,25 +18,22 @@ bool invalid_nickName(std::string str)
 
 void Server::_nick(std::string args, User &user)
 {
-	Channel channel;
 	std::vector<std::string> splitArgs = Utils::split(args, ' ');
 
 	if (args.size() == 0)
 	{
-		_errorReplies(user, ERR_NONICKNAMEGIVEN, "NICK", channel);
+		_errorReplies(user, ERR_NONICKNAMEGIVEN, "NICK", "");
 		return;
 	}
 
 	std::string nickname = splitArgs[0];
 	if (invalid_nickName(nickname) == false)
 	{
-		_errorReplies(user, ERR_ERRONEUSNICKNAME, "NICK", channel);
+		_errorReplies(user, ERR_ERRONEUSNICKNAME, "NICK", "");
 		return;
 	}
 	if (Server::hasUser(nickname, user.getNickName()))
 	{
-		//_errorReplies(user, ERR_NICKNAMEINUSE, "NICK", channel, nickname);
-		//: 433 * n1 :Nickname is already in use
 		std::string message = ": 433 ";
 		message += user.getNickName();
 		message += " ";

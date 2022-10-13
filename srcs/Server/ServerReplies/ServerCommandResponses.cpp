@@ -1,6 +1,6 @@
 #include "../Server.hpp"
 
-void Server::_commandResponces(User &user, int rpl, std::string cmd, Channel &channel, const std::string &optionalString)
+void Server::_commandResponces(User &user, int rpl, std::string cmd, std::string str, const Channel &channel)
 {
 	(void)cmd;
 	(void)channel;
@@ -17,7 +17,7 @@ void Server::_commandResponces(User &user, int rpl, std::string cmd, Channel &ch
 		result << " " << channel.getName() << " :" << channel.getTopic();
 		break;
 	case RPL_NAMREPLY:
-		result << " = " << channel.getName() << " :" << optionalString;
+		result << " = " << channel.getName() << " :" << str;
 		break; //"<client> <symbol> <channel> :[prefix]<nick>{ [prefix]<nick>}" break;
 	case RPL_ENDOFNAMES:
 		result << " " << channel.getName() << " :End of /NAMES list";

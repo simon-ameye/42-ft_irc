@@ -12,9 +12,6 @@ void Server::dispatch(const std::string &message, User &user)
 	cmd = splitCmd[0];
 	args = splitCmd[1];
 
-	//std::cout << "cmd : $" << cmd << "$" << std::endl;
-	//std::cout << "args : $" << args << "$" << std::endl;
-
 	if (cmd == "")
 		std::cout << "empty cmd" << std::endl;
 	else if (cmd == "CAP")
@@ -40,7 +37,5 @@ void Server::dispatch(const std::string &message, User &user)
 	else if (cmd == "QUIT")
 		_quit(args, user);
 	else
-	{
-		_errorReplies(user, ERR_UNKNOWNCOMMAND, cmd, Channel());
-	}
+		_errorReplies(user, ERR_UNKNOWNCOMMAND, cmd, "");
 }

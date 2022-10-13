@@ -13,8 +13,8 @@ void Server::nameReply(User &user, Channel &channel)
 		//if (i != vectorOfUserIterators.size() - 1)
 		//	users += " ";
 	}
-	_commandResponces(user, RPL_NAMREPLY, "JOIN", channel, users);
-	_commandResponces(user, RPL_ENDOFNAMES, "JOIN", channel);
+	_commandResponces(user, RPL_NAMREPLY, "JOIN", users, channel);
+	_commandResponces(user, RPL_ENDOFNAMES, "JOIN", "", channel);
 }
 
 void Server::joinReply(User &newUser, Channel &channel)
@@ -28,12 +28,11 @@ void Server::joinReply(User &newUser, Channel &channel)
 
 void Server::_join(std::string args, User &user)
 {
-	Channel c;
 
 	std::vector<std::string> splitArgs = Utils::split(args, ' ');
 	if (!splitArgs.size())
 	{
-		_errorReplies(user, ERR_NEEDMOREPARAMS, "JOIN", c);
+		_errorReplies(user, ERR_NEEDMOREPARAMS, "JOIN", "");
 		return;
 	}
 
@@ -42,7 +41,7 @@ void Server::_join(std::string args, User &user)
 	std::vector<std::string> channels = Utils::split(rowChannels, ',');
 	if (!channels.size())
 	{
-		_errorReplies(user, ERR_NEEDMOREPARAMS, "JOIN", c);
+		_errorReplies(user, ERR_NEEDMOREPARAMS, "JOIN", "");
 		return;
 	}
 
@@ -58,7 +57,7 @@ void Server::_join(std::string args, User &user)
 			user.addChannel(channelIt);
 			// JOIN
 			//user.addOutputMessage(":" + user.getNickName() + " JOIN " + *itb);
-			_commandResponces(user, RPL_TOPIC, "JOIN", *channelIt);
+			_commandResponces(user, RPL_TOPIC, "JOIN", "", *channelIt);
 			nameReply(user, *channelIt);
 		}
 
@@ -67,7 +66,7 @@ void Server::_join(std::string args, User &user)
 			//welcome on this channel
 			channelIt = findChannel(*itb);
 			user.addChannel(channelIt);
-			_commandResponces(user, RPL_TOPIC, "JOIN", *channelIt);
+			_commandResponces(user, RPL_TOPIC, "JOIN", "", *channelIt);
 			std::cout << user.getNickName() << " joins " << channelIt->getName() << std::endl;
 			joinReply(user, *channelIt);
 			nameReply(user, *channelIt);

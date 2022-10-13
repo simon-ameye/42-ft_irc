@@ -8,6 +8,7 @@ User::User(int fd)
 	_isOperator = 0;
 	_isRegistered = 0;
 	_nickName = "";
+	_isDeleted = false;
 }
 
 User::~User()
@@ -93,6 +94,11 @@ std::vector<std::vector<Channel>::iterator> User::getChannels() const
 	return _channels;
 }
 
+bool User::getIsDeleted() const
+{
+	return _isDeleted;
+}
+
 void User::setRealName(std::string _realName)
 {
 	this->_realName = _realName;
@@ -152,6 +158,11 @@ void User::addOutputMessage(std::string _outputMessage)
 void User::setChannels(std::vector<std::vector<Channel>::iterator> _channels)
 {
 	this->_channels = _channels;
+}
+
+void User::setIsDeleted(bool isDeleted)
+{
+	this->_isDeleted = isDeleted;
 }
 
 /*Adds the reiceved buffer to the users buffer.

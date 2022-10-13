@@ -21,6 +21,7 @@ private:
 	bool _isRegistered;
 	bool _isPassProvided;
 	bool _isOperator;
+	bool _isDeleted;
 	std::vector<std::string> _inputMessages;
 	std::string _inputMessagesBuffer;
 	std::string _outputMessage;
@@ -41,6 +42,7 @@ public:
 	bool getIsRegistered() const;
 	bool getIsPassProvided() const;
 	bool getIsOperator() const;
+	bool getIsDeleted() const;
 	const std::vector<std::string>& getInputMessages() const;
 	std::string getInputMessagesBuffer() const;
 	const std::string getOutputMessage() const;
@@ -58,6 +60,7 @@ public:
 	void setInputMessagesBuffer(std::string _inputMessagesBuffer);
 	void addOutputMessage(std::string _outputMessage);
 	void setChannels(std::vector<std::vector<Channel>::iterator> _channels);
+	void setIsDeleted(bool isDeleted);
 
 	void addBufferToMessages(char *buffer, size_t size);
 	void addChannel(std::vector<Channel>::iterator channelIt);

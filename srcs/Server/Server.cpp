@@ -145,7 +145,7 @@ void Server::dispatchs(void)
 	for (std::vector<User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
 		// std::cout << "evaluation user with fd : " << itb->first << std::endl;
-		//itb->second._outputMessage.clear(); elle supprime loutput msg d'user qu'on vient de modifier avant de l'envoyer
+		// itb->second._outputMessage.clear(); elle supprime loutput msg d'user qu'on vient de modifier avant de l'envoyer
 
 		// Loop over _inputMessages
 		for (std::vector<std::string>::const_iterator itb2 = itb->getInputMessages().begin(); itb2 != itb->getInputMessages().end(); itb2++)
@@ -196,4 +196,19 @@ void Server::_exit_server(const std::string &message, int exitCode)
 {
 	std::cout << "Error: " << message << std::endl;
 	exit(exitCode);
+}
+
+void Server::clean()
+{
+	std::vector<User>::iterator itb = _users.begin();
+	while (itb != _users.end())
+	{
+		if (itb->getIsRegistered() && itb->getIsDeleted())
+		{
+			close(itb->getFd());
+			itb = _users.erase(itb);
+		}
+		else
+			itb++;
+	}
 }

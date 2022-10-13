@@ -24,6 +24,7 @@ SRCS		=		main.cpp \
 					Server/ServerCommands/ServerCommandCap.cpp \
 					Server/ServerCommands/ServerCommandPrivmsg.cpp \
 					Server/ServerCommands/ServerCommandJoin.cpp \
+					Server/ServerCommands/ServerCommandKill.cpp \
 					Server/ServerReplies/ServerErrorReplies.cpp\
 					Server/ServerReplies/ServerCommandResponses.cpp\
 					Server/ServerCommands/ServerCommandMode.cpp \

@@ -46,6 +46,7 @@ class Server
 	void			sendMessage(void);
 	const int		&getExitSignal(void);
 	void			dispatch(const std::string& message, User& user);
+	void			clean();
 
 
 	std::vector<User>::iterator	getUserItByFd(int fd);
@@ -55,6 +56,7 @@ class Server
 	void			deleteChannel(std::string channelName);
 	std::vector<Channel>::iterator findChannel(std::string channelName);
 	std::vector<std::vector<User>::iterator> getUsersInChannel(std::string channelName);
+	std::vector<User> getChannelUsers(std::string channelName);
 	std::vector<User>::iterator			findUser(std::string nickName);
 	void			nameReply(User &user, Channel &channel);
 	void			joinReply(User &user, Channel &channel);
@@ -87,6 +89,7 @@ class Server
 	void			_mode   (std::string args, User &user);
 	void			_quit   (std::string args, User &user);
 	void			_privmsg(std::string args, User &user);
+	void 			_kill	(std::string args, User &user);
 
 	void			_exit_server(const std::string &message, int exitCode);
 	void			_sendWelcome(User &user);

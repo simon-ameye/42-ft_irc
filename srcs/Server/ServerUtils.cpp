@@ -118,3 +118,17 @@ void Server::_sendWelcome(User &user)
 	user.setIsRegistered(true);
 	_commandResponces(user, RPL_WELCOME, "USER", "");
 }
+
+std::vector<User> Server::getChannelUsers(std::string channelName)
+{
+	std::vector<User> users;
+	for (std::vector<User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
+	{
+		if (itb->isInChannel(channelName)) //user is in channel
+		{
+			users.push_back(*itb);
+		}
+	}
+
+	return users;
+}

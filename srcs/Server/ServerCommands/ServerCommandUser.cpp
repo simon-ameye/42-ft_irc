@@ -2,10 +2,12 @@
 
 void Server::_user(std::string args, User &user)
 {
+	/*----------------command protect------------------*/
 	if (!user.getIsPassProvided())
 		return;
 	if (user.getNickName() == "*")
 		return;
+	/*----------------command protect------------------*/
 
 	if (user.getIsRegistered())
 		return _errorReplies(user, ERR_ALREADYREGISTRED, "USER", "");

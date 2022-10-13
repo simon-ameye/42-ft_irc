@@ -2,10 +2,12 @@
 
 void Server::nameReply(User &user, Channel &channel)
 {
+	/*----------------command protect------------------*/
 	if (!user.getIsPassProvided())
 		return;
 	if (user.getNickName() == "*")
 		return;
+	/*----------------command protect------------------*/
 
 	std::vector<std::vector<User>::iterator> vectorOfUserIterators;
 	vectorOfUserIterators = getUsersInChannel(channel.getName());

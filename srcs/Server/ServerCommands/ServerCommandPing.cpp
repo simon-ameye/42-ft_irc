@@ -6,8 +6,10 @@
 
 void Server::_ping(std::string args, User &user)
 {
+	/*----------------command protect------------------*/
 	if (!user.getIsPassProvided())
 		return;
+	/*----------------command protect------------------*/
 
     args.size()
     ? user.addOutputMessage("PONG " + args)

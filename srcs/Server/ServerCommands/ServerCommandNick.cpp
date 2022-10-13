@@ -18,8 +18,10 @@ bool invalid_nickName(std::string str)
 
 void Server::_nick(std::string args, User &user)
 {
+	/*----------------command protect------------------*/
 	if (!user.getIsPassProvided())
 		return;
+	/*----------------command protect------------------*/
 
 	std::vector<std::string> splitArgs = Utils::split(args, ' ');
 

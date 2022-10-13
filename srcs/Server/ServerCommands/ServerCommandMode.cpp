@@ -2,12 +2,14 @@
 
 void Server::_mode(std::string args, User &user)
 {
-	(void) user;
-
+	/*----------------command protect------------------*/
 	if (!user.getIsPassProvided())
 		return;
 	if (user.getNickName() == "*")
 		return;
+	/*----------------command protect------------------*/
+
+	(void) user;
 
 	std::vector<std::string> data;
 	data = Utils::split(args, ' ');

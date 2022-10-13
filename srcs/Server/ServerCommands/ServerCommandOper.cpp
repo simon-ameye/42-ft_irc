@@ -2,10 +2,12 @@
 
 void			Server::_oper(std::string args, User &user)
 {
+	/*----------------command protect------------------*/
 	if (!user.getIsPassProvided())
 		return;
 	if (user.getNickName() == "*")
 		return;
+	/*----------------command protect------------------*/
 
 	std::vector<std::string> splitArgs;
 	splitArgs = Utils::split(args, ' ');

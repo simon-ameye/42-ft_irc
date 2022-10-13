@@ -7,10 +7,12 @@ static void sendChannelMesage(User &sender, User &recipient, std::string &messag
 
 void Server::_privmsg(std::string args, User &user)
 {
+	/*----------------command protect------------------*/
 	if (!user.getIsPassProvided())
 		return;
 	if (user.getNickName() == "*")
 		return;
+	/*----------------command protect------------------*/
 
 	std::string message;
 	std::vector<std::string> parts;

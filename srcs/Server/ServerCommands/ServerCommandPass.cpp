@@ -2,6 +2,10 @@
 
 void Server::_pass(std::string args, User &user)
 {
+
+	/*----------------command protect------------------*/
+	/*----------------command protect------------------*/
+
 	std::vector<std::string> splitArgs;
 	splitArgs = Utils::split(args, ' ');
 

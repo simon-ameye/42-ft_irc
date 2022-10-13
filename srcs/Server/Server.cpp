@@ -4,66 +4,44 @@
 
 Server::Server(char *port, char *password)
 {
-	/*Set server parameters*/
+	// Set server parameters
 	_serverName = "ft_irc";
 	_exitSignal = 0;
 	_password = password;
 
-	/*Defining server sockaddr_in structure*/
-	// set port
+	// Defining server sockaddr_in structure
 	_port = atoi(port);
 	if (_port == 0)
-	{
-		std::cout << "Invalid port" << std::endl;
-		exit (-1);
-	}
+        _exit_server("invalid port", -1);
 
 	_sin.sin_port = htons(_port);
 	_sin.sin_addr.s_addr = htonl(INADDR_ANY); // set IP address automatically
 	_sin.sin_family = AF_INET;
 
-	/*Defining server sockaddr_in structure size*/
+	// Defining server sockaddr_in structure size
 	_sizeofsin = sizeof(_sin);
 
-	/*Creating socket*/
-	//std::cout << "socket()" << std::endl;
-	_masterSocket = socket(AF_INET, SOCK_STREAM, 0); // int socket(int domain, int type, int protocol), AF_INET=TCP/IP, SOCK_STREAM=TCP/IP
+	// Creating socket
+	_masterSocket = socket(AF_INET, SOCK_STREAM, 0);
 	if (_masterSocket == -1)
-	{
-		std::cout << "error: socket()" << std::endl;
-		exit (-1);
-	}
+        _exit_server("socket()", -1);
 
-	/*Setting socket reuse*/
-	//std::cout << "setsockopt()" << std::endl;
+	// Setting socket reuse
 	int enable = 1; // pas compris encore
 	if (setsockopt(_masterSocket, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &enable, sizeof(enable)) == -1)
-	{
-		std::cout << "error: setsockopt()" << std::endl;
-		exit (-1);
-	}
-	/*Setting socket to be non blocking*/
-	//std::cout << "fcntl()" << std::endl;
-	if (fcntl(_masterSocket, F_SETFL, O_NONBLOCK) == -1)
-	{
-		std::cout << "error: fcntl()" << std::endl;
-		exit (-1);
-	}
+        _exit_server("setsockopt()", -1);
 
-	/*Binding socket to port and set socket settings*/
-	//std::cout << "bind()" << std::endl;
-	if (bind(_masterSocket, (sockaddr *)&_sin, _sizeofsin) == -1) // int bind(int socket, const struct sockaddr* addr, socklen_t addrlen)
-	{
-		std::cout << "error: bind()" << std::endl;
-		exit (-1);
-	}
-	/*Listening*/
-	//std::cout << "listen()" << std::endl;
-	if (listen(_masterSocket, 5) == -1) // int listen(int socket, int backlog)
-	{
-		std::cout << "error: listen()" << std::endl;
-		exit (-1);
-	}
+	// Setting socket to be non blocking
+	if (fcntl(_masterSocket, F_SETFL, O_NONBLOCK) == -1)
+        _exit_server("fcntl()", -1);
+
+	// Binding socket to port and set socket settings
+	if (bind(_masterSocket, (sockaddr *)&_sin, _sizeofsin) == -1)
+        _exit_server("bind()", -1);
+
+	// Listening
+	if (listen(_masterSocket, 5) == -1)
+        _exit_server("listen()", -1);
 
 	std::cout << "Server starting on port " << _port << " with password " << _password << std::endl;
 }
@@ -98,11 +76,8 @@ void Server::block(void)
 
 	/*wait for an event*/
 	// std::cout << "poll()" << std::endl;
-	if (poll(&(_pollfds[0]), _pollfds.size(), POLL_TIMEOUT) == -1) // BLOCKS untill a fd is available + set max ping to 300s
-	{
-		std::cout << "error: poll()" << std::endl; //le time est-il bon ?
-		exit (-1);
-	}
+	if (poll(&(_pollfds[0]), _pollfds.size(), POLL_TIMEOUT) == -1) // BLOCKS untill a fd is available
+        _exit_server("poll()", -1);
 }
 
 void Server::getNewUsers(void)
@@ -123,10 +98,7 @@ void Server::getNewUsers(void)
 		tempFd = accept(_masterSocket, (sockaddr *)&_sin, &_sizeofsin); // accept connection and get the fd
 		_users[tempFd];													// create a user (without calling constructor twice)
 		if (tempFd == -1)
-		{
-			std::cout << "error: accept()" << std::endl;
-			exit (-1);
-		}
+            _exit_server("accept()", -1);
 		std::cout << "New user accepted with fd: " << tempFd << std::endl;
 	}
 }
@@ -161,11 +133,8 @@ void Server::getMessages(void)
 			Utils::clearBuffer(buffer, BUFFER_SIZE);
 			sizeRead = recv(itb->fd, buffer, BUFFER_SIZE, 0);
 			if (sizeRead == -1) // recv error
-			{
-				std::cout << "error: recv()" << std::endl;
-				exit (-1);
-			}
-			else if (sizeRead == 0) // recv size = 0 : nothing to read anymore. User dosconnected.
+                _exit_server("recv()", -1);
+			else if (sizeRead == 0) // recv size = 0 : nothing to read anymore. User disconnected.
 			{
 				getpeername(itb->fd, (struct sockaddr *)&_sin, (socklen_t *)&_sizeofsin);
 				std::cout << "Host disconnected , ip " << inet_ntoa(_sin.sin_addr) << " , port " << ntohs(_sin.sin_port) << std::endl;
@@ -237,4 +206,10 @@ Server::~Server()
 const int &Server::getExitSignal(void)
 {
 	return (_exitSignal);
+}
+
+void Server::_exit_server(const std::string &message, int exitCode)
+{
+    std::cout << "Error: " << message << std::endl;
+    exit(exitCode);
 }

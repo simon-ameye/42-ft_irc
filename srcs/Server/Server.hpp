@@ -54,7 +54,7 @@ class Server
 	void			nameReply(User &user, Channel &channel);
 	void			joinReply(User &user, Channel &channel);
 
-	
+
 	private:
 	int				_port;
 	std::string		_password;
@@ -80,6 +80,8 @@ class Server
 	void			_cap(std::string args, User &user);
 	void			_mode(std::string args, User &user);
 	void			_die(std::string args, User &user);
+
+    void            _exit_server(const std::string &message, int exitCode);
 };
 
 #endif

@@ -17,6 +17,6 @@ int main(int argc, char **argv)
 		server.getMessages();
 		server.dispatchs();
 		server.sendMessage();
-		usleep(100000);
+		//usleep(100000);
 	}
 }

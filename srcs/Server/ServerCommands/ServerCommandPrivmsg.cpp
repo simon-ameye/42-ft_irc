@@ -21,27 +21,27 @@ void Server::_privmsg(std::string args, User &user)
 		return;
 	}
 	message = parts[1];
-	
+
 
 	for (size_t i = 0; i < recievers.size(); i++)
 	{
 		std::cout << "receveir[i] = " << recievers[i] << std::endl;
 
-		std::map<int, User>::iterator it1 = findUser(recievers[i]); //for users
+		std::vector<User>::iterator it1 = findUser(recievers[i]); //for users
 		if (it1 != _users.end())
 		{
-			it1->second.addOutputMessage(":" + user.getNickName() + " PRIVMSG " + it1->second.getNickName() + " :" + message);
+			it1->addOutputMessage(":" + user.getNickName() + " PRIVMSG " + it1->getNickName() + " :" + message);
 		}
 
 		std::vector<Channel>::iterator it2 = findChannel(recievers[i]); //for channels
 		if (it2 != _channels.end())
 		{
-			std::vector<std::map<int, User>::iterator> itUsers;
+			std::vector<std::vector<User>::iterator> itUsers;
 			itUsers = getUsersInChannel(recievers[i]);
 			for (size_t i = 0; i < itUsers.size(); i++)
 			{
-				if (user.getNickName() != itUsers[i]->second.getNickName()) //avoid sending message to sender
-					sendChannelMesage(user, itUsers[i]->second, message, it2->getName());
+				if (user.getNickName() != itUsers[i]->getNickName()) //avoid sending message to sender
+					sendChannelMesage(user, *itUsers[i], message, it2->getName());
 			}
 		}
 	}

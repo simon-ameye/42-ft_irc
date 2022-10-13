@@ -54,8 +54,6 @@ Thus, creates a user and give it its new fd.
 This user is not set in pollfs. Thus, its fd will be read in the next loop*/
 void Server::block(void)
 {
-	std::cout << "---------- Server::block ---------" << std::endl;
-
 	pollfd tempPollFd;
 
 	_pollfds.clear();
@@ -66,9 +64,9 @@ void Server::block(void)
 	_pollfds.push_back(tempPollFd);
 
 	// Add all the users sockets to pollfds
-	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
+	for (std::vector<User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
-		tempPollFd.fd = itb->first;
+		tempPollFd.fd = itb->getFd();
 		_pollfds.push_back(tempPollFd);
 	}
 
@@ -87,7 +85,8 @@ void Server::getNewUsers(void)
 		tempFd = accept(_masterSocket, (sockaddr *)&_sin, &_sizeofsin);
 		if (tempFd == -1)
 			_exit_server("accept()", -1);
-		_users[tempFd];
+		//_users[tempFd];
+		_users.push_back(User(tempFd));
 		std::cout << "New user accepted with fd: " << tempFd << std::endl;
 	}
 }
@@ -129,13 +128,13 @@ void Server::getMessages(void)
 				getpeername(itb->fd, (struct sockaddr *)&_sin, (socklen_t *)&_sizeofsin);
 				std::cout << "Host disconnected , ip " << inet_ntoa(_sin.sin_addr) << " , port " << ntohs(_sin.sin_port) << std::endl;
 				close(itb->fd);
-				_users.erase(itb->fd);
+				_users.erase(getUserItByFd(itb->fd));
 				std::cout << "host closed and erased" << std::endl;
 			}
 
 			// Something to read: add buffer to users _inputMessages
 			else
-				_users[itb->fd].addBufferToMessages(buffer, sizeRead);
+				getUserItByFd(itb->fd)->addBufferToMessages(buffer, sizeRead);
 		}
 	}
 }
@@ -143,17 +142,17 @@ void Server::getMessages(void)
 void Server::dispatchs(void)
 {
 	// Loop over users
-	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
+	for (std::vector<User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
 		// std::cout << "evaluation user with fd : " << itb->first << std::endl;
 		//itb->second._outputMessage.clear(); elle supprime loutput msg d'user qu'on vient de modifier avant de l'envoyer
 
 		// Loop over _inputMessages
-		for (std::vector<std::string>::const_iterator itb2 = itb->second.getInputMessages().begin(); itb2 != itb->second.getInputMessages().end(); itb2++)
-			dispatch(*itb2, itb->second);
+		for (std::vector<std::string>::const_iterator itb2 = itb->getInputMessages().begin(); itb2 != itb->getInputMessages().end(); itb2++)
+			dispatch(*itb2, *itb);
 
 		// All messages have been threated, clearing.
-		itb->second.clearInputMessages();
+		itb->clearInputMessages();
 	}
 }
 
@@ -161,16 +160,16 @@ void Server::dispatchs(void)
 sends _outputMessage buffer by buffer*/
 void Server::sendMessage(void)
 {
-	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
+	for (std::vector<User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
-		if (itb->second.getOutputMessage().size() > 0)
-			std::cout << itb->second.getFullClientIdentifier() << " : $" << GREEN << itb->second.getOutputMessage() << RESET << "$" << std::endl;
+		if (itb->getOutputMessage().size() > 0)
+			std::cout << itb->getFullClientIdentifier() << " : $" << GREEN << itb->getOutputMessage() << RESET << "$" << std::endl;
 
 
-		if (send(itb->first, itb->second.getOutputMessage().c_str(), itb->second.getOutputMessage().length(), 0) == -1)
+		if (send(itb->getFd(), itb->getOutputMessage().c_str(), itb->getOutputMessage().length(), 0) == -1)
 			std::cout << "Send error " << std::endl;
 
-		itb->second.clearOutputMessage();
+		itb->clearOutputMessage();
 	}
 }
 
@@ -179,11 +178,11 @@ Server::~Server()
 	std::cout << "Server destructor called" << std::endl;
 
 	// close() all users fds
-	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
+	for (std::vector<User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
 		std::cout << "Clearing host , ip " << inet_ntoa(_sin.sin_addr) << " , port " << ntohs(_sin.sin_port) << std::endl;
-		getpeername(itb->first, (struct sockaddr *)&_sin, (socklen_t *)&_sizeofsin);
-		close(itb->first);
+		getpeername(itb->getFd(), (struct sockaddr *)&_sin, (socklen_t *)&_sizeofsin);
+		close(itb->getFd());
 	}
 	_users.clear();
 	shutdown(_masterSocket, SHUT_RDWR);

@@ -2,13 +2,13 @@
 
 void Server::nameReply(User &user, Channel &channel)
 {
-	std::vector<std::map<int, User>::iterator> vectorOfUserIterators;
+	std::vector<std::vector<User>::iterator> vectorOfUserIterators;
 	vectorOfUserIterators = getUsersInChannel(channel.getName());
 	std::string users = "";
 	for (size_t i = 0; i < vectorOfUserIterators.size(); i++)
 	{
 		users += "@";
-		users += vectorOfUserIterators[i]->second.getNickName();
+		users += vectorOfUserIterators[i]->getNickName();
 		users += " ";
 		//if (i != vectorOfUserIterators.size() - 1)
 		//	users += " ";
@@ -19,10 +19,10 @@ void Server::nameReply(User &user, Channel &channel)
 
 void Server::joinReply(User &newUser, Channel &channel)
 {
-	std::vector<std::map<int, User>::iterator> it = getUsersInChannel(channel.getName());
+	std::vector<std::vector<User>::iterator> it = getUsersInChannel(channel.getName());
 	for (size_t i = 0; i < it.size(); i++)
 	{
-		it[i]->second.addOutputMessage(":" + newUser.getNickName() + "@" + newUser.getRealName() + " JOIN " + channel.getName());
+		it[i]->addOutputMessage(":" + newUser.getNickName() + "@" + newUser.getRealName() + " JOIN " + channel.getName());
 	}
 }
 

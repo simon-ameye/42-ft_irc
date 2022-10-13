@@ -48,13 +48,14 @@ class Server
 	void			dispatch(const std::string& message, User& user);
 
 
+	std::vector<User>::iterator	getUserItByFd(int fd);
 	bool			hasUser(std::string nickName, std::string exclude = "");
 	bool			hasChannel(std::string channelName);
 	void			deleteUser(std::string nickName);
 	void			deleteChannel(std::string channelName);
 	std::vector<Channel>::iterator findChannel(std::string channelName);
-	std::vector<std::map<int, User>::iterator> getUsersInChannel(std::string channelName);
-	std::map<int, User>::iterator			findUser(std::string nickName);
+	std::vector<std::vector<User>::iterator> getUsersInChannel(std::string channelName);
+	std::vector<User>::iterator			findUser(std::string nickName);
 	void			nameReply(User &user, Channel &channel);
 	void			joinReply(User &user, Channel &channel);
 
@@ -65,9 +66,10 @@ class Server
 	socklen_t		_sizeofsin;
 	int				_exitSignal;
 	int				_masterSocket;
-	std::map<int, User> _users;
-	std::vector<Channel> _channels;
-	std::vector<pollfd>	_pollfds;
+	//std::map<int, User> _users;
+	std::vector<User>		_users;
+	std::vector<Channel>	_channels;
+	std::vector<pollfd>		_pollfds;
 	std::string _serverName;
 
 	private:

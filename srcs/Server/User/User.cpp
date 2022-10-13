@@ -1,7 +1,8 @@
 #include "User.hpp"
 
-User::User()
+User::User(int fd)
 {
+	_fd = fd;
 	std::cout << "user constructor called" << std::endl;
 	_isPassProvided = 0;
 	_isOperator = 0;
@@ -14,9 +15,9 @@ User::~User()
 	std::cout << "user destructor called" << std::endl;
 }
 
-User &User::newUser()
+int User::getFd() const
 {
-	return *(new User);
+	return _fd;
 }
 
 std::string User::getRealName(void) const

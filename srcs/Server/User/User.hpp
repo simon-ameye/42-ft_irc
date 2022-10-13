@@ -11,6 +11,7 @@
 class User
 {
 private:
+	int			_fd;
 	std::string _nickName;
 	std::string _realName;
 	std::string _userName;
@@ -26,10 +27,10 @@ private:
 	std::vector<std::vector<Channel>::iterator> _channels; // vector of iterators on server's channels vector
 
 public:
-	User();
+	User(int fd);
 	~User();
-	User &newUser();
 
+	int			getFd() const;
 	std::string getRealName() const;
 	std::string getNickName() const;
 	std::string getUserName() const;

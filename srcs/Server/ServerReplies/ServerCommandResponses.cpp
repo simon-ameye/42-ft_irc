@@ -6,28 +6,27 @@ void Server::_commandResponces(User &user, int rpl, std::string cmd, Channel &ch
 	(void)channel;
 	std::stringstream result;
 
-	result << ":" << _serverName << " ";
-	result << Utils::getCode(rpl) << " ";
+	result << ":" << _serverName << " " << Utils::getCode(rpl) << " " << user.getNickName() << " :";
 
 	switch (rpl)
 	{
 	case RPL_WELCOME:
-		result << user.getNickName() << " :Welcome to the Internet Relay Chat Network " << user.getNickName() << "!" << user.getUserName();
+		result << " YOOOOO ! Welcome to our Internet Relay Chat Network " << user.getFullClientIdentifier();
 		break;
 	case RPL_TOPIC:
-		result << user.getNickName() << " " << channel.getName() << " :" << channel.getTopic();
+		result << " " << channel.getName() << " :" << channel.getTopic();
 		break;
 	case RPL_NAMREPLY:
-		result << user.getNickName() << " = " << channel.getName() << " :" << optionalString;
+		result << " = " << channel.getName() << " :" << optionalString;
 		break; //"<client> <symbol> <channel> :[prefix]<nick>{ [prefix]<nick>}" break;
 	case RPL_ENDOFNAMES:
-		result << user.getNickName() << " " << channel.getName() << " :End of /NAMES list";
+		result << " " << channel.getName() << " :End of /NAMES list";
 		break;
 	case RPL_YOUREOPER:
-		result << ":You are now an IRC operator";
+		result << " You are now an IRC operator";
 		break;
 	default:
-		result << "Unknown reply";
+		result << " Unknown reply";
 	}
 	user.addOutputMessage(result.str());
 }

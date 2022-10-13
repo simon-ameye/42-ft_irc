@@ -11,15 +11,15 @@ void Server::_mode(std::string args, User &user)
 	{
 		std::string param1;
 		param1 = Utils::split(args, ' ')[0];
-		std::cout << "------> param1 = " <<  param1 << std::endl;
+		//std::cout << "------> param1 = " <<  param1 << std::endl;
 
 		std::string param2;
 		param2 = args.substr(param1.size(), args.size());
-		std::cout << "------> param2 = " <<  param2 << std::endl;
+		//std::cout << "------> param2 = " <<  param2 << std::endl;
 
 		if (param2.compare("+i"))
 		{
-			std::cout << "====> invit" <<  std::endl;
+			//std::cout << "====> invit" <<  std::endl;
 		}
 		else
 		{

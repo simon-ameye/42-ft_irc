@@ -1,7 +1,7 @@
 #include "../Server.hpp"
 bool ft_isalnum(int c)
 {
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_')
 		return (true);
 	return (false);
 }
@@ -15,11 +15,11 @@ bool invalid_nickName(std::string str)
 	}
 	return true;
 }
+
 void Server::_nick(std::string args, User &user)
 {
 	Channel channel;
-	std::vector<std::string> splitArgs;
-	splitArgs = Utils::split(args, ' ');
+	std::vector<std::string> splitArgs = Utils::split(args, ' ');
 
 	if (args.size() == 0)
 	{
@@ -35,8 +35,14 @@ void Server::_nick(std::string args, User &user)
 	}
 	if (Server::hasUser(nickname, user.getNickName()))
 	{
-		_errorReplies(user, ERR_NICKNAMEINUSE, "NICK", channel, nickname);
-		// deleteUser(user.nickName);
+		//_errorReplies(user, ERR_NICKNAMEINUSE, "NICK", channel, nickname);
+		//: 433 * n1 :Nickname is already in use
+		std::string message = ": 433 ";
+		message += user.getNickName();
+		message += " ";
+		message += nickname;
+		message += " :Nickname is already in use";
+		user.addOutputMessage(message);
 		return;
 	}
 

@@ -6,6 +6,7 @@ User::User()
 	_isPassProvided = 0;
 	_isOperator = 0;
 	_isRegistered = 0;
+	_nickName = "*";
 }
 
 User::~User()
@@ -31,6 +32,12 @@ std::string User::getNickName(void) const
 std::string User::getUserName(void) const
 {
 	return (_userName);
+}
+
+std::string User::getFullClientIdentifier(void) const
+{
+	//<nick>!<user>@<host>
+	return (_nickName + "!" + _userName + "@" + _hostName);
 }
 
 std::string User::getSymbol(void) const
@@ -86,6 +93,11 @@ void User::setNickName(std::string _nickName)
 void User::setUserName(std::string _userName)
 {
 	this->_userName = _userName;
+}
+
+void User::setHostName(std::string _userName)
+{
+	this->_hostName = _userName;
 }
 
 void User::setSymbol(std::string _symbol)

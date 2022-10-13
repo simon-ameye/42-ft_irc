@@ -2,7 +2,7 @@
 
 void Server::dispatch(const std::string &message, User &user)
 {
-	std::cout << "Processing command : $" << message << "$" << std::endl;
+	std::cout << user.getFullClientIdentifier() << " : $" << RED << message << RESET << "$" << std::endl;
 
 	std::vector<std::string> splitCmd;
 	std::string cmd;
@@ -12,15 +12,15 @@ void Server::dispatch(const std::string &message, User &user)
 	cmd = splitCmd[0];
 	args = splitCmd[1];
 
-	std::cout << "cmd : $" << cmd << "$" << std::endl;
-	std::cout << "args : $" << args << "$" << std::endl;
+	//std::cout << "cmd : $" << cmd << "$" << std::endl;
+	//std::cout << "args : $" << args << "$" << std::endl;
 
 	if (cmd == "")
 		std::cout << "empty cmd" << std::endl;
 	else if (cmd == "CAP")
 		_cap(args, user);
 	else if (cmd == "NICK")
-		_nick(args, user); 
+		_nick(args, user);
 	else if (cmd == "PASS")
 		_pass(args, user);
 	else if (cmd == "PING")

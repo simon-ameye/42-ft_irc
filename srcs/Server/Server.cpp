@@ -164,12 +164,12 @@ void Server::sendMessage(void)
 	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
 		if (itb->second.getOutputMessage().size() > 0)
-			std::cout << "Sending fd: " << itb->first << " : $" << itb->second.getOutputMessage() << "$" << std::endl;
+			std::cout << itb->second.getFullClientIdentifier() << " : $" << GREEN << itb->second.getOutputMessage() << RESET << "$" << std::endl;
+
 
 		if (send(itb->first, itb->second.getOutputMessage().c_str(), itb->second.getOutputMessage().length(), 0) == -1)
 			std::cout << "Send error " << std::endl;
 
-		// std::cout << "Finished sending User._outputMessage to fd : " << itb->first << std::endl;
 		itb->second.clearOutputMessage();
 	}
 }

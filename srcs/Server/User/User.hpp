@@ -11,9 +11,11 @@
 class User
 {
 private:
-	std::string _realName;
 	std::string _nickName;
+	std::string _realName;
 	std::string _userName;
+	std::string _hostName;
+
 	std::string _symbol;
 	bool _isRegistered;
 	bool _isPassProvided;
@@ -32,6 +34,7 @@ public:
 	std::string getNickName() const;
 	std::string getUserName() const;
 	std::string getSymbol() const;
+	std::string getFullClientIdentifier() const;
 	bool getIsRegistered() const;
 	bool getIsPassProvided() const;
 	bool getIsOperator() const;
@@ -43,6 +46,7 @@ public:
 	void setRealName(std::string _realName);
 	void setNickName(std::string _nickName);
 	void setUserName(std::string _userName);
+	void setHostName(std::string _userName);
 	void setSymbol(std::string _symbol);
 	void setIsRegistered(bool _isRegistered);
 	void setIsPassProvided(bool _isPassProvided);

@@ -9,12 +9,12 @@ void			Server::_ping(std::string args, User &user)
 	if (splitArgs.size() != 1)
 		return ;
 
-	if (_serverName != splitArgs[0])
-	{
-		std::cout << "no such server for splitArgs[0] : " << splitArgs[0] << std::endl;
-		_errorReplies(user, ERR_NOSUCHSERVER, "OPER", channel);
-		return;
-	}
+	//if (_serverName != splitArgs[0])
+	//{
+	//	std::cout << "no such server for splitArgs[0] : " << splitArgs[0] << std::endl;
+	//	_errorReplies(user, ERR_NOSUCHSERVER, "OPER", channel);
+	//	return;
+	//}
 
-	user.addOutputMessage("PONG "+ _serverName + " " + user.getNickName());
+	user.addOutputMessage(":" + _serverName + " PONG "+ " :" + user.getNickName());
 }

@@ -7,7 +7,7 @@ User::User(int fd)
 	_isPassProvided = 0;
 	_isOperator = 0;
 	_isRegistered = 0;
-	_nickName = "*";
+	_nickName = "";
 }
 
 User::~User()
@@ -30,9 +30,21 @@ std::string User::getNickName(void) const
 	return (_nickName);
 }
 
+std::string User::getNickNameOrStar(void) const
+{
+	if (_nickName == "")
+		return ("*");
+	return (_nickName);
+}
+
 std::string User::getUserName(void) const
 {
 	return (_userName);
+}
+
+std::string User::getHostName(void) const
+{
+	return (_hostName);
 }
 
 std::string User::getFullClientIdentifier(void) const

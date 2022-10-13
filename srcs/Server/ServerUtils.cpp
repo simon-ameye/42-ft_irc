@@ -101,3 +101,20 @@ std::vector<User>::iterator Server::getUserItByFd(int fd)
 	}
 	return (_users.end());
 }
+
+void Server::_sendWelcome(User &user)
+{
+	if (user.getIsRegistered() == 1)
+		return ;
+	if (user.getNickName() == "")
+		return ;
+	if (user.getHostName() == "")
+		return ;
+	if (user.getRealName() == "")
+		return ;
+	if (user.getUserName() == "")
+		return ;
+
+	user.setIsRegistered(true);
+	_commandResponces(user, RPL_WELCOME, "USER", "");
+}

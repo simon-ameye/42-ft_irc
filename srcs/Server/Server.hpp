@@ -88,7 +88,9 @@ class Server
 	void			_quit   (std::string args, User &user);
 	void			_privmsg(std::string args, User &user);
 
-    void            _exit_server(const std::string &message, int exitCode);
+	void			_exit_server(const std::string &message, int exitCode);
+	void			_sendWelcome(User &user);
+
 };
 
 #endif

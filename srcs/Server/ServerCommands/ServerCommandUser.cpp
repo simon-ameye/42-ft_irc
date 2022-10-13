@@ -5,8 +5,6 @@ void Server::_user(std::string args, User &user)
 	/*----------------command protect------------------*/
 	if (!user.getIsPassProvided())
 		return;
-	if (user.getNickName() == "*")
-		return;
 	/*----------------command protect------------------*/
 
 	if (user.getIsRegistered())
@@ -24,6 +22,4 @@ void Server::_user(std::string args, User &user)
 	user.setUserName(username);
 	user.setRealName(realName);
 	user.setHostName(hostname);
-	user.setIsRegistered(true);
-	_commandResponces(user, RPL_WELCOME, "USER", "");
 }

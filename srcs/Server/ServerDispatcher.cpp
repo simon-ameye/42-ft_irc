@@ -38,4 +38,6 @@ void Server::dispatch(const std::string &message, User &user)
 		_quit(args, user);
 	else
 		_errorReplies(user, ERR_UNKNOWNCOMMAND, cmd, "");
+
+	_sendWelcome(user);
 }

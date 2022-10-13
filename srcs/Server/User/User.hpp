@@ -33,7 +33,9 @@ public:
 	int			getFd() const;
 	std::string getRealName() const;
 	std::string getNickName() const;
+	std::string getNickNameOrStar() const;
 	std::string getUserName() const;
+	std::string getHostName() const;
 	std::string getSymbol() const;
 	std::string getFullClientIdentifier() const;
 	bool getIsRegistered() const;

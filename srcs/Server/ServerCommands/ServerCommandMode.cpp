@@ -5,7 +5,7 @@ void Server::_mode(std::string args, User &user)
 	/*----------------command protect------------------*/
 	if (!user.getIsPassProvided())
 		return;
-	if (user.getNickName() == "*")
+	if (user.getNickName() == "")
 		return;
 	/*----------------command protect------------------*/
 

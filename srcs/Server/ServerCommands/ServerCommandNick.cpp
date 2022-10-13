@@ -1,19 +1,21 @@
 #include "../Server.hpp"
-bool ft_isalnum(int c)
+static bool isValidChar(int c)
 {
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') //Nick "*" MUST be denied because it is the default nick
 		return (true);
 	return (false);
 }
 
-bool invalid_nickName(std::string str)
+static bool isInvalidNick(std::string str)
 {
+	if (str.size() == 0)
+		return true;
 	for (size_t i = 0; i < str.size(); i++)
 	{
-		if (ft_isalnum(str[i]) == 0)
-			return false;
+		if (isValidChar(str[i]) == 0)
+			return true;
 	}
-	return true;
+	return false;
 }
 
 void Server::_nick(std::string args, User &user)
@@ -23,16 +25,25 @@ void Server::_nick(std::string args, User &user)
 		return;
 	/*----------------command protect------------------*/
 
-	std::vector<std::string> splitArgs = Utils::split(args, ' ');
+	//std::vector<std::string> splitArgs = Utils::split(args, ' ');
+	//if (args.size() == 0)
+	//{
+	//	_errorReplies(user, ERR_NONICKNAMEGIVEN, "NICK", "");
+	//	return;
+	//}
+	//std::string nickname = splitArgs[0];
 
-	if (args.size() == 0)
+	std::string nickname;
+	try
 	{
-		_errorReplies(user, ERR_NONICKNAMEGIVEN, "NICK", "");
-		return;
+		nickname = Utils::split(args, ' ').at(0);
+	}
+	catch (...)
+	{
+		return _errorReplies(user, ERR_NONICKNAMEGIVEN, "NICK", "");
 	}
 
-	std::string nickname = splitArgs[0];
-	if (invalid_nickName(nickname) == false)
+	if (isInvalidNick(nickname))
 	{
 		_errorReplies(user, ERR_ERRONEUSNICKNAME, "NICK", "");
 		return;
@@ -41,7 +52,7 @@ void Server::_nick(std::string args, User &user)
 	if (Server::hasUser(nickname, user.getNickName()))
 	{
 		std::string message = ": 433 ";
-		message += user.getNickName();
+		message += user.getNickNameOrStar();
 		message += " ";
 		message += nickname;
 		message += " :Nickname is already in use";
@@ -49,15 +60,19 @@ void Server::_nick(std::string args, User &user)
 		return;
 	}
 
-	if (!user.getIsRegistered()) // not registered TOTO replace by !user.isRegistered
-	{
-		user.setNickName(nickname);
-		user.addOutputMessage(": NICK :" + nickname);
-	}
-	else
-	{
-		user.addOutputMessage(":" + user.getNickName() + " NICK :" + nickname);
-		user.setNickName(nickname);
-		// todo envoyer le message aux autre clients (dans les memes channel)
-	}
+	//user.addOutputMessage(":" + user.getFullClientIdentifier() + " NICK " + nickname);
+	user.setNickName(nickname);
+	user.addOutputMessage(": NICK :" + nickname);
+
+	//if (!user.getIsRegistered()) // not registered TOTO replace by !user.isRegistered
+	//{
+	//	user.setNickName(nickname);
+	//	user.addOutputMessage(": NICK " + nickname);
+	//}
+	//else
+	//{
+	//	user.addOutputMessage(":" + user.getNickName() + " NICK :" + nickname);
+	//	user.setNickName(nickname);
+	//	// todo envoyer le message aux autre clients (dans les memes channel)
+	//}
 }

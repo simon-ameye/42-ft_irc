@@ -165,7 +165,6 @@ void Server::sendMessage(void)
 		if (itb->getOutputMessage().size() > 0)
 			std::cout << itb->getFullClientIdentifier() << " : $" << GREEN << itb->getOutputMessage() << RESET << "$" << std::endl;
 
-
 		if (send(itb->getFd(), itb->getOutputMessage().c_str(), itb->getOutputMessage().length(), 0) == -1)
 			std::cout << "Send error " << std::endl;
 

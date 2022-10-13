@@ -1,20 +1,12 @@
 #include "../Server.hpp"
 
-void			Server::_ping(std::string args, User &user)
+// ERR_NEEDMOREPARAMS   (461)
+// ERR_NOORIGIN         (409)
+// ERR_NOSUCHSERVER     (402)
+
+void Server::_ping(std::string args, User &user)
 {
-	Channel channel;
-	std::vector<std::string> splitArgs;
-	splitArgs = Utils::split(args, ' ');
-
-	if (splitArgs.size() != 1)
-		return ;
-
-	//if (_serverName != splitArgs[0])
-	//{
-	//	std::cout << "no such server for splitArgs[0] : " << splitArgs[0] << std::endl;
-	//	_errorReplies(user, ERR_NOSUCHSERVER, "OPER", channel);
-	//	return;
-	//}
-
-	user.addOutputMessage(":" + _serverName + " PONG "+ " :" + user.getNickName());
+    args.size()
+    ? user.addOutputMessage("PONG " + args)
+    : user.addOutputMessage("PONG");
 }

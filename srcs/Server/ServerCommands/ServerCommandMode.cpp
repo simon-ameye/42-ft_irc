@@ -6,6 +6,8 @@ void Server::_mode(std::string args, User &user)
 
 	if (!user.getIsPassProvided())
 		return;
+	if (user.getNickName() == "*")
+		return;
 
 	std::vector<std::string> data;
 	data = Utils::split(args, ' ');

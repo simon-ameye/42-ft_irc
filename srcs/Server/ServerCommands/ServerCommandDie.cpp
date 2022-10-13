@@ -7,6 +7,8 @@ void Server::_die(std::string args, User &user)
 
 	if (!user.getIsPassProvided())
 		return;
+	if (user.getNickName() == "*")
+		return;
 
     if (user.getIsOperator() == false)
     	_errorReplies(user, ERR_NOPRIVILEGES, "DIE", "");

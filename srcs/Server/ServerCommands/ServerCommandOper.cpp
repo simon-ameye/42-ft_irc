@@ -4,6 +4,8 @@ void			Server::_oper(std::string args, User &user)
 {
 	if (!user.getIsPassProvided())
 		return;
+	if (user.getNickName() == "*")
+		return;
 
 	std::vector<std::string> splitArgs;
 	splitArgs = Utils::split(args, ' ');

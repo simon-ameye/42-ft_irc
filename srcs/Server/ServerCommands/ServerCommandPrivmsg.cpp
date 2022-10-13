@@ -9,6 +9,8 @@ void Server::_privmsg(std::string args, User &user)
 {
 	if (!user.getIsPassProvided())
 		return;
+	if (user.getNickName() == "*")
+		return;
 
 	std::string message;
 	std::vector<std::string> parts;

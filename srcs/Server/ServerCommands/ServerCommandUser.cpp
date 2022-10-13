@@ -4,6 +4,8 @@ void Server::_user(std::string args, User &user)
 {
 	if (!user.getIsPassProvided())
 		return;
+	if (user.getNickName() == "*")
+		return;
 
 	if (user.getIsRegistered())
 		return _errorReplies(user, ERR_ALREADYREGISTRED, "USER", "");

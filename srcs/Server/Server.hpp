@@ -56,7 +56,6 @@ class Server
 
 
 	private:
-	int				_port;
 	std::string		_password;
 	sockaddr_in		_sin;
 	socklen_t		_sizeofsin;

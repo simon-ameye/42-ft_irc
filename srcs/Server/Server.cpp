@@ -9,14 +9,12 @@ Server::Server(char *port, char *password)
 	_exitSignal = 0;
 	_password = password;
 
-	// Defining server sockaddr_in structure
-	_port = atoi(port);
-	if (_port == 0)
-        _exit_server("invalid port", -1);
-
-	_sin.sin_port = htons(_port);
-	_sin.sin_addr.s_addr = htonl(INADDR_ANY); // set IP address automatically
 	_sin.sin_family = AF_INET;
+	_sin.sin_port = htons(atoi(port));
+	_sin.sin_addr.s_addr = htonl(INADDR_ANY); // set IP address automatically
+
+	if (_sin.sin_port == 0)
+		_exit_server("invalid port", -1);
 
 	// Defining server sockaddr_in structure size
 	_sizeofsin = sizeof(_sin);
@@ -24,26 +22,26 @@ Server::Server(char *port, char *password)
 	// Creating socket
 	_masterSocket = socket(AF_INET, SOCK_STREAM, 0);
 	if (_masterSocket == -1)
-        _exit_server("socket()", -1);
+		_exit_server("socket()", -1);
 
 	// Setting socket reuse
 	int enable = 1; // pas compris encore
 	if (setsockopt(_masterSocket, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &enable, sizeof(enable)) == -1)
-        _exit_server("setsockopt()", -1);
+		_exit_server("setsockopt()", -1);
 
 	// Setting socket to be non blocking
 	if (fcntl(_masterSocket, F_SETFL, O_NONBLOCK) == -1)
-        _exit_server("fcntl()", -1);
+		_exit_server("fcntl()", -1);
 
 	// Binding socket to port and set socket settings
 	if (bind(_masterSocket, (sockaddr *)&_sin, _sizeofsin) == -1)
-        _exit_server("bind()", -1);
+		_exit_server("bind()", -1);
 
 	// Listening
 	if (listen(_masterSocket, 5) == -1)
-        _exit_server("listen()", -1);
+		_exit_server("listen()", -1);
 
-	std::cout << "Server starting on port " << _port << " with password " << _password << std::endl;
+	std::cout << "Server starting on port " << ntohs(_sin.sin_port) << " with password " << _password << std::endl;
 }
 
 /*Create the pollfds structure.
@@ -76,7 +74,7 @@ void Server::block(void)
 
 	// wait for an event
 	if (poll(&(_pollfds[0]), _pollfds.size(), POLL_TIMEOUT) == -1)
-        _exit_server("poll()", -1);
+		_exit_server("poll()", -1);
 }
 
 void Server::getNewUsers(void)
@@ -88,7 +86,7 @@ void Server::getNewUsers(void)
 		// Accept and create a new user
 		tempFd = accept(_masterSocket, (sockaddr *)&_sin, &_sizeofsin);
 		if (tempFd == -1)
-            _exit_server("accept()", -1);
+			_exit_server("accept()", -1);
 		_users[tempFd];
 		std::cout << "New user accepted with fd: " << tempFd << std::endl;
 	}
@@ -121,11 +119,11 @@ void Server::getMessages(void)
 
 			sizeRead = recv(itb->fd, buffer, BUFFER_SIZE, 0);
 
-            // recv() error
+			// recv() error
 			if (sizeRead == -1)
-                _exit_server("recv()", -1);
+				_exit_server("recv()", -1);
 
-            // Nothing to read anymore: user disconnected
+			// Nothing to read anymore: user disconnected
 			if (sizeRead == 0)
 			{
 				getpeername(itb->fd, (struct sockaddr *)&_sin, (socklen_t *)&_sizeofsin);
@@ -135,7 +133,7 @@ void Server::getMessages(void)
 				std::cout << "host closed and erased" << std::endl;
 			}
 
-            // Something to read: add buffer to users _inputMessages
+			// Something to read: add buffer to users _inputMessages
 			else
 				_users[itb->fd].addBufferToMessages(buffer, sizeRead);
 		}
@@ -154,7 +152,7 @@ void Server::dispatchs(void)
 		for (std::vector<std::string>::const_iterator itb2 = itb->second.getInputMessages().begin(); itb2 != itb->second.getInputMessages().end(); itb2++)
 			dispatch(*itb2, itb->second);
 
-        // All messages have been threated, clearing.
+		// All messages have been threated, clearing.
 		itb->second.clearInputMessages();
 	}
 }
@@ -180,7 +178,7 @@ Server::~Server()
 {
 	std::cout << "Server destructor called" << std::endl;
 
-    // close() all users fds
+	// close() all users fds
 	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
 		std::cout << "Clearing host , ip " << inet_ntoa(_sin.sin_addr) << " , port " << ntohs(_sin.sin_port) << std::endl;
@@ -198,6 +196,6 @@ const int &Server::getExitSignal(void)
 
 void Server::_exit_server(const std::string &message, int exitCode)
 {
-    std::cout << "Error: " << message << std::endl;
-    exit(exitCode);
+	std::cout << "Error: " << message << std::endl;
+	exit(exitCode);
 }

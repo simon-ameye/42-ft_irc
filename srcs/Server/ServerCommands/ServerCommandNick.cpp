@@ -1,7 +1,7 @@
 #include "../Server.hpp"
 bool ft_isalnum(int c)
 {
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_')
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') //Nick "*" MUST be denied because it is the default nick
 		return (true);
 	return (false);
 }
@@ -35,6 +35,7 @@ void Server::_nick(std::string args, User &user)
 		_errorReplies(user, ERR_ERRONEUSNICKNAME, "NICK", "");
 		return;
 	}
+
 	if (Server::hasUser(nickname, user.getNickName()))
 	{
 		std::string message = ": 433 ";

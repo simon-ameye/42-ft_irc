@@ -7,20 +7,18 @@ Server::Server(char *port, char *password)
 	/*Set server parameters*/
 	_serverName = "ft_irc";
 	_exitSignal = 0;
-	_port = atoi(port);
 	_password = password;
-	std::cout << "Server starting on port " << _port << " with password " << _password << std::endl;
 
 	/*Defining server sockaddr_in structure*/
 	// set port
-	if (_port == 0) //checker si le port est un nombre
+	_port = atoi(port);
+	if (_port == 0)
 	{
 		std::cout << "Invalid port" << std::endl;
 		exit (-1);
 	}
-	else
-		_sin.sin_port = htons(_port);
-	
+
+	_sin.sin_port = htons(_port);
 	_sin.sin_addr.s_addr = htonl(INADDR_ANY); // set IP address automatically
 	_sin.sin_family = AF_INET;
 
@@ -50,7 +48,7 @@ Server::Server(char *port, char *password)
 	{
 		std::cout << "error: fcntl()" << std::endl;
 		exit (-1);
-	}	
+	}
 
 	/*Binding socket to port and set socket settings*/
 	//std::cout << "bind()" << std::endl;
@@ -66,6 +64,8 @@ Server::Server(char *port, char *password)
 		std::cout << "error: listen()" << std::endl;
 		exit (-1);
 	}
+
+	std::cout << "Server starting on port " << _port << " with password " << _password << std::endl;
 }
 
 /*Create the pollfds structure.
@@ -98,7 +98,7 @@ void Server::block(void)
 
 	/*wait for an event*/
 	// std::cout << "poll()" << std::endl;
-	if (poll(&(_pollfds[0]), _pollfds.size(), 300000) == -1) // BLOCKS untill a fd is available + set max ping to 300s
+	if (poll(&(_pollfds[0]), _pollfds.size(), POLL_TIMEOUT) == -1) // BLOCKS untill a fd is available + set max ping to 300s
 	{
 		std::cout << "error: poll()" << std::endl; //le time est-il bon ?
 		exit (-1);
@@ -193,7 +193,7 @@ void Server::dispatchs(void)
 	for (std::map<int, User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
 	{
 		// std::cout << "evaluation user with fd : " << itb->first << std::endl;
-		//itb->second._outputMessage.clear(); elle supprime loutput msg d'user qu'on vient de modifier avant de l'envoyer  
+		//itb->second._outputMessage.clear(); elle supprime loutput msg d'user qu'on vient de modifier avant de l'envoyer
 		/*loop over _inputMessages*/
 		for (std::vector<std::string>::const_iterator itb2 = itb->second.getInputMessages().begin(); itb2 != itb->second.getInputMessages().end(); itb2++) // loop over
 		{

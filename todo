@@ -6,3 +6,4 @@
 - rendre les classes private
 - verifier la presence de tous les retours et erreurs dans chaque fonction
 - rendre le channel facultatif dans le errorreply
+- command `MODE`

@@ -28,6 +28,7 @@ SRCS		=		main.cpp \
 					Server/ServerReplies/ServerCommandResponses.cpp\
 					Server/ServerCommands/ServerCommandMode.cpp \
 					Server/ServerCommands/ServerCommandDie.cpp \
+					Server/ServerCommands/ServerCommandQuit.cpp \
 					Server/Channel/Channel.cpp
 
 

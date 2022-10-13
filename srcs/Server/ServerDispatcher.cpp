@@ -35,11 +35,12 @@ void Server::dispatch(const std::string &message, User &user)
 		_privmsg(args, user);
 	else if (cmd == "MODE")
 		_mode(args, user);
-	else if (cmd == "die")
+	else if (cmd == "DIE")
 		_die(args, user);
+	else if (cmd == "QUIT")
+		_quit(args, user);
 	else
 	{
-		Channel channel; //useless, just used to pass to _errorReplies
-		_errorReplies(user, ERR_UNKNOWNCOMMAND, cmd, channel);
+		_errorReplies(user, ERR_UNKNOWNCOMMAND, cmd, Channel());
 	}
 }

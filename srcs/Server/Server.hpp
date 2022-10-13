@@ -73,18 +73,20 @@ class Server
 	std::string _serverName;
 
 	private:
-	void			_nick(std::string args, User &user);
-	void			_pass(std::string args, User &user);
-	void			_oper(std::string args, User &user);
 	void			_errorReplies(User &user, int err, std::string cmd, const Channel &Channel, const std::string &optionalString = std::string());
 	void			_commandResponces(User &user, int rpl, std::string cmd, Channel &channel, const std::string &optionalString = std::string());
-	void			_user(std::string args, User &user);
-	void			_ping(std::string args, User &user);
+
+	void			_cap    (std::string args, User &user);
+	void			_die    (std::string args, User &user);
+	void			_nick   (std::string args, User &user);
+	void			_pass   (std::string args, User &user);
+	void			_oper   (std::string args, User &user);
+	void			_user   (std::string args, User &user);
+	void			_ping   (std::string args, User &user);
+	void			_join   (std::string args, User &user);
+	void			_mode   (std::string args, User &user);
+	void			_quit   (std::string args, User &user);
 	void			_privmsg(std::string args, User &user);
-	void			_join(std::string args, User &user);
-	void			_cap(std::string args, User &user);
-	void			_mode(std::string args, User &user);
-	void			_die(std::string args, User &user);
 
     void            _exit_server(const std::string &message, int exitCode);
 };

@@ -4,6 +4,9 @@ void Server::_mode(std::string args, User &user)
 {
 	(void) user;
 
+	if (!user.getIsPassProvided())
+		return;
+
 	std::vector<std::string> data;
 	data = Utils::split(args, ' ');
 //	std::vector<std::string>::iterator itb;

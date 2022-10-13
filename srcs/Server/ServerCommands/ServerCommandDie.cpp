@@ -5,6 +5,9 @@ void Server::_die(std::string args, User &user)
     (void)args;
     (void)user;
 
+	if (!user.getIsPassProvided())
+		return;
+
     if (user.getIsOperator() == false)
     	_errorReplies(user, ERR_NOPRIVILEGES, "DIE", "");
     else

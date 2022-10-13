@@ -6,6 +6,9 @@
 
 void Server::_ping(std::string args, User &user)
 {
+	if (!user.getIsPassProvided())
+		return;
+
     args.size()
     ? user.addOutputMessage("PONG " + args)
     : user.addOutputMessage("PONG");

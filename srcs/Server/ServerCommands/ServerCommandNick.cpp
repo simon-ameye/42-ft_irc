@@ -18,6 +18,9 @@ bool invalid_nickName(std::string str)
 
 void Server::_nick(std::string args, User &user)
 {
+	if (!user.getIsPassProvided())
+		return;
+
 	std::vector<std::string> splitArgs = Utils::split(args, ' ');
 
 	if (args.size() == 0)

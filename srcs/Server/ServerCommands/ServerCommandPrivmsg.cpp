@@ -7,6 +7,9 @@ static void sendChannelMesage(User &sender, User &recipient, std::string &messag
 
 void Server::_privmsg(std::string args, User &user)
 {
+	if (!user.getIsPassProvided())
+		return;
+
 	std::string message;
 	std::vector<std::string> parts;
 	std::vector<std::string> recievers;

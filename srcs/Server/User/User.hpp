@@ -17,7 +17,6 @@ private:
 	std::string _userName;
 	std::string _hostName;
 
-	std::string _symbol;
 	bool _isRegistered;
 	bool _isPassProvided;
 	bool _isOperator;
@@ -37,7 +36,6 @@ public:
 	std::string getNickNameOrStar() const;
 	std::string getUserName() const;
 	std::string getHostName() const;
-	std::string getSymbol() const;
 	std::string getFullClientIdentifier() const;
 	bool getIsRegistered() const;
 	bool getIsPassProvided() const;
@@ -52,7 +50,6 @@ public:
 	void setNickName(std::string _nickName);
 	void setUserName(std::string _userName);
 	void setHostName(std::string _userName);
-	void setSymbol(std::string _symbol);
 	void setIsRegistered(bool _isRegistered);
 	void setIsPassProvided(bool _isPassProvided);
 	void setIsOperator(bool _isOperator);

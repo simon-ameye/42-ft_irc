@@ -54,11 +54,6 @@ std::string User::getFullClientIdentifier(void) const
 	return (_nickName + "!" + _userName + "@" + _hostName);
 }
 
-std::string User::getSymbol(void) const
-{
-	return _symbol;
-}
-
 bool User::getIsRegistered(void) const
 {
 	return _isRegistered;
@@ -117,11 +112,6 @@ void User::setUserName(std::string _userName)
 void User::setHostName(std::string _userName)
 {
 	this->_hostName = _userName;
-}
-
-void User::setSymbol(std::string _symbol)
-{
-	this->_symbol = _symbol;
 }
 
 void User::setIsRegistered(bool _isRegistered)

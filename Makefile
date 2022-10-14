@@ -32,8 +32,17 @@ SRCS		=		main.cpp \
 					Server/ServerCommands/ServerCommandQuit.cpp \
 					Server/Channel/Channel.cpp
 
-
 SOURCES		=		$(addprefix $(SRCS_DIR)/,$(SRCS))
+
+#################	HEADER FILES	#################
+
+HEADERS		=		srcs/Server/Server.hpp \
+					srcs/Server/ServerSettings.hpp \
+					srcs/Server/Channel/Channel.hpp \
+					srcs/Server/ServerReplies/CommandResponses.hpp \
+					srcs/Server/ServerReplies/ErrorReplies.hpp \
+					srcs/Server/User/User.hpp \
+					srcs/Utils/Utils.hpp
 
 #################	OBJECT FILES	#################
 
@@ -48,7 +57,7 @@ NAME		=		ircserv
 
 all:				$(NAME)
 
-$(NAME):			$(OBJS_DIR) $(OBJECTS)
+$(NAME):			$(OBJS_DIR) $(HEADERS) $(OBJECTS)
 					@echo Building...
 					@$(CC) $(OBJECTS) -o $(NAME)
 

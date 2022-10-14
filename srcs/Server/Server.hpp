@@ -56,7 +56,7 @@ class Server
 	void			deleteChannel(std::string channelName);
 	std::vector<Channel>::iterator findChannel(std::string channelName);
 	std::vector<std::vector<User>::iterator> getUsersInChannel(std::string channelName);
-	std::vector<User> getChannelUsers(std::string channelName);
+	std::vector<User*> getChannelUsers(std::string channelName);
 	std::vector<User>::iterator			findUser(std::string nickName);
 	void			nameReply(User &user, Channel &channel);
 	void			joinReply(User &user, Channel &channel);

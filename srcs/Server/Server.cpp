@@ -201,9 +201,8 @@ void Server::_exit_server(const std::string &message, int exitCode)
 void Server::clean()
 {
 	std::vector<User>::iterator it = _users.begin();
-	std::vector<User>::iterator ite = _users.end();
 
-	while (it != ite)
+	while (it != _users.end())
 	{
 		if (it->getIsRegistered() && it->getIsDeleted())
 		{

@@ -36,7 +36,7 @@ void Server::dispatch(const std::string &message, User &user)
 		_die(args, user);
 	else if (cmd == "QUIT")
 		_quit(args, user);
-	else if (cmd == "kill")
+	else if (cmd == "KILL")
 		_kill(args, user);
 	else
 		_errorReplies(user, ERR_UNKNOWNCOMMAND, cmd, "");

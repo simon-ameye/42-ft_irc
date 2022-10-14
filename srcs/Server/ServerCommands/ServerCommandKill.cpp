@@ -28,8 +28,8 @@ void Server::_kill(std::string args, User &user)
 	// send kill message to user
 	userToKill->addOutputMessage(user.getFullClientIdentifier() + " KILL");
 
-	std::vector<User> usersToNotify;
-	usersToNotify.push_back((*userToKill));
+	std::vector<User*> usersToNotify;
+	usersToNotify.push_back((&(*userToKill)));
 	std::vector<Channel> channelsToDelete;
 
 	// remove user from all channels
@@ -45,8 +45,8 @@ void Server::_kill(std::string args, User &user)
 			}
 			else
 			{
-				std::vector<User> _users = getChannelUsers((*chanIt).getName());
-				for (std::vector<User>::iterator userIt = _users.begin(); userIt != _users.end(); userIt++)
+				std::vector<User*> _usersInChannel = getChannelUsers((*chanIt).getName());
+				for (std::vector<User*>::iterator userIt = _usersInChannel.begin(); userIt != _usersInChannel.end(); userIt++)
 				{
 					usersToNotify.push_back(*userIt);
 				}
@@ -65,9 +65,9 @@ void Server::_kill(std::string args, User &user)
 	}
 
 	// send QUIT messge to all users in the same channel
-	for (std::vector<User>::iterator userIt = usersToNotify.begin(); userIt != usersToNotify.end(); userIt++)
+	for (std::vector<User*>::iterator userIt = usersToNotify.begin(); userIt != usersToNotify.end(); userIt++)
 	{
-		userIt->addOutputMessage(":" + nickname + "QUIT killed (" + user.getFullClientIdentifier() + ") " + reason + ")");
+		(*userIt)->addOutputMessage(":" + userToKill->getFullClientIdentifier() + " QUIT :killed (" + user.getFullClientIdentifier() + ") " + reason + ")");
 	}
 
 	userToKill->addOutputMessage("ERROR :Closing Link " + _serverName + " killed (" + user.getFullClientIdentifier() + ") " + reason + ")");

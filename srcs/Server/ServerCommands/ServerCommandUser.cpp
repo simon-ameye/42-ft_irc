@@ -21,5 +21,8 @@ void Server::_user(std::string args, User &user)
 
 	user.setUserName(username);
 	user.setRealName(realName);
-	user.setHostName(hostname);
+	//user.setHostName(hostname);
+
+	getpeername(user.getFd(), (struct sockaddr *)&_sin, (socklen_t *)&_sizeofsin);
+	user.setHostName(inet_ntoa(_sin.sin_addr));
 }

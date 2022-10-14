@@ -6,12 +6,12 @@
 
 void Server::_ping(std::string args, User &user)
 {
+    (void)args;
+
 	/*----------------command protect------------------*/
 	if (!user.getIsPassProvided())
 		return;
 	/*----------------command protect------------------*/
 
-    args.size()
-    ? user.addOutputMessage("PONG " + args)
-    : user.addOutputMessage("PONG");
+    user.addOutputMessage(":" + _serverName + " PONG :" + user.getNickName());
 }

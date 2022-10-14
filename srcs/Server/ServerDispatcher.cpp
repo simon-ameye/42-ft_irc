@@ -9,7 +9,7 @@ void Server::dispatch(const std::string &message, User &user)
 	std::string args;
 
 	splitCmd = Utils::split_cmd(message, ' ');
-	cmd = splitCmd[0];
+	cmd = _toupper(splitCmd[0]);
 	args = splitCmd[1];
 
 	if (cmd == "")

@@ -60,7 +60,7 @@ class Server
 	std::vector<User>::iterator			findUser(std::string nickName);
 	void			nameReply(User &user, Channel &channel);
 	void			joinReply(User &user, Channel &channel);
-
+	std::string		_toupper(const std::string &str);
 
 	private:
 	std::string		_password;

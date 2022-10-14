@@ -141,3 +141,12 @@ std::vector<User> Server::getChannelUsers(std::string channelName)
 	}
 	return users;
 }
+
+std::string Server::_toupper(const std::string &str)
+{
+	size_t len = str.size();
+	std::string res;
+	for (size_t i = 0; i < len; i++)
+		res += std::toupper(str[i]);
+	return res;
+}

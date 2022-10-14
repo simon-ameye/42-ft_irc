@@ -75,13 +75,17 @@ void Server::deleteChannel(std::string channelName) //first delete the channel f
         it->deleteChannel(channelName);
     }
 
-	for (std::vector<Channel>::iterator it = _channels.begin(), ite = _channels.end(); it != ite; it++)
-    {
-		if (it->getName() == channelName)
-			_channels.erase(it);
-    }
+	std::vector<Channel>::iterator itb2 = _channels.begin();
+	while (itb2 != _channels.end())
+	{
+		if (itb2->getName() == channelName)
+		{
+			itb2 = _channels.erase(itb2);
+		}
+		else
+			itb2++;
+	}
 }
-
 //returns vector of iterators on each User in a channel
 std::vector<std::vector<User>::iterator> Server::getUsersInChannel(std::string channelName)
 {

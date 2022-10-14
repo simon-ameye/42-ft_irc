@@ -30,6 +30,7 @@ void Server::_kill(std::string args, User &user)
 
 	std::vector<User> usersToNotify;
 	usersToNotify.push_back((*userToKill));
+	std::vector<Channel> channelsToDelete;
 
 	// remove user from all channels
 	for (std::vector<Channel>::iterator chanIt = _channels.begin(); chanIt != _channels.end(); chanIt++)
@@ -39,7 +40,8 @@ void Server::_kill(std::string args, User &user)
 			userToKill->deleteChannel((*chanIt).getName());
 			if (getUsersInChannel((*chanIt).getName()).size() == 0)
 			{
-				deleteChannel((*chanIt).getName());
+				// deleteChannel((*chanIt).getName());
+				channelsToDelete.push_back(*chanIt);
 			}
 			else
 			{
@@ -49,6 +51,16 @@ void Server::_kill(std::string args, User &user)
 					usersToNotify.push_back(*userIt);
 				}
 			}
+		}
+	}
+
+	if (channelsToDelete.size())
+	{
+		std::vector<Channel>::iterator it = channelsToDelete.begin();
+		while (it != channelsToDelete.end())
+		{
+			deleteChannel(it->getName());
+			it++;
 		}
 	}
 

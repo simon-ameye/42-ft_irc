@@ -1,9 +1,13 @@
+
+
 #include "../Server.hpp"
 
 void Server::nameReply(User &user, Channel &channel)
 {
 	/*----------------command protect------------------*/
-    if (!user.getIsRegistered())
+	if (!user.getIsPassProvided())
+		return;
+	if (user.getNickName() == "")
 		return;
 	/*----------------command protect------------------*/
 
@@ -15,11 +19,9 @@ void Server::nameReply(User &user, Channel &channel)
 		users += "@";
 		users += vectorOfUserIterators[i]->getNickName();
 		users += " ";
-		//if (i != vectorOfUserIterators.size() - 1)
-		//	users += " ";
 	}
-	_commandResponces(user, RPL_NAMREPLY, "JOIN", users, channel);
-	_commandResponces(user, RPL_ENDOFNAMES, "JOIN", "", channel);
+	user.addOutputMessage(":" + _serverName + " 353 " + user.getNickName() + " = " + channel.getName() + " :" + users);
+	user.addOutputMessage(":" + _serverName + " 366 " + user.getNickName() + " " + channel.getName() + " :End of /NAMES list");
 }
 
 void Server::joinReply(User &newUser, Channel &channel)
@@ -27,7 +29,7 @@ void Server::joinReply(User &newUser, Channel &channel)
 	std::vector<std::vector<User>::iterator> it = getUsersInChannel(channel.getName());
 	for (size_t i = 0; i < it.size(); i++)
 	{
-		it[i]->addOutputMessage(":" + newUser.getNickName() + "@" + newUser.getRealName() + " JOIN " + channel.getName());
+		it[i]->addOutputMessage(":" + newUser.getFullClientIdentifier() + " JOIN " + channel.getName());
 	}
 }
 
@@ -60,8 +62,7 @@ void Server::_join(std::string args, User &user)
 			_channels.push_back(Channel(*it));
 			channelIt = findChannel(*it);
 			user.addChannel(channelIt);
-			// JOIN
-			//user.addOutputMessage(":" + user.getNickName() + " JOIN " + *it);
+			joinReply(user, *channelIt);
 			_commandResponces(user, RPL_TOPIC, "JOIN", "", *channelIt);
 			nameReply(user, *channelIt);
 		}
@@ -71,15 +72,9 @@ void Server::_join(std::string args, User &user)
 			//welcome on this channel
 			channelIt = findChannel(*it);
 			user.addChannel(channelIt);
-			_commandResponces(user, RPL_TOPIC, "JOIN", "", *channelIt);
-			std::cout << user.getNickName() << " joins " << channelIt->getName() << std::endl;
 			joinReply(user, *channelIt);
+			_commandResponces(user, RPL_TOPIC, "JOIN", "", *channelIt);
 			nameReply(user, *channelIt);
 		}
 	}
-
-	//A JOIN message with the client as the message <source> and the channel they have joined as the first parameter of the message.
-	// RPL_TOPIC (332)
-	// one or more RPL_NAMREPLY (353) + RPL_ENDOFNAMES (366)
-	//"<client> <symbol> <channel> :[prefix]<nick>{ [prefix]<nick>}"
 }

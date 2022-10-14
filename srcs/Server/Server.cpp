@@ -64,9 +64,9 @@ void Server::block(void)
 	_pollfds.push_back(tempPollFd);
 
 	// Add all the users sockets to pollfds
-	for (std::vector<User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
+	for (std::vector<User>::iterator it = _users.begin(); it != _users.end(); it++)
 	{
-		tempPollFd.fd = itb->getFd();
+		tempPollFd.fd = it->getFd();
 		_pollfds.push_back(tempPollFd);
 	}
 
@@ -109,14 +109,14 @@ void Server::getMessages(void)
 	// std::cout << std::endl;
 
 	// Check if user's fd is sending new data
-	for (std::vector<pollfd>::iterator itb = ++_pollfds.begin(); itb != _pollfds.end(); itb++) // skipping the master socket
+	for (std::vector<pollfd>::iterator it = ++_pollfds.begin(), ite = _pollfds.end(); it != ite; it++) // skipping the master socket
 	{
-		if (itb->revents == POLLIN)
+		if (it->revents == POLLIN)
 		{
 			// Users fd is ready, lets read it on one buffer
 			Utils::clearBuffer(buffer, BUFFER_SIZE);
 
-			sizeRead = recv(itb->fd, buffer, BUFFER_SIZE, 0);
+			sizeRead = recv(it->fd, buffer, BUFFER_SIZE, 0);
 
 			// recv() error
 			if (sizeRead == -1)
@@ -125,16 +125,16 @@ void Server::getMessages(void)
 			// Nothing to read anymore: user disconnected
 			if (sizeRead == 0)
 			{
-				getpeername(itb->fd, (struct sockaddr *)&_sin, (socklen_t *)&_sizeofsin);
+				getpeername(it->fd, (struct sockaddr *)&_sin, (socklen_t *)&_sizeofsin);
 				std::cout << "Host disconnected , ip " << inet_ntoa(_sin.sin_addr) << " , port " << ntohs(_sin.sin_port) << std::endl;
-				close(itb->fd);
-				_users.erase(getUserItByFd(itb->fd));
+				close(it->fd);
+				_users.erase(getUserItByFd(it->fd));
 				std::cout << "host closed and erased" << std::endl;
 			}
 
 			// Something to read: add buffer to users _inputMessages
 			else
-				getUserItByFd(itb->fd)->addBufferToMessages(buffer, sizeRead);
+				getUserItByFd(it->fd)->addBufferToMessages(buffer, sizeRead);
 		}
 	}
 }
@@ -142,17 +142,17 @@ void Server::getMessages(void)
 void Server::dispatchs(void)
 {
 	// Loop over users
-	for (std::vector<User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
+	for (std::vector<User>::iterator it = _users.begin(), ite = _users.end(); it != ite; it++)
 	{
-		// std::cout << "evaluation user with fd : " << itb->first << std::endl;
-		// itb->second._outputMessage.clear(); elle supprime loutput msg d'user qu'on vient de modifier avant de l'envoyer
+		// std::cout << "evaluation user with fd : " << it->first << std::endl;
+		// it->second._outputMessage.clear(); elle supprime loutput msg d'user qu'on vient de modifier avant de l'envoyer
 
 		// Loop over _inputMessages
-		for (std::vector<std::string>::const_iterator itb2 = itb->getInputMessages().begin(); itb2 != itb->getInputMessages().end(); itb2++)
-			dispatch(*itb2, *itb);
+		for (std::vector<std::string>::const_iterator cit = it->getInputMessages().begin(), cite = it->getInputMessages().end(); cit != cite; cit++)
+			dispatch(*cit, *it);
 
 		// All messages have been threated, clearing.
-		itb->clearInputMessages();
+		it->clearInputMessages();
 	}
 }
 
@@ -160,15 +160,15 @@ void Server::dispatchs(void)
 sends _outputMessage buffer by buffer*/
 void Server::sendMessage(void)
 {
-	for (std::vector<User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
+	for (std::vector<User>::iterator it = _users.begin(), ite = _users.end(); it != ite; it++)
 	{
-		if (itb->getOutputMessage().size() > 0)
-			std::cout << itb->getFullClientIdentifier() << " : $" << GREEN << itb->getOutputMessage() << RESET << "$" << std::endl;
+		if (it->getOutputMessage().size() > 0)
+			std::cout << it->getFullClientIdentifier() << " : $" << GREEN << it->getOutputMessage() << RESET << "$" << std::endl;
 
-		if (send(itb->getFd(), itb->getOutputMessage().c_str(), itb->getOutputMessage().length(), 0) == -1)
+		if (send(it->getFd(), it->getOutputMessage().c_str(), it->getOutputMessage().length(), 0) == -1)
 			std::cout << "Send error " << std::endl;
 
-		itb->clearOutputMessage();
+		it->clearOutputMessage();
 	}
 }
 
@@ -177,11 +177,11 @@ Server::~Server()
 	std::cout << "Server destructor called" << std::endl;
 
 	// close() all users fds
-	for (std::vector<User>::iterator itb = _users.begin(); itb != _users.end(); itb++)
+	for (std::vector<User>::iterator it = _users.begin(), ite = _users.end(); it != ite; it++)
 	{
 		std::cout << "Clearing host , ip " << inet_ntoa(_sin.sin_addr) << " , port " << ntohs(_sin.sin_port) << std::endl;
-		getpeername(itb->getFd(), (struct sockaddr *)&_sin, (socklen_t *)&_sizeofsin);
-		close(itb->getFd());
+		getpeername(it->getFd(), (struct sockaddr *)&_sin, (socklen_t *)&_sizeofsin);
+		close(it->getFd());
 	}
 	_users.clear();
 	shutdown(_masterSocket, SHUT_RDWR);
@@ -200,15 +200,16 @@ void Server::_exit_server(const std::string &message, int exitCode)
 
 void Server::clean()
 {
-	std::vector<User>::iterator itb = _users.begin();
-	while (itb != _users.end())
+	std::vector<User>::iterator it = _users.begin();
+	std::vector<User>::iterator ite = _users.end();
+
+	while (it != ite)
 	{
-		if (itb->getIsRegistered() && itb->getIsDeleted())
+		if (it->getIsRegistered() && it->getIsDeleted())
 		{
-			close(itb->getFd());
-			itb = _users.erase(itb);
+			close(it->getFd());
+			it = _users.erase(it);
 		}
-		else
-			itb++;
+		else it++;
 	}
 }

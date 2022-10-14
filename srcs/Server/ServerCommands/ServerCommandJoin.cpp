@@ -51,17 +51,17 @@ void Server::_join(std::string args, User &user)
 	}
 
 	std::vector<Channel>::iterator channelIt;
-	for (std::vector<std::string>::iterator itb = channels.begin(); itb != channels.end(); itb++) //loops over input channels
+	for (std::vector<std::string>::iterator it = channels.begin(), ite = channels.end(); it != ite; it++) //loops over input channels
 	{
-		if (!hasChannel(*itb))
+		if (!hasChannel(*it))
 		{
 			//create channel
-			std::cout << "Create New Channel : " << *itb << std::endl;
-			_channels.push_back(Channel(*itb));
-			channelIt = findChannel(*itb);
+			std::cout << "Create New Channel : " << *it << std::endl;
+			_channels.push_back(Channel(*it));
+			channelIt = findChannel(*it);
 			user.addChannel(channelIt);
 			// JOIN
-			//user.addOutputMessage(":" + user.getNickName() + " JOIN " + *itb);
+			//user.addOutputMessage(":" + user.getNickName() + " JOIN " + *it);
 			_commandResponces(user, RPL_TOPIC, "JOIN", "", *channelIt);
 			nameReply(user, *channelIt);
 		}
@@ -69,7 +69,7 @@ void Server::_join(std::string args, User &user)
 		else
 		{
 			//welcome on this channel
-			channelIt = findChannel(*itb);
+			channelIt = findChannel(*it);
 			user.addChannel(channelIt);
 			_commandResponces(user, RPL_TOPIC, "JOIN", "", *channelIt);
 			std::cout << user.getNickName() << " joins " << channelIt->getName() << std::endl;

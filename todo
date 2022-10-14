@@ -7,3 +7,4 @@
 - verifier la presence de tous les retours et erreurs dans chaque fonction
 - rendre le channel facultatif dans le errorreply
 - command `MODE`
+- put `.hpp` files in makefile target dependencies

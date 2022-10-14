@@ -3,9 +3,7 @@
 void Server::nameReply(User &user, Channel &channel)
 {
 	/*----------------command protect------------------*/
-	if (!user.getIsPassProvided())
-		return;
-	if (user.getNickName() == "")
+    if (!user.getIsRegistered())
 		return;
 	/*----------------command protect------------------*/
 

@@ -8,6 +8,11 @@ void Server::_kill(std::string args, User &user)
 	std::vector<std::string> _args;
 	Channel c;
 
+	/*----------------command protect------------------*/
+    if (!user.getIsRegistered())
+		return;
+	/*----------------command protect------------------*/
+
 	_args = Utils::split(args, ' ');
 	nickname = _args[0];
 	reason = _args[1];

@@ -3,9 +3,7 @@
 void Server::_die(std::string args, User &user)
 {
 	/*----------------command protect------------------*/
-	if (!user.getIsPassProvided())
-		return;
-	if (user.getNickName() == "")
+    if (!user.getIsRegistered())
 		return;
 	/*----------------command protect------------------*/
 

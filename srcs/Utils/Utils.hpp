@@ -12,6 +12,7 @@ class Utils
 	static std::vector<std::string> split(std::string s, char delimiter);
 	static std::vector<std::string> split_cmd(std::string str, char delimiter);
 	static std::string getCode(int code);
+	static void rtrim(std::string& str, char c);
 };
 
 #endif

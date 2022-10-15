@@ -58,3 +58,15 @@ std::string Utils::getCode(int code)
 
 	return stream.str();
 }
+
+void Utils::rtrim(std::string &str, char c)
+{
+	if (str.size() == 0)
+		return;
+
+	std::string::iterator it;
+	for (it = str.end(); it != str.begin() && *--it == c;)
+	{
+	}
+	str.erase(it + 1, str.end());
+}

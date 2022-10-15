@@ -9,17 +9,20 @@ void Server::_kill(std::string args, User &user)
 	Channel c;
 
 	/*----------------command protect------------------*/
-    if (!user.getIsRegistered())
+	if (!user.getIsRegistered())
 		return;
 	/*----------------command protect------------------*/
 
-	_args = Utils::split(args, ' ');
-	nickname = _args[0];
-	reason = _args[1];
 	if (!user.getIsOperator())
 		return _errorReplies(user, ERR_NOPRIVILEGES, "KILL", "");
-	if (!nickname.size() || !reason.size())
+
+	_args = Utils::split(args, ':');
+	if (_args.size() != 2)
 		return _errorReplies(user, ERR_NEEDMOREPARAMS, "KILL", "");
+
+	nickname = _args[0];
+	reason = _args[1];
+	Utils::rtrim(nickname, ' ');
 
 	std::vector<User>::iterator userToKill = findUser(nickname);
 	if (userToKill == _users.end())
@@ -28,7 +31,7 @@ void Server::_kill(std::string args, User &user)
 	// send kill message to user
 	userToKill->addOutputMessage(user.getFullClientIdentifier() + " KILL");
 
-	std::vector<User*> usersToNotify;
+	std::vector<User *> usersToNotify;
 	usersToNotify.push_back((&(*userToKill)));
 	std::vector<Channel> channelsToDelete;
 
@@ -45,8 +48,8 @@ void Server::_kill(std::string args, User &user)
 			}
 			else
 			{
-				std::vector<User*> _usersInChannel = getChannelUsers((*chanIt).getName());
-				for (std::vector<User*>::iterator userIt = _usersInChannel.begin(); userIt != _usersInChannel.end(); userIt++)
+				std::vector<User *> _usersInChannel = getChannelUsers((*chanIt).getName());
+				for (std::vector<User *>::iterator userIt = _usersInChannel.begin(); userIt != _usersInChannel.end(); userIt++)
 				{
 					usersToNotify.push_back(*userIt);
 				}
@@ -65,7 +68,7 @@ void Server::_kill(std::string args, User &user)
 	}
 
 	// send QUIT messge to all users in the same channel
-	for (std::vector<User*>::iterator userIt = usersToNotify.begin(); userIt != usersToNotify.end(); userIt++)
+	for (std::vector<User *>::iterator userIt = usersToNotify.begin(); userIt != usersToNotify.end(); userIt++)
 	{
 		(*userIt)->addOutputMessage(":" + userToKill->getFullClientIdentifier() + " QUIT :killed (" + user.getFullClientIdentifier() + ") " + reason + ")");
 	}

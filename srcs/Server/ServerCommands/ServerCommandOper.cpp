@@ -15,8 +15,8 @@ void			Server::_oper(std::string args, User &user)
 	std::string opername;
 	std::string operpass;
 
-	opername = OPERNAME;
-	operpass = OPERPASS;
+	opername = getConfig().getValue("opername");
+	operpass = getConfig().getValue("operpass");
 
 	//ERR_NOOPERHOST : not required
 	if (splitArgs.size() < 2)

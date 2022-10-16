@@ -209,6 +209,12 @@ void Server::clean()
 			close(it->getFd());
 			it = _users.erase(it);
 		}
-		else it++;
+		else
+			it++;
 	}
+}
+
+Config &Server::getConfig()
+{
+	return _confg;
 }

@@ -8,6 +8,7 @@
 #include "ServerSettings.hpp"
 #include "ServerReplies/ErrorReplies.hpp"
 #include "ServerReplies/CommandResponses.hpp"
+#include "../Config/Config.hpp"
 
 /*Basics*/
 #include <iostream>
@@ -47,7 +48,7 @@ class Server
 	const int		&getExitSignal(void);
 	void			dispatch(const std::string& message, User& user);
 	void			clean();
-
+	Config			&getConfig();
 
 	std::vector<User>::iterator	getUserItByFd(int fd);
 	bool			hasUser(std::string nickName, std::string exclude = "");
@@ -73,6 +74,7 @@ class Server
 	std::vector<Channel>	_channels;
 	std::vector<pollfd>		_pollfds;
 	std::string _serverName;
+	Config		_confg;
 
 	private:
 	void			_errorReplies(User &user, int err, std::string cmd, std::string str, const Channel &channel = Channel());

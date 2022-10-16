@@ -6,5 +6,6 @@
 #define RPL_NAMREPLY 353
 #define RPL_ENDOFNAMES 366
 #define RPL_YOUREOPER 381
+#define RPL_REHASHING 382
 
 #endif

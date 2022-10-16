@@ -11,6 +11,7 @@ Config::~Config()
 
 void Config::readConfig()
 {
+    std::cout << "Reading config ..." << std::endl;
     std::ifstream file("./config.ini");
     if (!file.good())
     {

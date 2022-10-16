@@ -218,3 +218,8 @@ Config &Server::getConfig()
 {
 	return _confg;
 }
+
+void Server::refreshConfig()
+{
+	_confg = Config();
+}

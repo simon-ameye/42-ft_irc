@@ -22,6 +22,9 @@ void Server::_commandResponces(User &user, int rpl, std::string cmd, std::string
 	case RPL_YOUREOPER:
 		result << " :You are now an IRC operator";
 		break;
+	case RPL_REHASHING:
+		result << " " << user.getFullClientIdentifier() << " config.ini " << ":REHASHING";
+		break;  
 	default:
 		result << " :Unknown reply";
 	}

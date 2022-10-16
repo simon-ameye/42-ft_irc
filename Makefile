@@ -30,6 +30,7 @@ SRCS		=		main.cpp \
 					Server/ServerCommands/ServerCommandMode.cpp \
 					Server/ServerCommands/ServerCommandDie.cpp \
 					Server/ServerCommands/ServerCommandQuit.cpp \
+					Server/ServerCommands/ServerCommandRehash.cpp \
 					Server/Channel/Channel.cpp \
 					Config/Config.cpp
 

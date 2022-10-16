@@ -49,6 +49,7 @@ class Server
 	void			dispatch(const std::string& message, User& user);
 	void			clean();
 	Config			&getConfig();
+	void			refreshConfig();
 
 	std::vector<User>::iterator	getUserItByFd(int fd);
 	bool			hasUser(std::string nickName, std::string exclude = "");
@@ -92,6 +93,7 @@ class Server
 	void			_quit   (std::string args, User &user);
 	void			_privmsg(std::string args, User &user);
 	void 			_kill	(std::string args, User &user);
+	void 			_rehash	(std::string args, User &user);
 
 	void			_exit_server(const std::string &message, int exitCode);
 	void			_sendWelcome(User &user);

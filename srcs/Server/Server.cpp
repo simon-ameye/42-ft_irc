@@ -8,6 +8,7 @@ Server::Server(char *port, char *password)
 	_serverName = "ft_irc";
 	_exitSignal = 0;
 	_password = password;
+	_restartNeeded = false;
 
 	_sin.sin_family = AF_INET;
 	_sin.sin_port = htons(atoi(port));
@@ -223,3 +224,6 @@ void Server::refreshConfig()
 {
 	_confg = Config();
 }
+
+bool Server::getRestartNeeded() { return _restartNeeded; }
+void Server::setRestartNeeded(bool restartNeeded) { _restartNeeded = restartNeeded; }

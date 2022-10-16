@@ -1,14 +1,12 @@
 #include "Server/Server.hpp"
 #include <iostream>
 
-int main(int argc, char **argv)
+#define EXIT 0
+#define RESTART 1
+
+int start(char *port, char *password)
 {
-	if (argc != 3)
-	{
-		std::cout << "./ircserv <port> <password>" << std::endl;
-		return 1;
-	}
-	Server server(argv[1], argv[2]);
+	Server server(port, password);
 	while (!server.getExitSignal())
 	{
 		//poll
@@ -20,4 +18,23 @@ int main(int argc, char **argv)
 		server.clean();
 		//usleep(100000);
 	}
+	if (server.getRestartNeeded())
+		return RESTART;
+	return EXIT;
+}
+
+int main(int argc, char **argv)
+{
+	if (argc != 3)
+	{
+		std::cout << "./ircserv <port> <password>" << std::endl;
+		return 1;
+	}
+
+	while (start(argv[1], argv[2]) == RESTART)
+	{
+		std::cout << "Restarting " << std::endl;
+	}
+
+	return (EXIT);
 }

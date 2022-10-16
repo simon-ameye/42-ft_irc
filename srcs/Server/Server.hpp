@@ -50,6 +50,8 @@ class Server
 	void			clean();
 	Config			&getConfig();
 	void			refreshConfig();
+	void			setRestartNeeded(bool);
+	bool			getRestartNeeded();
 
 	std::vector<User>::iterator	getUserItByFd(int fd);
 	bool			hasUser(std::string nickName, std::string exclude = "");
@@ -76,6 +78,7 @@ class Server
 	std::vector<pollfd>		_pollfds;
 	std::string _serverName;
 	Config		_confg;
+	bool		_restartNeeded;
 
 	private:
 	void			_errorReplies(User &user, int err, std::string cmd, std::string str, const Channel &channel = Channel());
@@ -94,6 +97,7 @@ class Server
 	void			_privmsg(std::string args, User &user);
 	void 			_kill	(std::string args, User &user);
 	void 			_rehash	(std::string args, User &user);
+	void 			_restart(std::string args, User &user);
 
 	void			_exit_server(const std::string &message, int exitCode);
 	void			_sendWelcome(User &user);

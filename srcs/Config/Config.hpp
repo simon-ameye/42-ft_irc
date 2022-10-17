@@ -17,6 +17,6 @@ private:
 public:
     Config();
     ~Config();
-    std::string getValue(std::string key);
+    std::string getValue(std::string key, std::string defaultValue);
 };
 #endif

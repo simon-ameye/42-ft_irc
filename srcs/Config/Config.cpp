@@ -16,7 +16,7 @@ void Config::readConfig()
     if (!file.good())
     {
         std::cout << "Unable to read config file" << std::endl;
-        exit(EXIT_FAILURE);
+        return;
     }
     if (file.is_open())
     {
@@ -36,7 +36,14 @@ void Config::readConfig()
     }
 }
 
-std::string Config::getValue(std::string key)
+std::string Config::getValue(std::string key, std::string defaultValue)
 {
-    return _values[key];
+    try
+    {
+        return _values.at(key);
+    }
+    catch(const std::out_of_range& e)
+    {
+        return defaultValue;
+    }    
 }

@@ -1,9 +1,9 @@
 #include "../Server.hpp"
 
-void			Server::_oper(std::string args, User &user)
+void Server::_oper(std::string args, User &user)
 {
 	/*----------------command protect------------------*/
-    if (!user.getIsRegistered())
+	if (!user.getIsRegistered())
 		return;
 	/*----------------command protect------------------*/
 
@@ -15,10 +15,10 @@ void			Server::_oper(std::string args, User &user)
 	std::string opername;
 	std::string operpass;
 
-	opername = getConfig().getValue("opername");
-	operpass = getConfig().getValue("operpass");
+	opername = getConfig().getValue("opername", "opername");
+	operpass = getConfig().getValue("operpass", "operpass");
 
-	//ERR_NOOPERHOST : not required
+	// ERR_NOOPERHOST : not required
 	if (splitArgs.size() < 2)
 	{
 		_errorReplies(user, ERR_NEEDMOREPARAMS, "OPER", "");
@@ -36,5 +36,4 @@ void			Server::_oper(std::string args, User &user)
 
 	user.setIsOperator(true);
 	_commandResponces(user, RPL_YOUREOPER, "OPER", "");
-
 }

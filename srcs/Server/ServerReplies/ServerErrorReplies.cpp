@@ -49,7 +49,7 @@ void Server::_errorReplies(User &user, int err, std::string cmd, std::string str
 		result << "Password incorrect";
 		break;
 	case ERR_NOPRIVILEGES:
-		result << "You havn't user rights";
+		result << "Permission Denied- You're not an IRC operator";
 		break;
 	default:
 		result << "Unknown error";

@@ -24,7 +24,7 @@ private:
 	std::vector<std::string> _inputMessages;
 	std::string _inputMessagesBuffer;
 	std::string _outputMessage;
-	std::vector<std::vector<Channel>::iterator> _channels; // vector of iterators on server's channels vector
+	std::vector<std::string> _channels; // vector of iterators on server's channels vector
 
 public:
 	User(int fd);
@@ -44,7 +44,7 @@ public:
 	const std::vector<std::string>& getInputMessages() const;
 	std::string getInputMessagesBuffer() const;
 	const std::string getOutputMessage() const;
-	std::vector<std::vector<Channel>::iterator> getChannels() const;
+	std::vector<std::string> getChannels() const;
 
 	void setRealName(std::string _realName);
 	void setNickName(std::string _nickName);
@@ -56,11 +56,11 @@ public:
 	void setInputMessages(std::vector<std::string> _inputMessages);
 	void setInputMessagesBuffer(std::string _inputMessagesBuffer);
 	void addOutputMessage(std::string _outputMessage);
-	void setChannels(std::vector<std::vector<Channel>::iterator> _channels);
+	//void setChannels(std::vector<std::vector<Channel>::iterator> _channels);
 	void setIsDeleted(bool isDeleted);
 
 	void addBufferToMessages(char *buffer, size_t size);
-	void addChannel(std::vector<Channel>::iterator channelIt);
+	void addChannel(std::string channelName);
 	void deleteChannel(std::string channelName);
 	bool isInChannel(std::string channelName);
 	void clearInputMessages();

@@ -1,0 +1,32 @@
+##leaks tests
+
+#start:
+```make && valgrind --leak-check=full ./ircserv 6667 bla```
+
+#basic
+```
+/connect localhost 6667 bla n1
+/oper opername operpass
+/die
+```
+
+#nick collision
+```
+/connect localhost 6667 bla n1
+/connect localhost 6667 bla n1
+/connect localhost 6667 bla n1
+/nick n1
+/nick n1
+/nick n1
+/connect localhost 6667 bla n1
+/join channeltest
+/join channeltest
+/connect localhost 6667 bla n1
+/connect localhost 6667 bla n1
+/connect localhost 6667 bla n1
+/nick n1
+/nick n1
+/nick n1
+/oper opername operpass
+/die
+```

@@ -84,7 +84,7 @@ const std::string User::getOutputMessage() const
 	return _outputMessage;
 }
 
-std::vector<std::vector<Channel>::iterator> User::getChannels() const
+std::vector<std::string> User::getChannels() const
 {
 	return _channels;
 }
@@ -145,11 +145,6 @@ void User::addOutputMessage(std::string _outputMessage)
 	this->_outputMessage += DELIMITER;
 }
 
-void User::setChannels(std::vector<std::vector<Channel>::iterator> _channels)
-{
-	this->_channels = _channels;
-}
-
 void User::setIsDeleted(bool isDeleted)
 {
 	this->_isDeleted = isDeleted;
@@ -178,7 +173,7 @@ bool User::isInChannel(std::string channelName)
 {
 	for (size_t i = 0; i < _channels.size(); i++)
 	{
-		if (_channels[i]->getName() == channelName)
+		if (_channels[i] == channelName)
 			return 1;
 	}
 	return (0);
@@ -188,14 +183,14 @@ void User::deleteChannel(std::string channelName)
 {
 	for (size_t i = 0; i < _channels.size(); i++)
 	{
-		if (_channels[i]->getName() == channelName)
+		if (_channels[i] == channelName)
 			_channels.erase(_channels.begin() + i);
 	}
 }
 
-void User::addChannel(std::vector<Channel>::iterator channelIt)
+void User::addChannel(std::string channelName)
 {
-	_channels.push_back(channelIt);
+	_channels.push_back(channelName);
 }
 
 void User::clearInputMessages()

@@ -48,7 +48,10 @@ std::vector<Channel>::iterator Server::findChannel(std::string channelName)
     while (it != ite)
     {
 		if (it->getName() == channelName)
+		{
+			std::cout << "found channel " << it->getName() << std::endl;
 			return it;
+		}
         it++;
     }
 	return ite;
@@ -94,11 +97,13 @@ void Server::deleteChannel(std::string channelName) //first delete the channel f
 std::vector<std::vector<User>::iterator> Server::getUsersInChannel(std::string channelName)
 {
 	std::vector<std::vector<User>::iterator> vectorOfUserIterators;
-
 	for (std::vector<User>::iterator it = _users.begin(), ite = _users.end(); it != ite; it++)
 	{
 		if (it->isInChannel(channelName))
+		{
 			vectorOfUserIterators.push_back(it);
+
+		}
 	}
 	return vectorOfUserIterators;
 }
@@ -171,15 +176,15 @@ void Server::_removeEmptyChannels()
     }
 }
 
-void Server::_sendMessageToChannel(std::vector<Channel>::iterator channel, std::string message)
+void Server::_sendMessageToChannel(std::string channel, std::string message)
 {
-    std::vector<std::vector<User>::iterator> users = getUsersInChannel(channel->getName());
+    std::vector<std::vector<User>::iterator> users = getUsersInChannel(channel);
 
     for (size_t i = 0; i < users.size(); i++)
         users[i]->addOutputMessage(message);
 }
 
-void Server::_sendMessageToChannels(std::vector<std::vector<Channel>::iterator> channels, std::string message)
+void Server::_sendMessageToChannels(std::vector<std::string> channels, std::string message)
 {
     for (size_t i = 0; i < channels.size(); i++)
         _sendMessageToChannel(channels[i], message);

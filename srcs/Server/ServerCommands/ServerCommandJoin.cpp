@@ -1,8 +1,6 @@
-
-
 #include "../Server.hpp"
 
-void Server::nameReply(User &user, Channel &channel)
+void Server::nameReply(User &user, std::string channelName)
 {
 	/*----------------command protect------------------*/
 	if (!user.getIsPassProvided())
@@ -12,7 +10,7 @@ void Server::nameReply(User &user, Channel &channel)
 	/*----------------command protect------------------*/
 
 	std::vector<std::vector<User>::iterator> vectorOfUserIterators;
-	vectorOfUserIterators = getUsersInChannel(channel.getName());
+	vectorOfUserIterators = getUsersInChannel(channelName);
 	std::string users = "";
 	for (size_t i = 0; i < vectorOfUserIterators.size(); i++)
 	{
@@ -20,16 +18,16 @@ void Server::nameReply(User &user, Channel &channel)
 		users += vectorOfUserIterators[i]->getNickName();
 		users += " ";
 	}
-	user.addOutputMessage(":" + _serverName + " 353 " + user.getNickName() + " = " + channel.getName() + " :" + users);
-	user.addOutputMessage(":" + _serverName + " 366 " + user.getNickName() + " " + channel.getName() + " :End of /NAMES list");
+	user.addOutputMessage(":" + _serverName + " 353 " + user.getNickName() + " = " + channelName + " :" + users);
+	user.addOutputMessage(":" + _serverName + " 366 " + user.getNickName() + " " + channelName + " :End of /NAMES list");
 }
 
-void Server::joinReply(User &newUser, Channel &channel)
+void Server::joinReply(User &newUser, std::string channelName)
 {
-	std::vector<std::vector<User>::iterator> it = getUsersInChannel(channel.getName());
+	std::vector<std::vector<User>::iterator> it = getUsersInChannel(channelName);
 	for (size_t i = 0; i < it.size(); i++)
 	{
-		it[i]->addOutputMessage(":" + newUser.getFullClientIdentifier() + " JOIN " + channel.getName());
+		it[i]->addOutputMessage(":" + newUser.getFullClientIdentifier() + " JOIN " + channelName);
 	}
 }
 
@@ -52,7 +50,6 @@ void Server::_join(std::string args, User &user)
 		return;
 	}
 
-	std::vector<Channel>::iterator channelIt;
 	for (std::vector<std::string>::iterator it = channels.begin(), ite = channels.end(); it != ite; it++) //loops over input channels
 	{
 		if (!hasChannel(*it))
@@ -60,21 +57,18 @@ void Server::_join(std::string args, User &user)
 			//create channel
 			std::cout << "Create New Channel : " << *it << std::endl;
 			_channels.push_back(Channel(*it));
-			channelIt = findChannel(*it);
-			user.addChannel(channelIt);
-			joinReply(user, *channelIt);
-			_commandResponces(user, RPL_TOPIC, "JOIN", "", *channelIt);
-			nameReply(user, *channelIt);
+			user.addChannel(*it);
+			joinReply(user, *it); //laaa
+			_commandResponces(user, RPL_TOPIC, "JOIN", "", *findChannel(*it));
+			nameReply(user, *it);
 		}
 
 		else
 		{
-			//welcome on this channel
-			channelIt = findChannel(*it);
-			user.addChannel(channelIt);
-			joinReply(user, *channelIt);
-			_commandResponces(user, RPL_TOPIC, "JOIN", "", *channelIt);
-			nameReply(user, *channelIt);
+			user.addChannel(*it);
+			joinReply(user, *it);
+			_commandResponces(user, RPL_TOPIC, "JOIN", "", *findChannel(*it));
+			nameReply(user, *it);
 		}
 	}
 }

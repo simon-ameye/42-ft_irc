@@ -61,8 +61,8 @@ class Server
 	std::vector<std::vector<User>::iterator> getUsersInChannel(std::string channelName);
 	std::vector<User*> getChannelUsers(std::string channelName);
 	std::vector<User>::iterator			findUser(std::string nickName);
-	void			nameReply(User &user, Channel &channel);
-	void			joinReply(User &user, Channel &channel);
+	void			nameReply(User &user, std::string channelName);
+	void			joinReply(User &user, std::string channelName);
 	std::string		_toupper(const std::string &str);
 
 	private:
@@ -101,8 +101,8 @@ class Server
 	void			_exit_server(const std::string &message, int exitCode);
 	void			_sendWelcome(User &user);
     void            _removeEmptyChannels();
-    void            _sendMessageToChannel(std::vector<Channel>::iterator channel, std::string message);
-    void            _sendMessageToChannels(std::vector<std::vector<Channel>::iterator> channels, std::string message);
+    void            _sendMessageToChannel(std::string channel, std::string message);
+    void            _sendMessageToChannels(std::vector<std::string> channels, std::string message);
     void            _clearDeletedUsers();
 
 };

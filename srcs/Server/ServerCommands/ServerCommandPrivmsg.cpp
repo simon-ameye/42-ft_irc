@@ -12,39 +12,41 @@ void Server::_privmsg(std::string args, User &user)
 		return;
 	/*----------------command protect------------------*/
 
-	std::string message;
-	std::vector<std::string> parts;
-	std::vector<std::string> recievers;
+    std::vector<std::string> targets;
+    std::string message;
 
-	parts = Utils::split(args, ':');
-	recievers = Utils::split(parts[0], ' ');
-
-	if (!recievers.size() || !parts.size())
-	{
+    try
+    {
+	    targets = Utils::split(Utils::split(args, ':').at(0), ' ');
+	    message = Utils::split(args, ':').at(1);
+    }
+    catch(const std::exception& e)
+    {
 		_errorReplies(user, ERR_NEEDMOREPARAMS, "PRIVMSG", "");
-		return;
-	}
-	message = parts[1];
+        return;
+    }
 
-
-	for (size_t i = 0; i < recievers.size(); i++)
+	for (size_t i = 0; i < targets.size(); i++)
 	{
-		std::cout << "receveir[i] = " << recievers[i] << std::endl;
+		std::cout << "receveir[i] = " << targets[i] << std::endl;
 
-		std::vector<User>::iterator it1 = findUser(recievers[i]); //for users
+        // message to users
+		std::vector<User>::iterator it1 = findUser(targets[i]);
 		if (it1 != _users.end())
 		{
 			it1->addOutputMessage(":" + user.getNickName() + " PRIVMSG " + it1->getNickName() + " :" + message);
 		}
 
-		std::vector<Channel>::iterator it2 = findChannel(recievers[i]); //for channels
+        // message to channel
+		std::vector<Channel>::iterator it2 = findChannel(targets[i]);
 		if (it2 != _channels.end())
 		{
 			std::vector<std::vector<User>::iterator> itUsers;
-			itUsers = getUsersInChannel(recievers[i]);
+			itUsers = getUsersInChannel(targets[i]);
 			for (size_t i = 0; i < itUsers.size(); i++)
 			{
-				if (user.getNickName() != itUsers[i]->getNickName()) //avoid sending message to sender
+                // avoid sending message to sender
+				if (user.getNickName() != itUsers[i]->getNickName())
 					sendChannelMesage(user, *itUsers[i], message, it2->getName());
 			}
 		}

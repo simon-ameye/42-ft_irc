@@ -54,16 +54,19 @@ std::vector<Channel>::iterator Server::findChannel(std::string channelName)
 	return ite;
 }
 
-//delete user from server
-void Server::deleteUser(std::string nickName)
+void Server::_clearDeletedUsers()
 {
-	for (std::vector<User>::iterator it = _users.begin(), ite = _users.end(); it != ite; it++)
+	std::vector<User>::iterator it = _users.begin();
+
+	while (it != _users.end())
 	{
-		if (it->getNickName() == nickName)
+		if (it->getIsRegistered() && it->getIsDeleted())
 		{
 			close(it->getFd());
-			_users.erase(it);
+			it = _users.erase(it);
 		}
+		else
+			it++;
 	}
 }
 
@@ -86,6 +89,7 @@ void Server::deleteChannel(std::string channelName) //first delete the channel f
 			itb2++;
 	}
 }
+
 //returns vector of iterators on each User in a channel
 std::vector<std::vector<User>::iterator> Server::getUsersInChannel(std::string channelName)
 {
@@ -149,4 +153,34 @@ std::string Server::_toupper(const std::string &str)
 	for (size_t i = 0; i < len; i++)
 		res += std::toupper(str[i]);
 	return res;
+}
+
+void Server::_removeEmptyChannels()
+{
+    std::vector<Channel>::iterator it = _channels.begin();
+    std::vector<Channel>::iterator ite = _channels.end();
+
+    while (it != ite)
+    {
+        if (getUsersInChannel(it->getName()).size() == 0)
+        {
+            deleteChannel(it->getName());
+            std::cout << "remove empty channel " << it->getName() << std::endl;
+        }
+        it++;
+    }
+}
+
+void Server::_sendMessageToChannel(std::vector<Channel>::iterator channel, std::string message)
+{
+    std::vector<std::vector<User>::iterator> users = getUsersInChannel(channel->getName());
+
+    for (size_t i = 0; i < users.size(); i++)
+        users[i]->addOutputMessage(message);
+}
+
+void Server::_sendMessageToChannels(std::vector<std::vector<Channel>::iterator> channels, std::string message)
+{
+    for (size_t i = 0; i < channels.size(); i++)
+        _sendMessageToChannel(channels[i], message);
 }

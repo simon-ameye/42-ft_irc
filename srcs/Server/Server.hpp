@@ -56,7 +56,6 @@ class Server
 	std::vector<User>::iterator	getUserItByFd(int fd);
 	bool			hasUser(std::string nickName, std::string exclude = "");
 	bool			hasChannel(std::string channelName);
-	void			deleteUser(std::string nickName);
 	void			deleteChannel(std::string channelName);
 	std::vector<Channel>::iterator findChannel(std::string channelName);
 	std::vector<std::vector<User>::iterator> getUsersInChannel(std::string channelName);
@@ -101,6 +100,10 @@ class Server
 
 	void			_exit_server(const std::string &message, int exitCode);
 	void			_sendWelcome(User &user);
+    void            _removeEmptyChannels();
+    void            _sendMessageToChannel(std::vector<Channel>::iterator channel, std::string message);
+    void            _sendMessageToChannels(std::vector<std::vector<Channel>::iterator> channels, std::string message);
+    void            _clearDeletedUsers();
 
 };
 

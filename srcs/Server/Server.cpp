@@ -111,7 +111,7 @@ void Server::getMessages(void)
 
 	// Check if user's fd is sending new data
 	for (std::vector<pollfd>::iterator it = ++_pollfds.begin(), ite = _pollfds.end(); it != ite; it++) // skipping the master socket
-	{
+    {
 		if (it->revents == POLLIN)
 		{
 			// Users fd is ready, lets read it on one buffer
@@ -201,18 +201,8 @@ void Server::_exit_server(const std::string &message, int exitCode)
 
 void Server::clean()
 {
-	std::vector<User>::iterator it = _users.begin();
-
-	while (it != _users.end())
-	{
-		if (it->getIsRegistered() && it->getIsDeleted())
-		{
-			close(it->getFd());
-			it = _users.erase(it);
-		}
-		else
-			it++;
-	}
+    _clearDeletedUsers();
+    _removeEmptyChannels();
 }
 
 Config &Server::getConfig()

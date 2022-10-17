@@ -7,3 +7,5 @@
 - verifier la presence de tous les retours et erreurs dans chaque fonction
 - rendre le channel facultatif dans le errorreply
 - command `MODE`
+- test `QUIT` message with irssi
+- bug: one user `JOIN` two new channels

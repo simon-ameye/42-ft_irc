@@ -60,19 +60,6 @@ void Server::_nick(std::string args, User &user)
 		return;
 	}
 
-	//user.addOutputMessage(":" + user.getFullClientIdentifier() + " NICK " + nickname);
+	user.addOutputMessage(":" + user.getFullClientIdentifier() + " NICK " + nickname); //no need to send different message if registered
 	user.setNickName(nickname);
-	user.addOutputMessage(": NICK :" + nickname);
-
-	//if (!user.getIsRegistered()) // not registered TOTO replace by !user.isRegistered
-	//{
-	//	user.setNickName(nickname);
-	//	user.addOutputMessage(": NICK " + nickname);
-	//}
-	//else
-	//{
-	//	user.addOutputMessage(":" + user.getNickName() + " NICK :" + nickname);
-	//	user.setNickName(nickname);
-	//	// todo envoyer le message aux autre clients (dans les memes channel)
-	//}
 }

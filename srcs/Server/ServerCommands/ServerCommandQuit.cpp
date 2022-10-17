@@ -2,12 +2,12 @@
 
 void Server::_quit(std::string args, User &user)
 {
-	/*----------------command protect------------------*/
+    (void) args;
+
     if (!user.getIsRegistered())
 		return;
-	/*----------------command protect------------------*/
 
-    (void) args;
-    _sendMessageToChannels(user.getChannels(), user.getNickName() + " left server");
+    _sendMessageToChannels(user.getChannels(), user.getNickName() + " [" + user.getUserName() + "@" + user.getHostName() + "] has quit");
+
     user.setIsDeleted(1);
 }

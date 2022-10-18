@@ -12,132 +12,79 @@ User::User(int fd)
 }
 
 User::~User()
-{
-	std::cout << "user destructor called" << std::endl;
-}
+{ std::cout << "user destructor called" << std::endl; }
 
 int User::getFd() const
-{
-	return _fd;
-}
+{ return _fd; }
 
 std::string User::getRealName(void) const
-{
-	return (_realName);
-}
+{ return _realName; }
 
 std::string User::getNickName(void) const
-{
-	return (_nickName);
-}
+{ return _nickName; }
 
 std::string User::getNickNameOrStar(void) const
-{
-	if (_nickName == "")
-		return ("*");
-	return (_nickName);
-}
+{ return _nickName == "" ? "*" : _nickName; }
 
 std::string User::getUserName(void) const
-{
-	return (_userName);
-}
+{ return (_userName); }
 
 std::string User::getHostName(void) const
-{
-	return (_hostName);
-}
+{ return (_hostName); }
 
 std::string User::getFullClientIdentifier(void) const
-{
-	//<nick>!<user>@<host>
-	return (_nickName + "!" + _userName + "@" + _hostName);
-}
+{ return (_nickName + "!" + _userName + "@" + _hostName); }
 
 bool User::getIsRegistered(void) const
-{
-	return _isRegistered;
-}
+{ return _isRegistered; }
 
 bool User::getIsPassProvided(void) const
-{
-	return _isPassProvided;
-}
+{ return _isPassProvided; }
 
 bool User::getIsOperator(void) const
-{
-	return _isOperator;
-}
+{ return _isOperator; }
 
 const std::vector<std::string>& User::getInputMessages(void) const
-{
-	return _inputMessages;
-}
+{ return _inputMessages; }
 
 std::string User::getInputMessagesBuffer() const
-{
-	return _inputMessagesBuffer;
-}
+{ return _inputMessagesBuffer; }
 
 const std::string User::getOutputMessage() const
-{
-	return _outputMessage;
-}
+{ return _outputMessage; }
 
 std::vector<std::string> User::getChannels() const
-{
-	return _channels;
-}
+{ return _channels; }
 
 bool User::getIsDeleted() const
-{
-	return _isDeleted;
-}
+{ return _isDeleted; }
 
 void User::setRealName(std::string _realName)
-{
-	this->_realName = _realName;
-}
+{ this->_realName = _realName; }
 
 void User::setNickName(std::string _nickName)
-{
-	this->_nickName = _nickName;
-}
+{ this->_nickName = _nickName; }
 
 void User::setUserName(std::string _userName)
-{
-	this->_userName = _userName;
-}
+{ this->_userName = _userName; }
 
 void User::setHostName(std::string _userName)
-{
-	this->_hostName = _userName;
-}
+{ this->_hostName = _userName; }
 
 void User::setIsRegistered(bool _isRegistered)
-{
-	this->_isRegistered = _isRegistered;
-}
+{ this->_isRegistered = _isRegistered; }
 
 void User::setIsPassProvided(bool _isPassProvided)
-{
-	this->_isPassProvided = _isPassProvided;
-}
+{ this->_isPassProvided = _isPassProvided; }
 
 void User::setIsOperator(bool _isOperator)
-{
-	this->_isOperator = _isOperator;
-}
+{ this->_isOperator = _isOperator; }
 
 void User::setInputMessages(std::vector<std::string> _inputMessages)
-{
-	this->_inputMessages = _inputMessages;
-}
+{ this->_inputMessages = _inputMessages; }
 
 void User::setInputMessagesBuffer(std::string _inputMessagesBuffer)
-{
-	this->_inputMessagesBuffer = _inputMessagesBuffer;
-}
+{ this->_inputMessagesBuffer = _inputMessagesBuffer; }
 
 void User::addOutputMessage(std::string _outputMessage)
 {
@@ -146,9 +93,7 @@ void User::addOutputMessage(std::string _outputMessage)
 }
 
 void User::setIsDeleted(bool isDeleted)
-{
-	this->_isDeleted = isDeleted;
-}
+{ this->_isDeleted = isDeleted; }
 
 /*Adds the reiceved buffer to the users buffer.
 Then, while delimiters are found in users buffer:
@@ -174,9 +119,9 @@ bool User::isInChannel(std::string channelName)
 	for (size_t i = 0; i < _channels.size(); i++)
 	{
 		if (_channels[i] == channelName)
-			return 1;
+			return true;
 	}
-	return (0);
+	return false;
 }
 
 void User::deleteChannel(std::string channelName)
@@ -189,16 +134,10 @@ void User::deleteChannel(std::string channelName)
 }
 
 void User::addChannel(std::string channelName)
-{
-	_channels.push_back(channelName);
-}
+{ _channels.push_back(channelName); }
 
 void User::clearInputMessages()
-{
-	this->_inputMessages.clear();
-}
+{ this->_inputMessages.clear(); }
 
 void User::clearOutputMessage()
-{
-	this->_outputMessage.clear();
-}
+{ this->_outputMessage.clear(); }

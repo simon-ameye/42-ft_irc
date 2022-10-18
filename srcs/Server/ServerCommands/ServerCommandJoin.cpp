@@ -1,6 +1,6 @@
 #include "../Server.hpp"
 
-void Server::nameReply(User &user, std::string channelName)
+void Server::_nameReply(User &user, std::string channelName)
 {
 	/*----------------command protect------------------*/
 	if (!user.getIsPassProvided())
@@ -22,7 +22,7 @@ void Server::nameReply(User &user, std::string channelName)
 	user.addOutputMessage(":" + _serverName + " 366 " + user.getNickName() + " " + channelName + " :End of /NAMES list");
 }
 
-void Server::joinReply(User &newUser, std::string channelName)
+void Server::_joinReply(User &newUser, std::string channelName)
 {
 	std::vector<std::vector<User>::iterator> it = getUsersInChannel(channelName);
 	for (size_t i = 0; i < it.size(); i++)
@@ -58,17 +58,17 @@ void Server::_join(std::string args, User &user)
 			std::cout << "Create New Channel : " << *it << std::endl;
 			_channels.push_back(Channel(*it));
 			user.addChannel(*it);
-			joinReply(user, *it); //laaa
+			_joinReply(user, *it); //laaa
 			_commandResponces(user, RPL_TOPIC, "JOIN", "", *findChannel(*it));
-			nameReply(user, *it);
+			_nameReply(user, *it);
 		}
 
 		else
 		{
 			user.addChannel(*it);
-			joinReply(user, *it);
+			_joinReply(user, *it);
 			_commandResponces(user, RPL_TOPIC, "JOIN", "", *findChannel(*it));
-			nameReply(user, *it);
+			_nameReply(user, *it);
 		}
 	}
 }

@@ -1,8 +1,8 @@
 #ifndef SERVER_HPP
 #define SERVER_HPP
 
+/*Project headers*/
 #include "../Utils/Utils.hpp"
-
 #include "User/User.hpp"
 #include "Channel/Channel.hpp"
 #include "ServerSettings.hpp"
@@ -29,6 +29,7 @@
 /*Poll*/
 #include <poll.h>
 
+/*Colors*/
 #define RESET		"\033[0m"
 #define RED			"\033[31m"
 #define GREEN		"\033[32m"
@@ -39,79 +40,91 @@ class User;
 
 class Server
 {
+	/*Server constructors*/
 	public:
-	Server(char *port, char *password);
-	~Server();
-	void			block(void);
-	void			getNewUsers(void);
-	void			getMessages(void);
-	void			dispatchs(void);
-	void			sendMessage(void);
-	const int		&getExitSignal(void);
-	void			dispatch(const std::string& message, User& user);
-	void			clean();
-	Config			&getConfig();
-	void			refreshConfig();
-	void			setRestartNeeded(bool);
-	bool			getRestartNeeded();
-	void			debug();
+	Server	(char *port, char *password);
+	~Server	();
 
-	std::vector<User>::iterator	getUserItByFd(int fd);
-	bool			hasUser(std::string nickName, std::string exclude = "");
-	bool			hasChannel(std::string channelName);
-	void			deleteChannel(std::string channelName);
-	std::vector<Channel>::iterator findChannel(std::string channelName);
-	std::vector<std::vector<User>::iterator> getUsersInChannel(std::string channelName);
-	std::vector<User*> getChannelUsers(std::string channelName);
-	std::vector<User>::iterator			findUser(std::string nickName);
-	void			nameReply(User &user, std::string channelName);
-	void			joinReply(User &user, std::string channelName);
-	std::string		_toupper(const std::string &str);
-
+	/*Server attributes*/
 	private:
-	std::string		_password;
-	sockaddr_in		_sin;
-	socklen_t		_sizeofsin;
-	int				_exitSignal;
-	int				_masterSocket;
-	//std::map<int, User> _users;
+	int						_exitSignal;
+	int						_masterSocket;
+	bool					_restartNeeded;
+	Config					_confg;
+	socklen_t				_sizeofsin;
+	sockaddr_in				_sin;
+	std::string				_password;
+	std::string				_serverName;
 	std::vector<User>		_users;
 	std::vector<Channel>	_channels;
 	std::vector<pollfd>		_pollfds;
-	std::string _serverName;
-	Config		_confg;
-	bool		_restartNeeded;
 
+	/*Server functions*/
+	public:
+	void		setRestartNeeded	(bool);
+	bool		getRestartNeeded	();
+	void		getNewUsers			();
+	void		getMessages			();
+	void		block				();
+	void		dispatchs			();
+	void		sendMessage			();
+	void		clean				();
+	void		refreshConfig		();
+	void		exitServer			(const std::string &message, int exitCode);
+	void		dispatch			(const std::string& message, User& user);
+	Config		&getConfig			();
+	const int	&getExitSignal		();
+
+	/*ServerUtils*/
+	public:
+	bool										hasUser				(std::string nickName, std::string exclude = "");
+	bool										hasChannel			(std::string channelName);
+	void										deleteChannel		(std::string channelName);
+	void										debug				();
+	std::vector<User*>							getChannelUsers		(std::string channelName); //AAAAAAAAA TEJ
+	std::vector<User>::iterator					findUser			(std::string nickName);
+	std::vector<User>::iterator					getUserItByFd		(int fd);
+	std::vector<Channel>::iterator				findChannel			(std::string channelName);
+	std::vector<std::vector<User>::iterator>	getUsersInChannel	(std::string channelName);
+
+	/*ServerUtils*/
 	private:
-	void			_errorReplies(User &user, int err, std::string cmd, std::string str, const Channel &channel = Channel());
-	void			_commandResponces(User &user, int rpl, std::string cmd, std::string str, const Channel &channel = Channel());
+	bool		_sendPrivMessageToChannel	(std::string channel, std::string message, std::string sender, const std::string &excludeUser);
+	bool		_sendPrivMessageToUser		(std::string recipient, std::string message, std::string sender);
+    void		_clearDeletedUsers			();
+    void		_removeEmptyChannels		();
+	void		_sendWelcome				(User &user);
+    void		_sendMessageToChannel		(std::string channel, std::string message, const std::string &excludeUser = std::string());
+    void		_sendMessageToChannels		(std::vector<std::string> channels, std::string message);
+	std::string	_toupper					(const std::string &str);
 
-	void			_cap    (std::string args, User &user);
-	void			_die    (std::string args, User &user);
-	void			_nick   (std::string args, User &user);
-	void			_pass   (std::string args, User &user);
-	void			_oper   (std::string args, User &user);
-	void			_user   (std::string args, User &user);
-	void			_ping   (std::string args, User &user);
-	void			_join   (std::string args, User &user);
-	void			_mode   (std::string args, User &user);
-	void			_quit   (std::string args, User &user);
-	void			_privmsg(std::string args, User &user);
-	void			_notice (std::string args, User &user);
-	void 			_kill	(std::string args, User &user);
-	void 			_rehash	(std::string args, User &user);
-	void 			_restart(std::string args, User &user);
-	void 			_part   (std::string args, User &user);
+	/*Utils in JOIN*/
+	private:
+	void	_nameReply	(User &user, std::string channelName);
+	void	_joinReply	(User &user, std::string channelName);
 
-	void			_exit_server(const std::string &message, int exitCode);
-	void			_sendWelcome(User &user);
-    void            _removeEmptyChannels();
-	bool			_sendPrivMessageToChannel(std::string channel, std::string message, std::string sender, const std::string &excludeUser);
-	bool			_sendPrivMessageToUser(std::string recipient, std::string message, std::string sender);
-    void            _sendMessageToChannel(std::string channel, std::string message, const std::string &excludeUser = std::string());
-    void            _sendMessageToChannels(std::vector<std::string> channels, std::string message);
-    void            _clearDeletedUsers();
+	/*Standard replies*/
+	private:
+	void	_errorReplies		(User &user, int err, std::string cmd, std::string str, const Channel &channel = Channel());
+	void	_commandResponces	(User &user, int rpl, std::string cmd, std::string str, const Channel &channel = Channel());
 
+	/*Commands*/
+	private:
+	void	_cap		(std::string args, User &user);
+	void	_die		(std::string args, User &user);
+	void	_nick		(std::string args, User &user);
+	void	_pass		(std::string args, User &user);
+	void	_oper		(std::string args, User &user);
+	void	_user		(std::string args, User &user);
+	void	_ping		(std::string args, User &user);
+	void	_join		(std::string args, User &user);
+	void	_mode		(std::string args, User &user);
+	void	_quit		(std::string args, User &user);
+	void	_privmsg	(std::string args, User &user);
+	void	_notice		(std::string args, User &user);
+	void	_kill		(std::string args, User &user);
+	void	_rehash		(std::string args, User &user);
+	void	_restart	(std::string args, User &user);
+	void	_part		(std::string args, User &user);
 };
-
 #endif

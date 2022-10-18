@@ -15,7 +15,7 @@ Server::Server(char *port, char *password)
 	_sin.sin_addr.s_addr = htonl(INADDR_ANY); // set IP address automatically
 
 	if (_sin.sin_port == 0)
-		_exit_server("invalid port", -1);
+		exitServer("invalid port", -1);
 
 	// Defining server sockaddr_in structure size
 	_sizeofsin = sizeof(_sin);
@@ -23,24 +23,24 @@ Server::Server(char *port, char *password)
 	// Creating socket
 	_masterSocket = socket(AF_INET, SOCK_STREAM, 0);
 	if (_masterSocket == -1)
-		_exit_server("socket()", -1);
+		exitServer("socket()", -1);
 
 	// Setting socket reuse
 	int enable = 1; // pas compris encore
 	if (setsockopt(_masterSocket, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &enable, sizeof(enable)) == -1)
-		_exit_server("setsockopt()", -1);
+		exitServer("setsockopt()", -1);
 
 	// Setting socket to be non blocking
 	if (fcntl(_masterSocket, F_SETFL, O_NONBLOCK) == -1)
-		_exit_server("fcntl()", -1);
+		exitServer("fcntl()", -1);
 
 	// Binding socket to port and set socket settings
 	if (bind(_masterSocket, (sockaddr *)&_sin, _sizeofsin) == -1)
-		_exit_server("bind()", -1);
+		exitServer("bind()", -1);
 
 	// Listening
 	if (listen(_masterSocket, 5) == -1)
-		_exit_server("listen()", -1);
+		exitServer("listen()", -1);
 
 	std::cout << "Server starting on port " << ntohs(_sin.sin_port) << " with password " << _password << std::endl;
 }
@@ -73,7 +73,7 @@ void Server::block(void)
 
 	// wait for an event
 	if (poll(&(_pollfds[0]), _pollfds.size(), POLL_TIMEOUT) == -1)
-		_exit_server("poll()", -1);
+		exitServer("poll()", -1);
 }
 
 void Server::getNewUsers(void)
@@ -85,7 +85,7 @@ void Server::getNewUsers(void)
 		// Accept and create a new user
 		tempFd = accept(_masterSocket, (sockaddr *)&_sin, &_sizeofsin);
 		if (tempFd == -1)
-			_exit_server("accept()", -1);
+			exitServer("accept()", -1);
 		//_users[tempFd];
 		_users.push_back(User(tempFd));
 		std::cout << "New user accepted with fd: " << tempFd << std::endl;
@@ -121,7 +121,7 @@ void Server::getMessages(void)
 
 			// recv() error
 			if (sizeRead == -1)
-				_exit_server("recv()", -1);
+				exitServer("recv()", -1);
 
 			// Nothing to read anymore: user disconnected
 			if (sizeRead == 0)
@@ -196,7 +196,7 @@ const int &Server::getExitSignal(void)
 	return (_exitSignal);
 }
 
-void Server::_exit_server(const std::string &message, int exitCode)
+void Server::exitServer(const std::string &message, int exitCode)
 {
 	std::cout << "Error: " << message << std::endl;
 	exit(exitCode);

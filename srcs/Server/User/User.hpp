@@ -61,7 +61,7 @@ public:
 
 	void addBufferToMessages(char *buffer, size_t size);
 	void addChannel(std::string channelName);
-	bool deleteChannel(std::string channelName);
+	void deleteChannel(std::string channelName);
 	bool isInChannel(std::string channelName);
 	void clearInputMessages();
 	void clearOutputMessage();

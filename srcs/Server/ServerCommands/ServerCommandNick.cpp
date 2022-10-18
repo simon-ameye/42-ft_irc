@@ -25,14 +25,6 @@ void Server::_nick(std::string args, User &user)
 		return;
 	/*----------------command protect------------------*/
 
-	//std::vector<std::string> splitArgs = Utils::split(args, ' ');
-	//if (args.size() == 0)
-	//{
-	//	_errorReplies(user, ERR_NONICKNAMEGIVEN, "NICK", "");
-	//	return;
-	//}
-	//std::string nickname = splitArgs[0];
-
 	std::string nickname;
 	try
 	{

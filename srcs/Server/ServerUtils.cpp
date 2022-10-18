@@ -139,18 +139,6 @@ void Server::_sendWelcome(User &user)
 	_commandResponces(user, RPL_WELCOME, "USER", "");
 }
 
-std::vector<User*> Server::getChannelUsers(std::string channelName)
-{
-	std::vector<User*> users;
-
-	for (std::vector<User>::iterator it = _users.begin(), ite = _users.end(); it != ite; it++)
-	{
-		if (it->isInChannel(channelName))
-			users.push_back(&(*it));
-	}
-	return users;
-}
-
 std::string Server::_toupper(const std::string &str)
 {
 	size_t len = str.size();

@@ -81,7 +81,6 @@ class Server
 	bool										hasChannel			(std::string channelName);
 	void										deleteChannel		(std::string channelName);
 	void										debug				();
-	std::vector<User*>							getChannelUsers		(std::string channelName); //AAAAAAAAA TEJ
 	std::vector<User>::iterator					findUser			(std::string nickName);
 	std::vector<User>::iterator					getUserItByFd		(int fd);
 	std::vector<Channel>::iterator				findChannel			(std::string channelName);

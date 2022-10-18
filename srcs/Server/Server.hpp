@@ -101,6 +101,7 @@ class Server
 	void 			_kill	(std::string args, User &user);
 	void 			_rehash	(std::string args, User &user);
 	void 			_restart(std::string args, User &user);
+	void 			_part   (std::string args, User &user);
 
 	void			_exit_server(const std::string &message, int exitCode);
 	void			_sendWelcome(User &user);

@@ -44,6 +44,8 @@ void Server::dispatch(const std::string &message, User &user)
 		_rehash(args, user);
 	else if (cmd == "RESTART")
 		_restart(args, user);
+	else if (cmd == "PART")
+		_part(args, user);
 	else
 		_errorReplies(user, ERR_UNKNOWNCOMMAND, cmd, "");
 

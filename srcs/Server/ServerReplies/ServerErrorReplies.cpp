@@ -16,7 +16,7 @@ void Server::_errorReplies(User &user, int err, std::string cmd, std::string str
 		result << _serverName << " No such server";
 		break;
 	case ERR_NOSUCHCHANNEL:
-		result << channel.getName() << " No such server";
+		result << channel.getName(); // irssi append itself ' :no such channel'
 		break;
 	case ERR_CANNOTSENDTOCHAN:
 		result << channel.getName() << " Cannot send to channel";
@@ -54,6 +54,9 @@ void Server::_errorReplies(User &user, int err, std::string cmd, std::string str
 	case ERR_NORECIPIENT:
 		result << "No recipient given";
 		break;
+    case ERR_NOTONCHANNEL:
+        result << channel.getName() << ": You're not on that channel";
+        break;
 	default:
 		result << "Unknown error";
 	}

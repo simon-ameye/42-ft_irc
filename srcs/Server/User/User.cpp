@@ -179,13 +179,18 @@ bool User::isInChannel(std::string channelName)
 	return (0);
 }
 
-void User::deleteChannel(std::string channelName)
+bool User::deleteChannel(std::string channelName)
 {
+    bool ret = false;
 	for (size_t i = 0; i < _channels.size(); i++)
 	{
 		if (_channels[i] == channelName)
+        {
 			_channels.erase(_channels.begin() + i);
+            ret = true;
+        }
 	}
+    return ret;
 }
 
 void User::addChannel(std::string channelName)

@@ -5,7 +5,7 @@ void Server::_kill(std::string args, User &user)
 
 	std::string nickname;
 	std::string reason;
-	std::vector<std::string> _args;
+	//std::vector<std::string> _args;
 	Channel c;
 
 	/*----------------command protect------------------*/
@@ -16,12 +16,20 @@ void Server::_kill(std::string args, User &user)
 	if (!user.getIsOperator())
 		return _errorReplies(user, ERR_NOPRIVILEGES, "KILL", "");
 
-	_args = Utils::split(args, ':');
-	if (_args.size() != 2)
-		return _errorReplies(user, ERR_NEEDMOREPARAMS, "KILL", "");
+	//_args = Utils::split(args, ':');
+	//if (_args.size() != 2)
+	//	return _errorReplies(user, ERR_NEEDMOREPARAMS, "KILL", "");
 
-	nickname = _args[0];
-	reason = _args[1];
+
+	//nickname = _args[0];
+	//reason = _args[1];
+
+	try { nickname = Utils::split(args, ':').at(0); }
+	catch (...) { return _errorReplies(user, ERR_NEEDMOREPARAMS, "KILL", ""); }
+
+	try { reason = Utils::split(args, ':').at(1); }
+	catch (...) { return _errorReplies(user, ERR_NEEDMOREPARAMS, "KILL", ""); }
+
 	Utils::rtrim(nickname, ' ');
 
 	std::vector<User>::iterator userToKill = findUser(nickname);
@@ -31,6 +39,7 @@ void Server::_kill(std::string args, User &user)
 	// send kill message to user
 	userToKill->addOutputMessage(user.getFullClientIdentifier() + " KILL");
 
+/*
 	std::vector<User *> usersToNotify;
 	usersToNotify.push_back((&(*userToKill)));
 	std::vector<Channel> channelsToDelete;
@@ -72,6 +81,9 @@ void Server::_kill(std::string args, User &user)
 	{
 		(*userIt)->addOutputMessage(":" + userToKill->getFullClientIdentifier() + " QUIT :killed (" + user.getFullClientIdentifier() + ") " + reason + ")");
 	}
+*/
+
+	_sendMessageToChannels(userToKill->getChannels(), ":" + userToKill->getFullClientIdentifier() + " QUIT :killed (" + user.getFullClientIdentifier() + ") " + reason + ")");
 
 	userToKill->addOutputMessage("ERROR :Closing Link " + _serverName + " killed (" + user.getFullClientIdentifier() + ") " + reason + ")");
 	userToKill->setIsDeleted(true);

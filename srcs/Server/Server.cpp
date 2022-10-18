@@ -164,7 +164,10 @@ void Server::sendMessage(void)
 	for (std::vector<User>::iterator it = _users.begin(), ite = _users.end(); it != ite; it++)
 	{
 		if (it->getOutputMessage().size() > 0)
+		{
+			debug();
 			std::cout << it->getFullClientIdentifier() << " : $" << GREEN << it->getOutputMessage() << RESET << "$" << std::endl;
+		}
 
 		if (send(it->getFd(), it->getOutputMessage().c_str(), it->getOutputMessage().length(), 0) == -1)
 			std::cout << "Send error " << std::endl;

@@ -29,9 +29,11 @@
 /*Poll*/
 #include <poll.h>
 
-#define RESET   "\033[0m"
-#define RED     "\033[31m"
-#define GREEN   "\033[32m"
+#define RESET		"\033[0m"
+#define RED			"\033[31m"
+#define GREEN		"\033[32m"
+#define YELLOW		"\033[33m"
+#define BLUE		"\033[34m"
 
 class User;
 
@@ -52,6 +54,7 @@ class Server
 	void			refreshConfig();
 	void			setRestartNeeded(bool);
 	bool			getRestartNeeded();
+	void			debug();
 
 	std::vector<User>::iterator	getUserItByFd(int fd);
 	bool			hasUser(std::string nickName, std::string exclude = "");

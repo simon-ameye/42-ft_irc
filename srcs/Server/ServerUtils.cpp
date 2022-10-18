@@ -189,3 +189,19 @@ void Server::_sendMessageToChannels(std::vector<std::string> channels, std::stri
     for (size_t i = 0; i < channels.size(); i++)
         _sendMessageToChannel(channels[i], message);
 }
+
+void Server::debug()
+{
+	std::cout << "chans:	";
+	for (size_t i = 0; i < _channels.size(); i++)
+		std::cout << YELLOW << _channels[i].getName() << " " << RESET;
+	std::cout << std::endl;
+
+	for (size_t j = 0; j < _users.size(); j++)
+	{
+		std::cout << "user :	" << BLUE << _users[j].getNickName() << RESET;
+		for (size_t k = 0; k < _users[j].getChannels().size(); k++)
+			std::cout << YELLOW << " " << _users[j].getChannels()[k] << RESET;
+		std::cout << std::endl;
+	}
+}

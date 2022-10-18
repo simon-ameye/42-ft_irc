@@ -51,6 +51,9 @@ void Server::_errorReplies(User &user, int err, std::string cmd, std::string str
 	case ERR_NOPRIVILEGES:
 		result << "Permission Denied- You're not an IRC operator";
 		break;
+	case ERR_NORECIPIENT:
+		result << "No recipient given";
+		break;
 	default:
 		result << "Unknown error";
 	}

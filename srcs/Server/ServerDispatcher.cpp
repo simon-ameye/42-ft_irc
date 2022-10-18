@@ -30,6 +30,8 @@ void Server::dispatch(const std::string &message, User &user)
 		_join(args, user);
 	else if (cmd == "PRIVMSG")
 		_privmsg(args, user);
+	else if (cmd == "NOTICE")
+		_notice(args, user);
 	else if (cmd == "MODE")
 		_mode(args, user);
 	else if (cmd == "DIE")

@@ -1,6 +1,6 @@
 #include "../Server.hpp"
 
-void Server::_privmsg(std::string args, User &user)
+void Server::_notice(std::string args, User &user)
 {
 	/*----------------command protect------------------*/
     if (!user.getIsRegistered())
@@ -17,7 +17,6 @@ void Server::_privmsg(std::string args, User &user)
     }
     catch(...)
     {
-		_errorReplies(user, ERR_NEEDMOREPARAMS, "PRIVMSG", "");
         return;
     }
 
@@ -33,8 +32,5 @@ void Server::_privmsg(std::string args, User &user)
 
 		// message to channel
 		chanSent = _sendPrivMessageToChannel(targets[i], message, user.getNickName(), user.getNickName());
-
-		if (!userSent && !chanSent)
-			_errorReplies(user, ERR_NOSUCHNICK, "PRIVMSG", "");
 	}
 }

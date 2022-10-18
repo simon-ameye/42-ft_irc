@@ -176,12 +176,43 @@ void Server::_removeEmptyChannels()
     }
 }
 
-void Server::_sendMessageToChannel(std::string channel, std::string message)
+void Server::_sendMessageToChannel(std::string channel, std::string message, const std::string &excludeUser)
 {
     std::vector<std::vector<User>::iterator> users = getUsersInChannel(channel);
 
     for (size_t i = 0; i < users.size(); i++)
-        users[i]->addOutputMessage(message);
+	{
+		if (users[i]->getNickName() != excludeUser)
+			users[i]->addOutputMessage(message);
+	}
+}
+
+bool Server::_sendPrivMessageToUser(std::string recipient, std::string message, std::string sender)
+{
+	bool sent = 0;
+	std::vector<User>::iterator recip = findUser(recipient);
+	if (recip != _users.end())
+	{
+		recip->addOutputMessage(":" + sender + " PRIVMSG " + recipient + " :" + message);
+		sent = 1;
+	}
+	return sent;
+}
+
+bool Server::_sendPrivMessageToChannel(std::string channel, std::string message, std::string sender, const std::string &excludeUser)
+{
+	bool sent = 0;
+    std::vector<std::vector<User>::iterator> users = getUsersInChannel(channel);
+
+    for (size_t i = 0; i < users.size(); i++)
+	{
+		if (users[i]->getNickName() != excludeUser)
+		{
+			users[i]->addOutputMessage(":" + sender + " PRIVMSG " + channel + " :" + message);
+			sent = 1;
+		}
+	}
+	return sent;
 }
 
 void Server::_sendMessageToChannels(std::vector<std::string> channels, std::string message)

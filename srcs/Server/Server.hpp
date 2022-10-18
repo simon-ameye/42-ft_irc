@@ -97,6 +97,7 @@ class Server
 	void			_mode   (std::string args, User &user);
 	void			_quit   (std::string args, User &user);
 	void			_privmsg(std::string args, User &user);
+	void			_notice (std::string args, User &user);
 	void 			_kill	(std::string args, User &user);
 	void 			_rehash	(std::string args, User &user);
 	void 			_restart(std::string args, User &user);
@@ -104,7 +105,9 @@ class Server
 	void			_exit_server(const std::string &message, int exitCode);
 	void			_sendWelcome(User &user);
     void            _removeEmptyChannels();
-    void            _sendMessageToChannel(std::string channel, std::string message);
+	bool			_sendPrivMessageToChannel(std::string channel, std::string message, std::string sender, const std::string &excludeUser);
+	bool			_sendPrivMessageToUser(std::string recipient, std::string message, std::string sender);
+    void            _sendMessageToChannel(std::string channel, std::string message, const std::string &excludeUser = std::string());
     void            _sendMessageToChannels(std::vector<std::string> channels, std::string message);
     void            _clearDeletedUsers();
 

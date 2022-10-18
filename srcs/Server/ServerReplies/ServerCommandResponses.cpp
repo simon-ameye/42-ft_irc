@@ -24,7 +24,7 @@ void Server::_commandResponces(User &user, int rpl, std::string cmd, std::string
 		break;
 	case RPL_REHASHING:
 		result << " " << user.getFullClientIdentifier() << " config.ini " << ":REHASHING";
-		break;  
+		break;
 	default:
 		result << " :Unknown reply";
 	}

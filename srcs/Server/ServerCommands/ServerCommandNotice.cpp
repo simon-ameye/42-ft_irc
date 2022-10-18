@@ -25,8 +25,6 @@ void Server::_notice(std::string args, User &user)
 
 	for (size_t i = 0; i < targets.size(); i++)
 	{
-		std::cout << "receveir[i] = " << targets[i] << std::endl;
-
 		// message to users
 		userSent = _sendPrivMessageToUser(targets[i], message, user.getNickName());
 

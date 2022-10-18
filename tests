@@ -1,16 +1,17 @@
-##leaks tests
-
 #start:
-```make && valgrind --leak-check=full ./ircserv 6667 bla```
+do ```make && ./ircserv 6667 bla```
+or ```make && valgrind --leak-check=full ./ircserv 6667 bla```
 
-#basic
+##basic
+#IRSSI
 ```
 /connect localhost 6667 bla n1
 /oper opername operpass
 /die
 ```
 
-#nick collision
+##nick collision
+#IRSSI
 ```
 /connect localhost 6667 bla n1
 /connect localhost 6667 bla n1
@@ -29,4 +30,54 @@
 /nick n1
 /oper opername operpass
 /die
+```
+
+##Trying to join without pass
+#IRSSI
+```
+irssi
+
+/connect localhost 6667
+/PING
+/JOIN h
+blabla
+```
+
+##trying to join without pass
+#NC
+```
+nc -C localhost 6667
+
+NICK yoo
+USER yoyo yoyo yoyo : yoyo
+PING
+JOIN h
+PRIVMSG h blabla
+```
+
+##Trying OPER commands without being OPER
+#NC
+```
+nc -C localhost 6667
+
+PASS bla
+NICK yoo
+USER realname unused hostname :real name
+DIE
+KILL bla
+REHASH
+RESTART
+```
+
+##Trying OPER commands
+```
+nc -C localhost 6667
+
+PASS bla
+NICK yoo
+USER realname unused hostname :real name
+OPER opername operpass
+
+...A COMPLETER
+
 ```

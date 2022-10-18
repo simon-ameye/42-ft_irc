@@ -1,11 +1,4 @@
 /connect localhost 6667 bla n1
 
 # TODO
-- envoyer le bon code pour la loste des users dans JOIN : RPL_NAMREPLY
-- rendre le passProvided obligatoire dans toutes les fonctions
-- rendre les classes private
 - verifier la presence de tous les retours et erreurs dans chaque fonction
-- rendre le channel facultatif dans le errorreply
-- command `MODE`
-- test `QUIT` message with irssi
-- bug: one user `JOIN` two new channels

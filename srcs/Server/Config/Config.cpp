@@ -1,13 +1,10 @@
 #include "Config.hpp"
 
 Config::Config()
-{
-    readConfig();
-}
+{ readConfig(); }
 
 Config::~Config()
-{
-}
+{ }
 
 void Config::readConfig()
 {
@@ -38,12 +35,6 @@ void Config::readConfig()
 
 std::string Config::getValue(std::string key, std::string defaultValue)
 {
-    try
-    {
-        return _values.at(key);
-    }
-    catch(const std::out_of_range& e)
-    {
-        return defaultValue;
-    }    
+    try { return _values.at(key); }
+    catch (const std::out_of_range& e) { return defaultValue; }
 }

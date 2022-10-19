@@ -4,13 +4,10 @@ void Server::dispatch(const std::string &message, User &user)
 {
 	std::cout << user.getFullClientIdentifier() << " : $" << RED << message << RESET << "$" << std::endl;
 
-	std::vector<std::string> splitCmd;
-	std::string cmd;
-	std::string args;
+	std::vector<std::string> splitCmd = Utils::split_cmd(message, ' ');
 
-	splitCmd = Utils::split_cmd(message, ' ');
-	cmd = _toupper(splitCmd[0]);
-	args = splitCmd[1];
+	std::string cmd  = _toupper(splitCmd[0]);
+	std::string args = splitCmd[1];
 
 	if (cmd == "")
 		std::cout << "empty cmd" << std::endl;

@@ -18,9 +18,7 @@ int start(char *port, char *password)
 		server.clean();
 		//usleep(100000);
 	}
-	if (server.getRestartNeeded())
-		return RESTART;
-	return EXIT;
+	return server.getRestartNeeded() ? RESTART : EXIT;
 }
 
 int main(int argc, char **argv)

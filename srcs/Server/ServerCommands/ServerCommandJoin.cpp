@@ -52,7 +52,7 @@ void Server::_join(std::string args, User &user)
 			std::cout << "Create New Channel : " << *it << std::endl;
 			_channels.push_back(Channel(*it));
 			user.addChannel(*it);
-			_joinReply(user, *it); //laaa
+			_joinReply(user, *it);
 			_commandResponces(user, RPL_TOPIC, "JOIN", "", *findChannel(*it));
 			_nameReply(user, *it);
 		}

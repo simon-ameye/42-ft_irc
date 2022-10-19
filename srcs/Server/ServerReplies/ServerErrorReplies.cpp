@@ -35,9 +35,6 @@ void Server::_errorReplies(User &user, int err, std::string cmd, std::string str
 	case ERR_ERRONEUSNICKNAME:
 		result << " Erroneus nickname";
 		break;
-	//case ERR_NICKNAMEINUSE:
-	//	result << str << " :Nickname is already in use";
-	//	break;
 	case ERR_NEEDMOREPARAMS:
 		result << cmd << " Not enough parameters";
 		break;

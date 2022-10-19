@@ -1,7 +1,8 @@
 #include "../Server.hpp"
 static bool isValidChar(int c)
 {
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_') //Nick "*" MUST be denied because it is the default nick
+    // nickname "*" must be denied because it is the default nick
+	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_')
 		return (true);
 	return (false);
 }
@@ -32,6 +33,8 @@ void Server::_nick(std::string args, User &user)
 	if (isInvalidNick(nickname))
 		return _errorReplies(user, ERR_ERRONEUSNICKNAME, "NICK", "");
 
+    // we don't do `_errorReplies(user, ERR_NICKNAMEINUSE, "NICK", "")` since
+    // irssi ask for a particular string format here (error code before servername)
 	if (Server::hasUser(nickname, user.getNickName()))
 	{
 		std::string message = ": 433 ";
@@ -43,6 +46,7 @@ void Server::_nick(std::string args, User &user)
 		return;
 	}
 
-	user.addOutputMessage(":" + user.getFullClientIdentifier() + " NICK " + nickname); //no need to send different message if registered
+    // no need to send different message if registered
+	user.addOutputMessage(":" + user.getFullClientIdentifier() + " NICK " + nickname);
 	user.setNickName(nickname);
 }

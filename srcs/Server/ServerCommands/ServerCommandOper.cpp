@@ -1,5 +1,7 @@
 #include "../Server.hpp"
 
+// ERR_NOOPERHOST not supported
+
 void Server::_oper(std::string args, User &user)
 {
 	/*----------------command protect------------------*/
@@ -9,7 +11,6 @@ void Server::_oper(std::string args, User &user)
 
 	std::vector<std::string> splitArgs = Utils::split(args, ' ');
 
-	// ERR_NOOPERHOST : not required
 	if (splitArgs.size() < 2)
 		return _errorReplies(user, ERR_NEEDMOREPARAMS, "OPER", "");
 

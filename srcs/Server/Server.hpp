@@ -8,7 +8,7 @@
 #include "ServerSettings.hpp"
 #include "ServerReplies/ErrorReplies.hpp"
 #include "ServerReplies/CommandResponses.hpp"
-#include "../Config/Config.hpp"
+#include "Config/Config.hpp"
 
 /*Basics*/
 #include <iostream>

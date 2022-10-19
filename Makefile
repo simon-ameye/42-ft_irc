@@ -35,7 +35,7 @@ SRCS		=		main.cpp \
 					Server/ServerCommands/ServerCommandRestart.cpp \
 					Server/ServerCommands/ServerCommandPart.cpp \
 					Server/Channel/Channel.cpp \
-					Config/Config.cpp
+					Server/Config/Config.cpp
 
 SOURCES		=		$(addprefix $(SRCS_DIR)/,$(SRCS))
 
@@ -48,7 +48,7 @@ HEADERS		=		srcs/Server/Server.hpp \
 					srcs/Server/ServerReplies/ErrorReplies.hpp \
 					srcs/Server/User/User.hpp \
 					srcs/Utils/Utils.hpp \
-					srcs/Config/Config.hpp
+					srcs/Server/Config/Config.hpp
 
 #################	OBJECT FILES	#################
 
@@ -74,7 +74,7 @@ $(OBJS_DIR):
 					mkdir -p $@/Server/Channel
 					mkdir -p $@/Server/ServerCommands
 					mkdir -p $@/Server/ServerReplies
-					mkdir -p $@/Config
+					mkdir -p $@/Server/Config
 
 $(OBJECTS):			$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.cpp
 					@$(CC) -c $< -o $@

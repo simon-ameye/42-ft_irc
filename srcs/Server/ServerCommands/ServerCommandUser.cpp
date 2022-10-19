@@ -10,17 +10,17 @@ void Server::_user(std::string args, User &user)
 	if (user.getIsRegistered())
 		return _errorReplies(user, ERR_ALREADYREGISTRED, "USER", "");
 
-	std::string realName;
+	std::string realname;
 	std::string username;
 	std::string hostname;
 
 	//example : args = "myusername myusername localhost :my real name"
-	try {realName = Utils::split(args, ':').at(1);}								catch (...) {return _errorReplies(user, ERR_NEEDMOREPARAMS, "USER", "");}
+	try {realname = Utils::split(args, ':').at(1);}								catch (...) {return _errorReplies(user, ERR_NEEDMOREPARAMS, "USER", "");}
 	try {username = Utils::split(Utils::split(args, ':').at(0), ' ').at(0);}	catch (...) {return _errorReplies(user, ERR_NEEDMOREPARAMS, "USER", "");}
 	try {hostname = Utils::split(Utils::split(args, ':').at(0), ' ').at(2);}	catch (...) {return _errorReplies(user, ERR_NEEDMOREPARAMS, "USER", "");}
 
 	user.setUserName(username);
-	user.setRealName(realName);
+	user.setRealName(realname);
 	//user.setHostName(hostname);
 
 	getpeername(user.getFd(), (struct sockaddr *)&_sin, (socklen_t *)&_sizeofsin);

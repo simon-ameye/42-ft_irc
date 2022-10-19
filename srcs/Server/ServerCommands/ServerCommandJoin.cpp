@@ -36,19 +36,13 @@ void Server::_join(std::string args, User &user)
 
 	std::vector<std::string> splitArgs = Utils::split(args, ' ');
 	if (!splitArgs.size())
-	{
-		_errorReplies(user, ERR_NEEDMOREPARAMS, "JOIN", "");
-		return;
-	}
+		return _errorReplies(user, ERR_NEEDMOREPARAMS, "JOIN", "");
 
 	std::string rowChannels = splitArgs[0];
 
 	std::vector<std::string> channels = Utils::split(rowChannels, ',');
 	if (!channels.size())
-	{
-		_errorReplies(user, ERR_NEEDMOREPARAMS, "JOIN", "");
-		return;
-	}
+		return _errorReplies(user, ERR_NEEDMOREPARAMS, "JOIN", "");
 
 	for (std::vector<std::string>::iterator it = channels.begin(), ite = channels.end(); it != ite; it++) //loops over input channels
 	{

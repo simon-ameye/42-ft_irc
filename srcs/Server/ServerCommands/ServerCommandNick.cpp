@@ -26,20 +26,11 @@ void Server::_nick(std::string args, User &user)
 	/*----------------command protect------------------*/
 
 	std::string nickname;
-	try
-	{
-		nickname = Utils::split(args, ' ').at(0);
-	}
-	catch (...)
-	{
-		return _errorReplies(user, ERR_NONICKNAMEGIVEN, "NICK", "");
-	}
+	try { nickname = Utils::split(args, ' ').at(0); }
+	catch (...) { return _errorReplies(user, ERR_NONICKNAMEGIVEN, "NICK", ""); }
 
 	if (isInvalidNick(nickname))
-	{
-		_errorReplies(user, ERR_ERRONEUSNICKNAME, "NICK", "");
-		return;
-	}
+		return _errorReplies(user, ERR_ERRONEUSNICKNAME, "NICK", "");
 
 	if (Server::hasUser(nickname, user.getNickName()))
 	{

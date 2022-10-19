@@ -192,9 +192,7 @@ Server::~Server()
 }
 
 const int &Server::getExitSignal(void)
-{
-	return (_exitSignal);
-}
+{ return (_exitSignal); }
 
 void Server::exitServer(const std::string &message, int exitCode)
 {
@@ -209,14 +207,13 @@ void Server::clean()
 }
 
 Config &Server::getConfig()
-{
-	return _confg;
-}
+{ return _confg; }
 
 void Server::refreshConfig()
-{
-	_confg = Config();
-}
+{ _confg = Config(); }
 
-bool Server::getRestartNeeded() { return _restartNeeded; }
-void Server::setRestartNeeded(bool restartNeeded) { _restartNeeded = restartNeeded; }
+bool Server::getRestartNeeded()
+{ return _restartNeeded; }
+
+void Server::setRestartNeeded(bool restartNeeded)
+{ _restartNeeded = restartNeeded; }

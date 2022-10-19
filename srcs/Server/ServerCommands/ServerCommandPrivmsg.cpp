@@ -15,22 +15,15 @@ void Server::_privmsg(std::string args, User &user)
 	    targets = Utils::split(Utils::split(args, ':').at(0), ' ');
 	    message = Utils::split(args, ':').at(1);
     }
-    catch(...)
-    {
-		_errorReplies(user, ERR_NEEDMOREPARAMS, "PRIVMSG", "");
-        return;
-    }
-
-	bool userSent;
-	bool chanSent;
+    catch (...) { return _errorReplies(user, ERR_NEEDMOREPARAMS, "PRIVMSG", ""); }
 
 	for (size_t i = 0; i < targets.size(); i++)
 	{
 		// message to users
-		userSent = _sendPrivMessageToUser(targets[i], message, user.getNickName());
+		bool userSent = _sendPrivMessageToUser(targets[i], message, user.getNickName());
 
 		// message to channel
-		chanSent = hasChannel(targets[i]);
+		bool chanSent = hasChannel(targets[i]);
         _sendPrivMessageToChannel(targets[i], message, user.getNickName(), user.getNickName());
 
 		if (!userSent && !chanSent)

@@ -2,26 +2,18 @@
 
 void Server::_pass(std::string args, User &user)
 {
+    // only because needed by `_errorReplies`
+	Channel channel;
 
-	/*----------------command protect------------------*/
-	/*----------------command protect------------------*/
+	if (user.getIsPassProvided())
+		return _errorReplies(user, ERR_ALREADYREGISTRED, "PASS", "", channel);
 
-	std::vector<std::string> splitArgs;
-	splitArgs = Utils::split(args, ' ');
-
-	Channel channel; //useless, just used to pass to _errorReplies
-	if (user.getIsPassProvided() == 1)
-	{
-		_errorReplies(user, ERR_ALREADYREGISTRED, "PASS", "", channel);
-		return;
-	}
+	std::vector<std::string> splitArgs = Utils::split(args, ' ');
 
 	if (splitArgs.size() == 0)
-	{
-		_errorReplies(user, ERR_NEEDMOREPARAMS, "PASS", "", channel);
-		return;
-	}
+		return _errorReplies(user, ERR_NEEDMOREPARAMS, "PASS", "", channel);
 
-	if (splitArgs[0] == _password) //In case of wrong password : no error is returned
+    // in case of wrong password no error returned
+	if (splitArgs[0] == _password)
 		user.setIsPassProvided(true);
 }

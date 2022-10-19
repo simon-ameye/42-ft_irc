@@ -7,32 +7,20 @@ void Server::_oper(std::string args, User &user)
 		return;
 	/*----------------command protect------------------*/
 
-	std::vector<std::string> splitArgs;
-	splitArgs = Utils::split(args, ' ');
-
-	std::string name;
-	std::string pass;
-	std::string opername;
-	std::string operpass;
-
-	opername = getConfig().getValue("opername", "opername");
-	operpass = getConfig().getValue("operpass", "operpass");
+	std::vector<std::string> splitArgs = Utils::split(args, ' ');
 
 	// ERR_NOOPERHOST : not required
 	if (splitArgs.size() < 2)
-	{
-		_errorReplies(user, ERR_NEEDMOREPARAMS, "OPER", "");
-		return;
-	}
+		return _errorReplies(user, ERR_NEEDMOREPARAMS, "OPER", "");
 
-	name = splitArgs[0];
-	pass = splitArgs[1];
+	std::string name = splitArgs[0];
+	std::string pass = splitArgs[1];
+
+	std::string opername = getConfig().getValue("opername", "opername");
+	std::string operpass = getConfig().getValue("operpass", "operpass");
 
 	if (name != opername || pass != operpass)
-	{
-		_errorReplies(user, ERR_PASSWDMISMATCH, "OPER", "");
-		return;
-	}
+		return _errorReplies(user, ERR_PASSWDMISMATCH, "OPER", "");
 
 	user.setIsOperator(true);
 	_commandResponces(user, RPL_YOUREOPER, "OPER", "");

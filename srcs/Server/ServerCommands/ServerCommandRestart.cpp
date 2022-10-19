@@ -2,7 +2,6 @@
 
 void Server::_restart(std::string args, User &user)
 {
-
 	(void)args;
 
 	/*----------------command protect------------------*/
@@ -13,7 +12,6 @@ void Server::_restart(std::string args, User &user)
 	if (!user.getIsOperator())
 		return _errorReplies(user, ERR_NOPRIVILEGES, "RESTART", "");
 
-	
 	setRestartNeeded(true);
 	_exitSignal = true;
 }

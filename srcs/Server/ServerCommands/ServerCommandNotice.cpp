@@ -14,21 +14,14 @@ void Server::_notice(std::string args, User &user)
     {
 	    targets = Utils::split(Utils::split(args, ':').at(0), ' ');
 	    message = Utils::split(args, ':').at(1);
-    }
-    catch(...)
-    {
-        return;
-    }
-
-	bool userSent;
-	bool chanSent;
+    }   catch (...) { return; }
 
 	for (size_t i = 0; i < targets.size(); i++)
 	{
 		// message to users
-		userSent = _sendPrivMessageToUser(targets[i], message, user.getNickName());
+		_sendPrivMessageToUser(targets[i], message, user.getNickName());
 
 		// message to channel
-		chanSent = _sendPrivMessageToChannel(targets[i], message, user.getNickName(), user.getNickName());
+		_sendPrivMessageToChannel(targets[i], message, user.getNickName(), user.getNickName());
 	}
 }

@@ -2,7 +2,6 @@
 
 void Server::_errorReplies(User &user, int err, std::string cmd, std::string str, const Channel &channel)
 {
-	(void) str;
 	std::stringstream result;
 
 	result << ":" << _serverName << " " << Utils::getCode(err) << " " << user.getNickName() << " :";
@@ -10,7 +9,7 @@ void Server::_errorReplies(User &user, int err, std::string cmd, std::string str
 	switch (err)
 	{
 	case ERR_NOSUCHNICK:
-		result << user.getNickName() << " No such nick/channel";
+		result << str; // irssi append itself ' :No such nick/channel'
 		break;
 	case ERR_NOSUCHSERVER:
 		result << _serverName << " No such server";

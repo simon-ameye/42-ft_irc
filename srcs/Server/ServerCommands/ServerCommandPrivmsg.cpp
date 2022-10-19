@@ -30,9 +30,10 @@ void Server::_privmsg(std::string args, User &user)
 		userSent = _sendPrivMessageToUser(targets[i], message, user.getNickName());
 
 		// message to channel
-		chanSent = _sendPrivMessageToChannel(targets[i], message, user.getNickName(), user.getNickName());
+		chanSent = hasChannel(targets[i]);
+        _sendPrivMessageToChannel(targets[i], message, user.getNickName(), user.getNickName());
 
 		if (!userSent && !chanSent)
-			_errorReplies(user, ERR_NOSUCHNICK, "PRIVMSG", "");
+			_errorReplies(user, ERR_NOSUCHNICK, "PRIVMSG", targets[i]);
 	}
 }

@@ -23,7 +23,7 @@ void Server::_kill(std::string args, User &user)
 
 	std::vector<User>::iterator userToKill = findUser(nickname);
 	if (userToKill == _users.end())
-		return _errorReplies(user, ERR_NOSUCHNICK, "KILL", "");
+		return _errorReplies(user, ERR_NOSUCHNICK, "KILL", nickname);
 
 	userToKill->addOutputMessage(user.getFullClientIdentifier() + " KILL");
 	_sendMessageToChannels(userToKill->getChannels(), ":" + userToKill->getFullClientIdentifier() + " QUIT :killed (" + user.getFullClientIdentifier() + ") " + reason + ")");

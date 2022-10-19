@@ -6,7 +6,7 @@ void Server::dispatch(const std::string &message, User &user)
 
 	std::vector<std::string> splitCmd = Utils::split_cmd(message, ' ');
 
-	std::string cmd  = _toupper(splitCmd[0]);
+	std::string cmd = _toupper(splitCmd[0]);
 	std::string args = splitCmd[1];
 
 	if (cmd == "")
@@ -43,6 +43,8 @@ void Server::dispatch(const std::string &message, User &user)
 		_restart(args, user);
 	else if (cmd == "PART")
 		_part(args, user);
+	else if (cmd == "TOPIC")
+		_topic(args, user);
 	else
 		_errorReplies(user, ERR_UNKNOWNCOMMAND, cmd, "");
 

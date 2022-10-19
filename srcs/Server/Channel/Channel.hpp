@@ -17,8 +17,9 @@ public:
 	Channel(void);
 	Channel(std::string channelName);
 	~Channel(void);
-	std::string getName() const;
-	std::string getTopic() const;
+	std::string			getName() const;
+	std::string			getTopic() const;
+	void				setTopic(std::string topic);
 };
 
 #endif

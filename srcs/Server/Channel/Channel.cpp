@@ -18,4 +18,7 @@ std::string Channel::getName() const
 std::string Channel::getTopic() const
 { return (_topic); }
 
+void Channel::setTopic(std::string topic)
+{ _topic = topic; }
+
 Channel::~Channel(){}

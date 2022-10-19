@@ -90,11 +90,11 @@ class Server
 	private:
 	bool		_sendPrivMessageToChannel	(std::string channel, std::string message, std::string sender, const std::string &excludeUser);
 	bool		_sendPrivMessageToUser		(std::string recipient, std::string message, std::string sender);
-    void		_clearDeletedUsers			();
-    void		_removeEmptyChannels		();
+	void		_clearDeletedUsers			();
+	void		_removeEmptyChannels		();
 	void		_sendWelcome				(User &user);
-    void		_sendMessageToChannel		(std::string channel, std::string message, const std::string &excludeUser = std::string());
-    void		_sendMessageToChannels		(std::vector<std::string> channels, std::string message);
+	void		_sendMessageToChannel		(std::string channel, std::string message, const std::string &excludeUser = std::string());
+	void		_sendMessageToChannels		(std::vector<std::string> channels, std::string message);
 	std::string	_toupper					(const std::string &str);
 
 	/*Utils in JOIN*/
@@ -125,5 +125,6 @@ class Server
 	void	_rehash		(std::string args, User &user);
 	void	_restart	(std::string args, User &user);
 	void	_part		(std::string args, User &user);
+	void	_topic		(std::string args, User &user);
 };
 #endif

@@ -49,7 +49,7 @@ blabla
 nc -C localhost 6667
 
 NICK yoo
-USER yoyo yoyo yoyo : yoyo
+USER username hostname ft_irc : real name
 PING
 JOIN h
 PRIVMSG h blabla
@@ -61,7 +61,7 @@ nc -C localhost 6667
 
 PASS bla
 NICK yoo
-USER realname unused hostname :real name
+USER username hostname ft_irc :real name
 DIE
 KILL bla
 REHASH
@@ -74,7 +74,7 @@ nc -C localhost 6667
 
 PASS bla
 NICK yaa
-USER realname unused hostname :real name
+USER username hostname ft_irc :real name
 JOIN #BLABLA,#blabla,#,B
 ```
 ```
@@ -82,7 +82,7 @@ nc -C localhost 6667
 
 PASS bla
 NICK yii
-USER realname unused hostname :real name
+USER username hostname ft_irc :real name
 JOIN #BLABLA,#blabla,#,Y
 NICK yuu
 ```
@@ -91,7 +91,7 @@ nc -C localhost 6667
 
 PASS bla
 NICK yoo
-USER realname unused hostname :real name
+USER username hostname ft_irc :real name
 OPER opername operpass
 KILL yuu :
 KILL yuu :tu es moche
@@ -119,7 +119,7 @@ nc -C localhost 6667
 
 PASS bla
 NICK yuu
-USER realname unused hostname :real name
+USER username hostname ft_irc :real name
 JOIN #BLABLA,#blabla,#,Y
 NICK yPP
 ```
@@ -161,7 +161,7 @@ USER            ;
 USER           j
 USER r r r r
 USER f f f f f:::::dsdsc
-USER realname unused hostname :real name
+USER username hostname ft_irc :real name
 /
 ```
 
@@ -193,7 +193,7 @@ nc -C localhost 6667
 
 PASS bla
 NICK yoo
-USER realname unused hostname :real name
+USER username hostname ft_irc :real name
 connect localhost 6667 bla yGG
 JOIN h,j,y,r,s,fd,dfvw,dfv,df,dg
 TOPIC h

@@ -164,3 +164,102 @@ USER f f f f f:::::dsdsc
 USER realname unused hostname :real name
 /
 ```
+
+##test topic
+```
+irssi
+
+/connect localhost 6667 bla yGG
+/JOIN h,j,y,r,s,fd,dfvw,dfv,df,dg
+/TOPIC h
+/TOPIC
+/TOPIC  h
+/TOPIC    h
+/TOPIC hhhhh
+/TOPIC h_
+/TOPIC	h_
+/TOPIC h_ :
+/TOPIC h  :
+/TOPIC h ::
+/TOPIC h:fvdv
+/TOPIC h:dfvjndkjndfv dfvn dv dnv dn df:sd c sdc sdc sd
+/TOPIC h: dfvjndkjndfv dfvn dv dnv dn df:sd c sdc sdc sd
+/TOPIC h :dfvjndkjndfv dfvn dv dnv dn df:sd c sdc sdc sd
+/TOPIC h   :dfvjndkjndfv dfvn dv dnv dn df:sd c sdc sdc sd
+/TOPIC   h :dfvjndkjndfv dfvn dv dnv dn df:sd c sdc sdc sd
+```
+```
+nc -C localhost 6667
+
+PASS bla
+NICK yoo
+USER realname unused hostname :real name
+connect localhost 6667 bla yGG
+JOIN h,j,y,r,s,fd,dfvw,dfv,df,dg
+TOPIC h
+TOPIC
+TOPIC  h
+TOPIC    h
+TOPIC hhhhh
+TOPIC h_
+TOPIC	h_
+TOPIC h_ :
+TOPIC h  :
+TOPIC h ::
+TOPIC h:fvdv
+TOPIC h:dfvjndkjndfv dfvn dv dnv dn df:sd c sdc sdc sd
+TOPIC h: dfvjndkjndfv dfvn dv dnv dn df:sd c sdc sdc sd
+TOPIC h :dfvjndkjndfv dfvn dv dnv dn df:sd c sdc sdc sd
+TOPIC h   :dfvjndkjndfv dfvn dv dnv dn df:sd c sdc sdc sd
+TOPIC   h :dfvjndkjndfv dfvn dv dnv dn df:sd c sdc sdc sd
+```
+
+##test restart
+```
+irssi
+
+/connect localhost 6667 bla n1
+/oper opername operpass
+/restart
+/connect localhost 6667 bla n1
+/connect localhost 6667 bla n1
+/connect localhost 6667 bla n1
+/join f,h,y,d
+/join f,h,y,d
+/connect localhost 6667 bla n1
+/join f,h,y,d
+/connect localhost 6667 bla n1
+/join f,h,y,d
+/oper opername operpass
+/restart
+/connect localhost 6667 bla n1
+/oper opername operpass
+/restart
+/connect localhost 6667 bla n1
+/oper opername operpass
+/restart
+/connect localhost 6667 bla n1
+/oper opername operpass
+/restart
+/connect localhost 6667 bla n1
+/oper opername operpass
+/restart
+/connect localhost 6667 bla n1
+/oper opername operpass
+/restart
+/connect localhost 6667 bla n1
+/oper opername operpass
+/restart
+/connect localhost 6667 bla n1
+/oper opername operpass
+/restart
+/connect localhost 6667 bla n1
+/connect localhost 6667 bla n1
+/connect localhost 6667 bla n1
+/connect localhost 6667 bla n1
+/connect localhost 6667 bla n1
+/connect localhost 6667 bla n1
+/oper opername operpass
+/restart
+```
+

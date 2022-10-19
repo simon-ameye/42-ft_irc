@@ -146,3 +146,21 @@ irssi
 /OPER opername operpass
 /DIE
 ```
+
+##test user
+```
+nc -C localhost 6667
+
+PASS bla
+NICK yuu
+USER
+USER
+USER a a a a
+USER a a a
+USER            ;
+USER           j
+USER r r r r
+USER f f f f f:::::dsdsc
+USER realname unused hostname :real name
+/
+```

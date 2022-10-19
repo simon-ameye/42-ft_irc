@@ -11,7 +11,7 @@ void Server::dispatch(const std::string &message, User &user)
 
 	if (cmd == "")
 		std::cout << "empty cmd" << std::endl;
-	else if (cmd == "CAP")
+	else if (cmd == "CAP") //empty comnmand just used not to send error uknown
 		_cap(args, user);
 	else if (cmd == "NICK")
 		_nick(args, user);
@@ -29,7 +29,7 @@ void Server::dispatch(const std::string &message, User &user)
 		_privmsg(args, user);
 	else if (cmd == "NOTICE")
 		_notice(args, user);
-	else if (cmd == "MODE")
+	else if (cmd == "MODE") //empty comnmand just used not to send error uknown
 		_mode(args, user);
 	else if (cmd == "DIE")
 		_die(args, user);

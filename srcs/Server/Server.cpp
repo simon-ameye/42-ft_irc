@@ -187,8 +187,8 @@ Server::~Server()
 		getpeername(it->getFd(), (struct sockaddr *)&_sin, (socklen_t *)&_sizeofsin);
 		close(it->getFd());
 	}
-	_users.clear();
 	shutdown(_masterSocket, SHUT_RDWR);
+	close(_masterSocket);
 }
 
 const int &Server::getExitSignal(void)

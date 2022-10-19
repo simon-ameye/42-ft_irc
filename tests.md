@@ -1,8 +1,8 @@
-###############start###############
+## start
 do ```make && ./ircserv 6667 bla```
-or ```make && valgrind --leak-check=full ./ircserv 6667 bla```
+or ```make && valgrind --leak-check=full --track-fds=yes ./ircserv 6667 bla```
 
-###############basic###############
+## basic
 ```
 irssi
 
@@ -11,7 +11,7 @@ irssi
 /die
 ```
 
-###############nick collision###############
+## nick collision
 ```
 irssi
 
@@ -34,7 +34,7 @@ irssi
 /die
 ```
 
-###############Trying to join without pass###############
+## Trying to join without pass
 ```
 irssi
 
@@ -44,7 +44,7 @@ irssi
 blabla
 ```
 
-###############trying to join without pass###############
+## trying to join without pass
 ```
 nc -C localhost 6667
 
@@ -55,7 +55,7 @@ JOIN h
 PRIVMSG h blabla
 ```
 
-###############Trying OPER commands without being OPER###############
+## Trying OPER commands without being OPER
 ```
 nc -C localhost 6667
 
@@ -68,7 +68,7 @@ REHASH
 RESTART
 ```
 
-###############Trying OPER###############
+## Trying OPER
 ```
 nc -C localhost 6667
 
@@ -100,7 +100,7 @@ REHASH
 RESTART
 ```
 
-###############Trying OPER commands###############
+## Trying OPER commands
 ```
 irssi
 

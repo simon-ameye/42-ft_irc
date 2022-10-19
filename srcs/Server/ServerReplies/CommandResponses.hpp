@@ -3,7 +3,7 @@
 
 #define RPL_WELCOME 1
 #define RPL_TOPIC 332
-#define RPL_NAMREPLY 353
+#define RPL_NAMREPLY 353 // not used
 #define RPL_ENDOFNAMES 366
 #define RPL_YOUREOPER 381
 #define RPL_REHASHING 382

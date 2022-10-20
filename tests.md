@@ -263,3 +263,78 @@ irssi
 /restart
 ```
 
+##test privmsg 1
+
+```
+irssi
+
+/connect localhost 6667 bla yoo
+/JOIN a,fv,sdf,dzfb,dg,sfb,dn,dgn,adg,f,sd,xdg
+```
+
+##test privmsg 2
+
+```
+nc -C localhost 6667
+
+PASS bla
+NICK yoy
+USER username hostname ft_irc :real name
+JOIN a,fv,sdf,dzfb,dg,sfb,dn,dgn,adg,f,yy
+PRIVMSG yoo :rrdg rg srg dfg drgn wef sgfvy
+PRIVMSG yoo
+PRIVMSG yoo:
+PRIVMSG yoo::
+PRIVMSG yoo ::
+PRIVMSG yoo : sdkjcnkjsdcn
+PRIVMSG : sdkjcnkjsdcn
+PRIVMSG yood : sdkjcnkjsdcn
+PRIVMSG y : sdkjcnkjsdcn
+PRIVMSG y   : sdkjcnkjsdcn
+PRIVMSG a :rrdg rg srg dfg drgn wef sgfvy
+PRIVMSG #a
+PRIVMSG #a:
+PRIVMSG #a::
+PRIVMSG #a ::
+PRIVMSG #a : sdkjcnkjsdcn
+PRIVMSG #a,f,yy : sdkjcnkjsdcn
+PRIVMSG #a,yoo : sdkjcnkjsdcn
+```
+
+##test notice 1
+
+```
+irssi
+
+/connect localhost 6667 bla yoo
+/JOIN a,fv,sdf,dzfb,dg,sfb,dn,dgn,adg,f,sd,xdg
+```
+
+##test notice 2
+
+```
+nc -C localhost 6667
+
+PASS bla
+NICK yoy
+USER username hostname ft_irc :real name
+JOIN #a,fv,sdf,dzfb,dg,sfb,dn,dgn,adg,f,yy
+NOTICE yoo :rrdg rg srg dfg drgn wef sgfvy
+NOTICE yoo
+NOTICE yoo:
+NOTICE yoo::
+NOTICE yoo ::
+NOTICE yoo : this is a notice
+NOTICE : this is a notice
+NOTICE yood : this is a notice
+NOTICE y : this is a notice
+NOTICE y   : this is a notice
+NOTICE a :rrdg rg srg dfg drgn wef sgfvy
+NOTICE #a
+NOTICE #a:
+NOTICE #a::
+NOTICE #a ::
+NOTICE #a : this is a notice
+NOTICE #a,f,yy : this is a notice
+NOTICE #a,yoo : this is a notice
+```

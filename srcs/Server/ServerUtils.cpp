@@ -157,8 +157,8 @@ void Server::_removeEmptyChannels()
     {
         if (getUsersInChannel(it->getName()).size() == 0)
         {
-            deleteChannel(it->getName());
             std::cout << "remove empty channel " << it->getName() << std::endl;
+            deleteChannel(it->getName());
         }
         it++;
     }

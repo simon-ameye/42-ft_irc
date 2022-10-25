@@ -1,6 +1,0 @@
-/connect localhost 6667 bla n1
-
-# TODO
-- verifier la presence de tous les retours et erreurs dans chaque fonction
-- completer les tests
-- tests de privmsg et notice

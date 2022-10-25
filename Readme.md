@@ -1,6 +1,24 @@
 # ft-irc
-An IRC server
-## Graph :
+An IRC (Internet Relay Chat) server
+## Usage :
+### Launch server
+```
+make
+./ircserv <port> <password>
+```
+### Connect a client
+```
+apt-install irssi
+irssi
+>/connect localhost <port> <password> <nickname>
+>/join #<channel>
+>/msg <>
+>/oper opername operpass
+>/kill...
+>have fun
+```
+
+## Project Server Graph :
 
 ```mermaid
 flowchart TD
@@ -53,7 +71,7 @@ flowchart TD
     server::init-->server::connect-->server::getMessages-->server::dispatchs-->server::sendMessage
 ```
 
-## Classes :
+## Main Classes :
 
 ```mermaid
 classDiagram
